@@ -16,6 +16,6 @@ func main() {
 
 func Stats(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	data := fmt.Sprintf(`{"total": "%d", "position": "%d", "available": "%s"`, len(movies.Movies), movies.Position, movies.Available)
+	data := fmt.Sprintf(`{"total": "%d", "position": "%d", "available": "%d"`, len(movies.Movies), movies.Position, movies.Available)
 	res.Write([]byte(data))
 }
