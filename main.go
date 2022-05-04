@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	movies.Main()
+	go movies.Main()
 
 	http.HandleFunc("/", Stats)
 
