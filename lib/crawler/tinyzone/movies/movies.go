@@ -11,6 +11,7 @@ import (
 
 var (
 	Movies []types.Movie
+	Position int
 	Available int
 )
 
@@ -20,6 +21,7 @@ func CollectAllPages(pages int) {
 	}
 	SaveMovies()
 	for index := range Movies {
+		Position = index
 		CollectMovie(&Movies[index])
 		SaveMovies()
 	}
