@@ -11,20 +11,22 @@ import (
 
 var (
 	Movies []types.Movie
+	Available int
 )
 
 func CollectAllPages(pages int) {
 	for index:=1; index<pages+1; index++ {
 		CollectPage(index)
 	}
-	types.PrintGreen(len(Movies))
-	types.PrintPurple("Done Collecting All pages")
-	data := types.JsonMarshal(Movies)
-	ioutil.WriteFile("./DB/movies.json", data, 0755)
+	SaveMovies()
+	for index, _ := range Movies {
+		CollectMovie(&Movies[index])
+		SaveMovies()
+	}
 }
 
 func CollectPage(number int) {
-	url := "https://tinyzonetv.to/movie?page=" + string(number)
+	url := "https://tinyzonetv.to/movie?page=" + string(rune(number))
 	collector := colly.NewCollector()
 
 	collector.OnHTML(".film_list-wrap", CollectMovies)
@@ -43,4 +45,11 @@ func CollectMovies(element *colly.HTMLElement) {
     	Movie.Code = Movie.PageUrl[index+5:]
 		Movies = append(Movies, Movie)
 	})
+}
+
+func SaveMovies() {
+	types.PrintGreen(len(Movies))
+	types.PrintPurple("Done Collecting All pages")
+	data := types.JsonMarshal(Movies)
+	ioutil.WriteFile("./DB/movies.json", data, 0755)
 }
