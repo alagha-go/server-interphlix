@@ -19,7 +19,7 @@ func CollectAllPages(pages int) {
 		CollectPage(index)
 	}
 	SaveMovies()
-	for index, _ := range Movies {
+	for index := range Movies {
 		CollectMovie(&Movies[index])
 		SaveMovies()
 	}
