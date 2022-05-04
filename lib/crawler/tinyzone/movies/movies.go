@@ -17,6 +17,8 @@ func CollectAllPages(pages int) {
 	for index:=1; index<pages+1; index++ {
 		CollectPage(index)
 	}
+	types.PrintGreen(len(Movies))
+	types.PrintPurple("Done Collecting All pages")
 	data := types.JsonMarshal(Movies)
 	ioutil.WriteFile("./DB/movies.json", data, 0755)
 }
