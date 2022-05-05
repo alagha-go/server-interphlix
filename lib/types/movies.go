@@ -28,12 +28,15 @@ type Movie struct {
 
 type Season struct {
 	Name										string									`json:"name,omitempty" bson:"name,omitempty"`
+    Code										string									`json:"code,omitempty" bson:"code,omitempty"`
 	Episodes									[]Episode								`json:"episodes,omitempty" bson:"episodes,omitempty"`
 }
 
 
 type Episode struct {
 	Name										string									`json:"name,omitempty" bson:"name,omitempty"`
+    Code										string									`json:"code,omitempty" bson:"code,omitempty"`
+    Urls										[]string								`json:"urls,omitempty" bson:"urls,omitempty"`
 	Server										Server									`json:"server,omitempty" bson:"server,omitempty"`
 	Servers										[]Server								`json:"servers,omitempty" bson:"servers,omitempty"`
 }
