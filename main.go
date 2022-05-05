@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"interphlix/lib/crawler/tinyzone/tvshows"
 	"interphlix/lib/crawler/tinyzone/movies"
 	"net/http"
 )
 
 func main() {
-	go movies.Main()
+	tvshows.Main()
 
 	http.HandleFunc("/", Stats)
 

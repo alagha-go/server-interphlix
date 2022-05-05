@@ -19,6 +19,7 @@ type Movie struct {
     Genres										[]string								`json:"genre,omitempty" bson:"genre,omitempty"`
 	Server										Server									`json:"server,omitempty" bson:"server,omitempty"`
     Servers										[]Server								`json:"servers,omitempty" bson:"servers,omitempty"`
+    Seasons										[]Season								`json:"seasons,omitempty" bson:"seasons,omitempty"`
     Casts										[]string								`json:"casts,omitempty" bson:"casts,omitempty"`
     Duration									int										`json:"duration,omitempty" bson:"duration,omitempty"`
     Countries									[]string								`json:"countries,omitempty" bson:"countries,omitempty"`
