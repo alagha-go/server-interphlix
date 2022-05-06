@@ -29,6 +29,7 @@ func Stats(res http.ResponseWriter, req *http.Request) {
 }
 
 func Movies(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
 	var Movies []types.Movie
 	var Response []types.Movie
 	Start := req.URL.Query().Get("start")
@@ -75,6 +76,7 @@ func Movies(res http.ResponseWriter, req *http.Request) {
 }
 
 func TvShows(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
 	var TvShows []types.Movie
 	var Response []types.Movie
 	Start := req.URL.Query().Get("start")
