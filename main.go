@@ -17,7 +17,7 @@ func main() {
 
 	http.HandleFunc("/", Stats)
 	http.HandleFunc("/movies", Movies)
-	http.HandleFunc("/tvshows", TvShows)
+	http.HandleFunc("/tv-shows", TvShows)
 
 	http.ListenAndServe(":8000", nil)
 }
