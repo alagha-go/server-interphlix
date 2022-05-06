@@ -24,7 +24,6 @@ func SetID(Episode *types.Episode) {
 			Episode.Servers[index].Url = "https://streamlare.com/v/" + Episode.Servers[index].ID
             Episode.Server = &server
 			Episode.Available = true
-            Available++
 		}else if server.Name == "Vidcloud" || server.Name == "UpCloud"{
 			Episode.Servers[index].ID = strings.ReplaceAll(res.Link, "https://rabbitstream.net/embed-4/", "")
 			Episode.Servers[index].ID = strings.ReplaceAll(Episode.Servers[index].ID, "?z=", "")
