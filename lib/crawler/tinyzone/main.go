@@ -7,6 +7,6 @@ import (
 
 
 func Main() {
-	movies.Main()
-	tvshows.Main()
+	go movies.Main()
+	go tvshows.Main()
 }
