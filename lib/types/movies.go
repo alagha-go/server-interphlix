@@ -17,7 +17,7 @@ type Movie struct {
     Released									*time.Time								`json:"released,omitempty" bson:"released"`
     Urls										[]string								`json:"urls,omitempty" bson:"urls,omitempty"`
     Genres										[]string								`json:"genre,omitempty" bson:"genre,omitempty"`
-	Server										Server									`json:"server,omitempty" bson:"server,omitempty"`
+	Server										*Server									`json:"server,omitempty" bson:"server,omitempty"`
     Servers										[]Server								`json:"servers,omitempty" bson:"servers,omitempty"`
     Seasons										[]Season								`json:"seasons,omitempty" bson:"seasons,omitempty"`
     Casts										[]string								`json:"casts,omitempty" bson:"casts,omitempty"`
@@ -42,7 +42,7 @@ type Episode struct {
     Available                                   bool                                    `json:"available,omitempty" bson:"available,omitempty"`
     Code										string									`json:"code,omitempty" bson:"code,omitempty"`
     Urls										[]string								`json:"urls,omitempty" bson:"urls,omitempty"`
-	Server										Server									`json:"server,omitempty" bson:"server,omitempty"`
+	Server										*Server									`json:"server,omitempty" bson:"server,omitempty"`
 	Servers										[]Server								`json:"servers,omitempty" bson:"servers,omitempty"`
 }
 

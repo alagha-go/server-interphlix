@@ -24,11 +24,12 @@ func CollectAllEpisodes(element *colly.HTMLElement, Season *types.Season) {
 	element.ForEach(".nav-item", func(_ int, element *colly.HTMLElement) {
 		var Episode types.Episode
 		Episode.Name = element.ChildText("a")
-		index := strings.Index(Episode.Name, "s")
+		index := strings.Index(Episode.Name, "Eps")
 		end := strings.Index(Episode.Name, "\n")
-		Episode.Index, _ = strconv.Atoi(Episode.Name[index:end])
-		Episode.Name = strings.ReplaceAll(Episode.Name, `Eps 9
-                    : `, "")
+		Episode.Index, _ = strconv.Atoi(Episode.Name[index+4:end])
+		index = strings.Index(Episode.Name, "\n")
+		Episode.Name = Episode.Name[index+1:]
+		Episode.Name = strings.ReplaceAll(Episode.Name, "                    : ", "")
 		Episode.Code = element.ChildAttr("a", "data-id")
 		GetAllServers(&Episode)
 		Season.Episodes = append(Season.Episodes, Episode)
@@ -52,6 +53,7 @@ func CollectServers(element *colly.HTMLElement, Episode *types.Episode) {
 		Server.WatchID = element.ChildAttr("a", "data-id")
 		Server.Name = element.ChildAttr("a", "title")
 		Server.Name = strings.ReplaceAll(Server.Name, "Server ", "")
+		Episode.Servers = append(Episode.Servers, Server)
 		AddServer(Episode)
 		SetID(Episode)
 	})

@@ -86,7 +86,7 @@ func SetID(Movie *types.Movie) {
         if server.Name == "Streamlare" {
 			Movie.Servers[index].ID = strings.ReplaceAll(res.Link, "https://streamlare.com/e/", "")
 			Movie.Servers[index].Url = "https://streamlare.com/v/" + Movie.Servers[index].ID
-            Movie.Server = server
+            Movie.Server = &server
             Available++
 		}else if server.Name == "Vidcloud" || server.Name == "UpCloud"{
 			Movie.Servers[index].ID = strings.ReplaceAll(res.Link, "https://rabbitstream.net/embed-4/", "")

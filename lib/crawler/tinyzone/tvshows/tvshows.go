@@ -20,6 +20,17 @@ func CollectAllPages(pages int) {
 		CollectPage(index)
 	}
 	SaveTvShows()
+	types.PrintGreen(len(TvShows))
+	types.PrintCyan("done collecting tvshows from all pages")
+
+	for index := range TvShows{
+		CollectTvShow(&TvShows[index])
+		Position = index+1
+		if TvShows[index].Seasons[0].Episodes[0].Available {
+			Available++
+		}
+		SaveTvShows()
+	}
 }
 
 func CollectPage(number int) {
@@ -40,14 +51,13 @@ func CollectTvShows(element *colly.HTMLElement) {
 		index := strings.Index(TvShow.PageUrl, "free-")
     	TvShow.Code = TvShow.PageUrl[index+5:]
 		GetSeasons(&TvShow)
-		CollectTvShow(&TvShow)
+		GetTvShowUrls(&TvShow)
 		TvShows = append(TvShows, TvShow)
+		SaveTvShows()
 	})
 }
 
 func SaveTvShows() {
-	types.PrintGreen(len(TvShows))
-	types.PrintCyan("done collecting tvshows from all pages")
 	data := types.JsonMarshal(TvShows)
 	ioutil.WriteFile("./DB/tvshows.json", data, 0755)
 }
