@@ -53,7 +53,7 @@ func Movies(res http.ResponseWriter, req *http.Request) {
 	}else if End == "" {
 		start, err := strconv.Atoi(Start)
 		if err != nil {
-			res.Write([]byte(`{"error": "invalid start number"}`))
+			start = 0
 		}
 		Response = Movies[start:start+20]
 		data := types.JsonMarshal(Response)
@@ -62,11 +62,12 @@ func Movies(res http.ResponseWriter, req *http.Request) {
 	}else {
 		start, err := strconv.Atoi(Start)
 		if err != nil {
-			res.Write([]byte(`{"error": "invalid start number"}`))
+			start = 0
 		}
 		end, err := strconv.Atoi(End)
 		if err != nil {
 			res.Write([]byte(`{"error": "invalid end number"}`))
+			return
 		}
 		Response = Movies[start:end]
 		data := types.JsonMarshal(Response)
@@ -91,7 +92,7 @@ func TvShows(res http.ResponseWriter, req *http.Request) {
 	}else if End == "0" {
 		start, err := strconv.Atoi(Start)
 		if err != nil {
-			res.Write([]byte(`{"error": "invalid start number"}`))
+			start = 0
 		}
 		Response = TvShows[start:]
 		data := types.JsonMarshal(Response)
@@ -100,7 +101,7 @@ func TvShows(res http.ResponseWriter, req *http.Request) {
 	}else if End == "" {
 		start, err := strconv.Atoi(Start)
 		if err != nil {
-			res.Write([]byte(`{"error": "invalid start number"}`))
+			start = 0
 		}
 		Response = TvShows[start:start+20]
 		data := types.JsonMarshal(Response)
