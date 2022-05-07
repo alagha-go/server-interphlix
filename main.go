@@ -19,7 +19,8 @@ func main() {
 	ConnectToDB()
 	go handler.Main()
 
-	http.ListenAndServe(PORT, handler.Router)
+	err := http.ListenAndServe(PORT, handler.Router)
+	HandlError(err)
 }
 
 /// connect to both the local and remote mongodb databases
