@@ -31,7 +31,7 @@ func LoadSecret() Secret {
 
 /// handle error by saving it to the DB and returning err == nil
 func HandleError(err error, function, reason string) bool {
-	var Err bool
+	var Err bool = false
 	if err != nil {
 		Err = true
 		var Log Log
@@ -40,5 +40,5 @@ func HandleError(err error, function, reason string) bool {
 		Log.Function = function
 		Log.HandleError()
 	}
-	return Err == true
+	return Err
 }
