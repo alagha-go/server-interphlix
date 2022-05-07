@@ -27,6 +27,8 @@ func LoadSecret() Secret {
 	return secret
 }
 
+
+/// handle error by saving it to the DB and returning err == nil
 func HandleError(err error, function, reason string) bool {
 	var Err bool
 	if err != nil {

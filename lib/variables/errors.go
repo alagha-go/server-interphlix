@@ -20,7 +20,7 @@ type Error struct {
 	Error								string							`json:"error,omitempty" bson:"error,omitempty"`
 }
 
-
+/// handle error by saving to the database for feature reference
 func (log *Log) HandleError() {
 	ctx := context.Background()
 	collection := LocalClient.Database("Interphlix").Collection("Errors")
