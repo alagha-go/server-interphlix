@@ -11,6 +11,7 @@ type Movie struct {
 	ID											primitive.ObjectID						`json:"_id,omitempty" bson:"_id,omitempty"`
 	Code										string									`json:"code,omitempty" bson:"code,omitempty"`
 	Title										string									`json:"title,omitempty" bson:"title,omitempty"`
+	Type										string									`json:"type,omitempty" bson:"type,omitempty"`
     Available                                   bool                                    `json:"available,omitempty" bson:"available,omitempty"`
     PageUrl										string									`json:"page_url,omitempty" bson:"page_url,omitempty"`
     ImageUrl									string									`json:"image_url,omitempty" bson:"image_url"`
@@ -52,4 +53,13 @@ type Server struct {
     ID                                             string                               `json:"id"`
     WatchID                                        string                               `json:"watch_id"`
     Url                                            string                               `json:"url"`
+}
+
+type Genre struct {
+	ID											primitive.ObjectID						`json:"_id,omitempty" bson:"_id,omitempty"`
+	Title										string									`json:"title,omitempty" bson:"title,omitempty"`
+	TvShow										bool									`json:"tv-show,omitempty" bson:"tv-show,omitempty"`
+	Movie										bool									`json:"movie,omitempty" bson:"movie,omitempty"`
+	Afro										bool									`json:"afro,omitempty" bson:"afro,omitempty"`
+	Fanproj										bool									`json:"fanproj,omitempty" bson:"fanproj,omitempty"`
 }
