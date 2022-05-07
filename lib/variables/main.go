@@ -19,6 +19,7 @@ var (
 	RemoteClient *mongo.Client
 )
 
+/// loads secret data from the the secret.json file
 func LoadSecret() Secret {
 	var secret Secret
 	data, err := ioutil.ReadFile("./secret.json")
