@@ -19,6 +19,9 @@ func (genre *Genre) Exists() bool {
 }
 
 func (Genre *Genre) Upload() error {
+	if Genre.Title == "" || Genre.Title == " " {
+		return nil
+	}
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Genres")
 
