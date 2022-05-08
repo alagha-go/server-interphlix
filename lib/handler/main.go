@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"interphlix/lib/handler/movies"
+
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -12,5 +14,5 @@ var (
 )
 
 func Main() {
-
+	Router.HandleFunc("/", movies.GetHomeMovies)
 }
