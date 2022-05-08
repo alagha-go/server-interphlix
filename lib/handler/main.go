@@ -15,4 +15,5 @@ var (
 
 func Main() {
 	Router.HandleFunc("/", movies.GetHomeMovies)
+	Router.HandleFunc("/movies/upload", movies.UploadMovie)
 }
