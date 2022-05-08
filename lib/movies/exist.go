@@ -3,21 +3,16 @@ package movies
 import (
 	"context"
 	"interphlix/lib/variables"
-
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 
 func (movie *Movie) Exists() bool {
-	var DBMovie Movie
-	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
-
-	err := collection.FindOne(ctx, bson.M{"code": movie.Code}).Decode(&DBMovie)
-	if err != nil {
-		return false
+	for _, Movie := range Movies {
+		if movie.ID == Movie.ID {
+			return true
+		}
 	}
-	return true
+	return false
 }
 
 

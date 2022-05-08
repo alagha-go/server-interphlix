@@ -10,15 +10,12 @@ import (
 
 
 func (genre *Genre) Exists() bool {
-	var DBGenre Genre
-	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Genres")
-
-	err := collection.FindOne(ctx, bson.M{"title": genre.Title}).Decode(&DBGenre)
-	if err != nil {
-		return false
+	for _, Genre := range Genres {
+		if Genre.ID == genre.ID {
+			return true
+		}
 	}
-	return true
+	return false
 }
 
 func (Genre *Genre) Upload() error {
@@ -63,7 +60,7 @@ func (Genre *Genre) Update() error{
 
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
-		variables.HandleError(err, "Movie.Upload", "could not update genre to the remoteDB")
+		variables.HandleError(err, "Movie.Upload", "could not update genre to the Database")
 		return err
 	}
 	return nil
