@@ -8,5 +8,6 @@ var (
 
 
 func Main() {
-	
+	LoadMovies()
+	go ListenMovies()
 }
