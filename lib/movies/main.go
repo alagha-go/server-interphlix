@@ -11,4 +11,5 @@ func Main() {
 	LoadMovies()
 	LoadGenres()
 	go ListenMovies()
+	go ListenGenres()
 }
