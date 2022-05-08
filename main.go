@@ -27,13 +27,10 @@ func main() {
 func ConnectToDB() {
 	var err error
 	secret := variables.LoadSecret()
-	LocalClientOptions := options.Client().ApplyURI(secret.LocalDBUrl)
-	RemoteClientOptions := options.Client().ApplyURI(secret.RemoteDBUrl)
+	ClientOptions := options.Client().ApplyURI(secret.RemoteDBUrl)
 	ctx := context.Background()
 	
-	variables.LocalClient, err = mongo.Connect(ctx, LocalClientOptions)
-	HandlError(err)
-	variables.RemoteClient, err = mongo.Connect(ctx, RemoteClientOptions)
+	variables.Client, err = mongo.Connect(ctx, ClientOptions)
 	HandlError(err)
 }
 

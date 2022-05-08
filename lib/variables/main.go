@@ -1,6 +1,7 @@
 package variables
 
 import (
+	"bytes"
 	"encoding/json"
 	"io/ioutil"
 
@@ -15,8 +16,7 @@ type Secret struct {
 
 
 var (
-	LocalClient	*mongo.Client
-	RemoteClient *mongo.Client
+	Client	*mongo.Client
 )
 
 /// loads secret data from the the secret.json file
@@ -30,15 +30,24 @@ func LoadSecret() Secret {
 
 
 /// handle error by saving it to the DB and returning err == nil
-func HandleError(err error, function, reason string) bool {
+func HandleError(err error, function, comment string) bool {
 	var Err bool = false
 	if err != nil {
 		Err = true
 		var Log Log
 		Log.Error = Error{Error: err.Error()}
-		Log.Reason = reason
+		Log.Comment = comment
 		Log.Function = function
 		Log.HandleError()
 	}
 	return Err
+}
+
+/// function to marshal data to json
+func JsonMarshal(data interface{}) []byte {
+	var buff bytes.Buffer
+	encoder := json.NewEncoder(&buff)
+    encoder.SetEscapeHTML(false)
+    encoder.Encode(data)
+	return buff.Bytes()
 }

@@ -13,7 +13,7 @@ type Log struct {
 	Time								time.Time						`json:"time,omitempty" bson:"time,omitempty"`
 	Error								Error							`json:"Error,omitempty" bson:"Error,omitempty"`
 	Function							string							`json:"function,omitempty" bson:"function,omitempty"`
-	Reason								string							`json:"reason,omitempty" bson:"reason,omitempty"`
+	Comment								string							`json:"comment,omitempty" bson:"comment,omitempty"`
 }
 
 type Error struct {
@@ -23,7 +23,7 @@ type Error struct {
 /// handle error by saving to the database for feature reference
 func (log *Log) HandleError() {
 	ctx := context.Background()
-	collection := LocalClient.Database("Interphlix").Collection("Errors")
+	collection := Client.Database("Interphlix").Collection("Errors")
 
 	log.ID = primitive.NewObjectID()
 	log.Time = time.Now()
