@@ -9,10 +9,23 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
-func SetServer(ID primitive.ObjectID, Server Server) ([]byte, int) {
+/// this function adds a server to a movie if it does not exist
+func AddServer(ID primitive.ObjectID, Server Server) ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
+
+	movie := FindMovie(ID)
+	if !movie.Valid() {
+		return variables.JsonMarshal(variables.Error{Error: "Movie does not exist"}), http.StatusNotFound
+	}
+
+	for _, server := range movie.Servers {
+		if server.Name == Server.Name && server.ID == Server.ID {
+			return variables.JsonMarshal(variables.Error{Error: "server already exists"}), http.StatusConflict
+		}
+	}
+
+	movie.Servers = append(movie.Servers, Server)
 
 	filter := bson.M{
         "_id": bson.M{
@@ -20,7 +33,7 @@ func SetServer(ID primitive.ObjectID, Server Server) ([]byte, int) {
         },
     }
 	update := bson.M{
-		"server": Server,
+		"servers": movie.Servers,
 	}
 
 	_, err := collection.UpdateOne(ctx, filter, update)
@@ -31,7 +44,7 @@ func SetServer(ID primitive.ObjectID, Server Server) ([]byte, int) {
 	return variables.JsonMarshal("success"), http.StatusOK
 }
 
-
+/// this function adds url to movies.Url
 func AddUrl(ID primitive.ObjectID, url string) ([]byte, int){
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
