@@ -24,12 +24,12 @@ func SetServer(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	var Server movies.Server
+	err = json.NewDecoder(req.Body).Decode(&Server)
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
 		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid json body"}))
 		return
 	}
-	err = json.NewDecoder(req.Body).Decode(&Server)
 	data, status := movies.SetServer(ID, Server)
 	res.WriteHeader(status)
 	res.Write(data)
