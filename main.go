@@ -6,6 +6,7 @@ import (
 	"interphlix/lib/variables"
 	"log"
 	"net/http"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -25,12 +26,16 @@ func main() {
 
 /// connect to both the local and remote mongodb databases
 func ConnectToDB() {
-	var err error
 	secret := variables.LoadSecret()
-	ClientOptions := options.Client().ApplyURI(secret.RemoteDBUrl)
-	ctx := context.Background()
+	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
+	clientOptions := options.Client().
+		ApplyURI(secret.RemoteDBUrl).
+		SetServerAPIOptions(serverAPIOptions)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 	
-	variables.Client, err = mongo.Connect(ctx, ClientOptions)
+	client, err := mongo.Connect(ctx, clientOptions)
+	variables.Client = client
 	HandlError(err)
 }
 
