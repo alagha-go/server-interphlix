@@ -3,6 +3,8 @@ package movies
 import (
 	"context"
 	"interphlix/lib/variables"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -26,4 +28,17 @@ func (Movie *Movie) Upload() error {
 		return err
 	}
 	return nil
+}
+
+func FindMovie(ID primitive.ObjectID) Movie {
+	for _, Movie := range Movies {
+		if Movie.ID == ID {
+			return Movie
+		}
+	}
+	return Movie{}
+}
+
+func (Movie *Movie) Valid() bool {
+	return Movie.Title != ""
 }
