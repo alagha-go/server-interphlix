@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
+/// http handler to handle update request to update movie's main server
 func SetServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	if req.Method != "PUT" &&  req.Method != "UPDATE" && req.Method != "PATCH"{
@@ -35,6 +35,8 @@ func SetServer(res http.ResponseWriter, req *http.Request) {
 	res.Write(data)
 }
 
+
+/// http handler to handle get request to add url to movies urls
 func AddUrl(res http.ResponseWriter, req *http.Request) {
 	if req.Method != "GET"{
 		res.WriteHeader(http.StatusNotFound)
