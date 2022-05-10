@@ -12,7 +12,6 @@ import (
 func (genre *Genre) Exists() bool {
 	for _, Genre := range Genres {
 		if Genre.Title == genre.Title {
-			println(genre.Title+" "+Genre.Title)
 			return true
 		}
 	}
