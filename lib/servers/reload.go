@@ -23,7 +23,7 @@ func ReloadServers() {
 		if Server.Secure {
 			protocol = "https://"
 		}
-		url := protocol+Server.Domain+"/servers/reload"
+		url := protocol+Server.Domain+"/server/reload"
 		GetRequest(url)
 	}
 
