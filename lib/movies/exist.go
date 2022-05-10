@@ -27,6 +27,7 @@ func (Movie *Movie) Upload() error {
 		variables.HandleError(err, "Movie.Upload", "could not upload movie to the remoteDB")
 		return err
 	}
+	Movie.AddMovie()
 	return nil
 }
 

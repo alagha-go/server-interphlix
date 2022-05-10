@@ -2,6 +2,7 @@ package movies
 
 import (
 	"context"
+	"errors"
 	"interphlix/lib/variables"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -18,25 +19,15 @@ func LoadMovies() {
 	variables.HandleError(err, "LoadMovies", "error while decoding movies from the cursor")
 }
 
-func ListenMovies() {
-	var movies []Movie
-	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
+func (Movie *Movie) AddMovie() {
+	Movies = append(Movies, *Movie)
+}
 
-	cursor, err := collection.Find(ctx, bson.M{})
-	variables.HandleError(err, "ListenMovies", "error while listening for changes in movies collection")
-	err = cursor.All(ctx, &movies)
-	variables.HandleError(err, "ListenMovies", "error while decoding movies from the cursor")
-	for _, movie := range movies {
-		if movie.Exists() {
-			for movieIndex, Movie := range Movies {
-				if Movie.ID == movie.ID {
-					Movies[movieIndex] = movie
-				}
-			}
-		}else {
-			Movies = append(Movies, movie)
+func (Movie *Movie) GetIndex() (int, error) {
+	for index, movie := range Movies {
+		if movie.ID == Movie.ID {
+			return index, nil
 		}
 	}
-	ListenMovies()
+	return 0, errors.New("movie does not exist")
 }

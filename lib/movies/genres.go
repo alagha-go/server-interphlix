@@ -19,25 +19,24 @@ func LoadGenres() {
 }
 
 
-func ListenGenres() {
-	var genres []Genre
-	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Genres")
-
-	cursor, err := collection.Find(ctx, bson.M{})
-	variables.HandleError(err, "ListenMovies", "error while listening for changes in Genres collection")
-	err = cursor.All(ctx, &genres)
-	variables.HandleError(err, "ListenMovies", "error while decoding Genres from the cursor")
-	for _, genre := range genres {
-		if genre.Exists() {
-			for genreIndex, Genre := range Genres {
-				if Genre.ID == genre.ID {
-					Genres[genreIndex] = genre
-				}
+func (Genre *Genre) UpdateGenre() {
+	for gindex, genre := range Genres {
+		if genre.ID == Genre.ID {
+			if Genre.Afro {
+				Genres[gindex].Afro = true
+			}else if Genre.Fanproj {
+				Genres[gindex].Fanproj = true
+			}else if Genre.TvShow {
+				Genres[gindex].TvShow = true
+			}else {
+				Genres[gindex].Movie = true
 			}
-		}else {
-			Genres = append(Genres, genre)
 		}
 	}
-	ListenGenres()
+}
+
+
+
+func (Genre *Genre) AddGenre() {
+	Genres = append(Genres, *Genre)
 }

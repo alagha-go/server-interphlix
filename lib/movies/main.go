@@ -10,6 +10,9 @@ var (
 func Main() {
 	LoadMovies()
 	LoadGenres()
-	go ListenMovies()
-	go ListenGenres()
+}
+
+
+func LoadMoviesFromDB() {
+
 }

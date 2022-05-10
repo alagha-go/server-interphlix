@@ -41,6 +41,13 @@ func AddServer(ID primitive.ObjectID, Server Server) ([]byte, int) {
 		variables.HandleError(err, "SetServer", "error while updating movie server")
 		return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 	}
+	index, err := movie.GetIndex()
+	if err != nil {
+		collection.FindOne(ctx, bson.M{"_id": movie.ID}).Decode(movie)
+		Movies = append(Movies, movie)
+	}else {
+		Movies[index].Servers = movie.Servers
+	}
 	return variables.JsonMarshal("success"), http.StatusOK
 }
 
@@ -69,6 +76,13 @@ func AddUrl(ID primitive.ObjectID, url string) ([]byte, int){
 	if err != nil {
 		variables.HandleError(err, "SetServer", "error while updating movie urls")
 		return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
+	}
+	index, err := movie.GetIndex()
+	if err != nil {
+		collection.FindOne(ctx, bson.M{"_id": movie.ID}).Decode(movie)
+		Movies = append(Movies, movie)
+	}else {
+		Movies[index].Urls = movie.Urls
 	}
 	return variables.JsonMarshal("success"), http.StatusOK
 }
