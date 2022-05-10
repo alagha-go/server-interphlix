@@ -1,6 +1,10 @@
 package movies
 
-import "github.com/gocolly/colly"
+import (
+	"time"
+
+	"github.com/gocolly/colly"
+)
 
 
 func (Movie *Movie) AddServers() {
@@ -36,6 +40,7 @@ func (Movie *Movie) AddServers() {
 }
 
 func GetServers(element *colly.HTMLElement) []Server {
+	time.Sleep(500*time.Millisecond)
 	var Servers []Server
     element.ForEach(".dl-site", func(_ int, element *colly.HTMLElement) {
 		var server Server
