@@ -13,6 +13,7 @@ func UploadOneMovie(Movie Movie) ([]byte, int) {
 	if Movie.Exists() {
 		return variables.JsonMarshal(Movie), http.StatusOK
 	}
+	Movie.AddServers()
 	if Movie.Type == "" {
 		if len(Movie.Seasons) > 0 {
 			Movie.Type = "Tv-Show"
