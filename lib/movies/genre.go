@@ -11,7 +11,7 @@ import (
 
 func (genre *Genre) Exists() bool {
 	for _, Genre := range Genres {
-		if Genre.ID == genre.ID {
+		if Genre.Title == genre.Title {
 			return true
 		}
 	}
