@@ -8,16 +8,30 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
+/// check if a genre exists in our inmemory Genres
 func (genre *Genre) Exists() bool {
 	for _, Genre := range Genres {
 		if Genre.Title == genre.Title {
+			println(genre.Title+" "+Genre.Title)
 			return true
 		}
 	}
 	return false
 }
 
+
+// finc and return genre with the same title
+func (genre *Genre) Find() Genre {
+	for _, Genre := range Genres {
+		if Genre.Title == genre.Title {
+			return Genre
+		}
+	}
+	return Genre{}
+}
+
+
+/// upload a genre to the Database
 func (Genre *Genre) Upload() error {
 	if Genre.Title == "" || Genre.Title == " " {
 		return nil
@@ -34,6 +48,8 @@ func (Genre *Genre) Upload() error {
 	return nil
 }
 
+
+/// update genre if it needs update
 func (Genre *Genre) Update() error{
 	var filter primitive.M
 	var update primitive.M
@@ -62,6 +78,11 @@ func (Genre *Genre) Update() error{
 		}
 	}
 
+	genre := Genre.Find()
+	if Genre.Afro == genre.Afro && Genre.TvShow == genre.TvShow && genre.Movie == genre.Movie && Genre.Fanproj == genre.Fanproj {
+		return nil
+	}
+
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		variables.HandleError(err, "Movie.Upload", "could not update genre to the Database")
@@ -69,4 +90,9 @@ func (Genre *Genre) Update() error{
 	}
 	Genre.UpdateGenre()
 	return nil
+}
+
+/// cgheck if given genre is valid
+func (Genre *Genre) Valid() bool {
+	return Genre.Title != ""
 }
