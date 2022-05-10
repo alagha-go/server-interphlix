@@ -22,6 +22,7 @@ func Main() {
 	Router.HandleFunc("/movies/upload", movies.UploadMovie)
 	Router.HandleFunc("/home", movies.GetHomeMovies)
 	Router.HandleFunc("/servers/reload", ReloadServers)
+	Router.HandleFunc("/server/reload", ReloadMe)
 	Router.HandleFunc("/movies/addserver/{id}", movies.UploadMovie)
 	Router.HandleFunc("/movies/addurl/{id}/{url}", movies.UploadMovie)
 	Router.HandleFunc("/movies/setserver/{id}/{servername}/{serverid}", movies.UploadMovie)
@@ -29,5 +30,11 @@ func Main() {
 
 func ReloadServers(res http.ResponseWriter, req *http.Request) {
 	servers.ReloadServers()
+	res.Write(variables.JsonMarshal(`{"success": true}`))
+}
+
+
+func ReloadMe(res http.ResponseWriter, req *http.Request) {
+	movies.Main()
 	res.Write(variables.JsonMarshal(`{"success": true}`))
 }
