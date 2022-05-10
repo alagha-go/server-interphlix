@@ -79,7 +79,7 @@ func (Genre *Genre) Update() error{
 	}
 
 	genre := Genre.Find()
-	if Genre.Afro == genre.Afro && Genre.TvShow == genre.TvShow && genre.Movie == genre.Movie && Genre.Fanproj == genre.Fanproj {
+	if Genre.Afro == genre.Afro && Genre.TvShow == genre.TvShow && Genre.Movie == genre.Movie && Genre.Fanproj == genre.Fanproj {
 		return nil
 	}
 
