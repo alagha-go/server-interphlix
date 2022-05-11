@@ -11,7 +11,7 @@ import (
 func UploadOneMovie(Movie Movie) ([]byte, int) {
 	Movie.ID = primitive.NewObjectID()
 	if Movie.Exists() {
-		return variables.JsonMarshal(Movie), http.StatusOK
+		return variables.JsonMarshal(Movie), http.StatusConflict
 	}
 	if Movie.Type == "" {
 		if len(Movie.Seasons) > 0 {
