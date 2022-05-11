@@ -40,7 +40,7 @@ func SetServer(MovieID primitive.ObjectID, Servername string) ([]byte, int) {
 				collection.FindOne(ctx, bson.M{"_id": movie.ID}).Decode(movie)
 				Movies = append(Movies, movie)
 			}else {
-				Movies[index].Server = movie.Server
+				Movies[index].Server = &server
 			}
 			return []byte(`{"success": true}`), http.StatusOK
 		}
