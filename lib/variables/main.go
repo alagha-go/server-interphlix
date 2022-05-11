@@ -37,7 +37,7 @@ func HandleError(err error, Package, function, comment string) bool {
 		Err = true
 		var Log Log
 		Log.Error = Error{Error: err.Error()}
-		log.Package = Package
+		Log.Package = Package
 		Log.Comment = comment
 		Log.Function = function
 		Log.HandleError()
