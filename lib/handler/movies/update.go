@@ -51,7 +51,7 @@ func AddUrl(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid id"}))
 		return
 	}
-	url := params["url"]
+	url := params["urls"]
 	urls := strings.Split(url, ",")
 	data, status := movies.AddUrl(ID, urls...)
 	res.WriteHeader(status)
