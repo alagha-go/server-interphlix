@@ -23,7 +23,7 @@ func SetServer(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid id"}))
 		return
 	}
-	data, status := movies.SetServer(ID, params["servername"], params["serverid"])
+	data, status := movies.SetServer(ID, params["servername"])
 	res.WriteHeader(status)
 	res.Write(data)
 }

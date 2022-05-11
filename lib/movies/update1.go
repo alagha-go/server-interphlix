@@ -10,7 +10,7 @@ import (
 )
 
 
-func SetServer(MovieID primitive.ObjectID, Servername, ServerID string) ([]byte, int) {
+func SetServer(MovieID primitive.ObjectID, Servername string) ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
@@ -20,7 +20,7 @@ func SetServer(MovieID primitive.ObjectID, Servername, ServerID string) ([]byte,
 	}
 
 	for _, server := range movie.Servers {
-		if server.Name == Servername && server.ID == ServerID {
+		if server.Name == Servername {
 			filter := bson.M{
 				"_id": bson.M{
 					"$eq": MovieID, // check if bool field has value of 'false'
