@@ -21,6 +21,7 @@ func (Episode *Episode) SetServer() {
 	for _, Server := range Episode.Servers {
 		if Server.Name == "Streamlare" {
 				Episode.Server = &Server
+				return
 		}
 	}
 }
