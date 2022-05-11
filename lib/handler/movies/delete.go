@@ -1,6 +1,7 @@
 package movies
 
 import (
+	"encoding/json"
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
@@ -26,6 +27,31 @@ func DeleteUrls(res http.ResponseWriter, req *http.Request) {
 	}
 	urls := strings.Split(params["urls"], ",")
 	data, status := movies.DeleteUrls(ID, params["seasoncode"], params["episodecode"], urls...)
+	res.WriteHeader(status)
+	res.Write(data)
+}
+
+func DeleteServer(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	if req.Method != "DELETE"{
+		res.WriteHeader(http.StatusNotFound)
+		return
+	}
+	params := mux.Vars(req)
+	ID, err := primitive.ObjectIDFromHex(params["id"])
+	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid id"}))
+		return
+	}
+	var Server movies.Server
+	err = json.NewDecoder(req.Body).Decode(&Server)
+	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid json"}))
+		return
+	}
+	data, status := movies.DeleteServer(ID, params["seasoncode"], params["episodecode"], Server)
 	res.WriteHeader(status)
 	res.Write(data)
 }
