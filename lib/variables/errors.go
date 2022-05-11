@@ -11,6 +11,7 @@ import (
 type Log struct {
 	ID									primitive.ObjectID				`json:"_id,omitempty" bson:"_id,omitempty"`
 	Time								time.Time						`json:"time,omitempty" bson:"time,omitempty"`
+	Package								string							`json:"package,omitempty" bson:"package,omitempty"`
 	Error								Error							`json:"Error,omitempty" bson:"Error,omitempty"`
 	Function							string							`json:"function,omitempty" bson:"function,omitempty"`
 	Comment								string							`json:"comment,omitempty" bson:"comment,omitempty"`
