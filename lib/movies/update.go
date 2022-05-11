@@ -52,7 +52,7 @@ func AddServer(ID primitive.ObjectID, Server Server) ([]byte, int) {
 }
 
 /// this function adds url to movies.Url
-func AddUrl(ID primitive.ObjectID, url string) ([]byte, int){
+func AddUrl(ID primitive.ObjectID, url ...string) ([]byte, int){
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
@@ -61,7 +61,7 @@ func AddUrl(ID primitive.ObjectID, url string) ([]byte, int){
 		return variables.JsonMarshal(variables.Error{Error: "Movie does not exist"}), http.StatusNotFound
 	}
 
-	movie.Urls = append(movie.Urls, url)
+	movie.Urls = append(movie.Urls, url...)
 
 	filter := bson.M{
         "_id": bson.M{
