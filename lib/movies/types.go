@@ -49,10 +49,10 @@ type Episode struct {
 
 
 type Server struct {
-    Name                                           string                               `json:"name"`
-    ID                                             string                               `json:"id"`
-    WatchID                                        string                               `json:"watch_id"`
-    Url                                            string                               `json:"url"`
+    Name                                           string                               `json:"name,omitempty" bson:"name,omitempty"`
+    ID                                             string                               `json:"id,omitempty" bson:"id,omitempty"`
+    WatchID                                        string                               `json:"watch_id,omitempty" bson:"watch_id,omitempty"`
+    Url                                            string                               `json:"url,omitempty" bson:"url,omitempty"`
 }
 
 type Genre struct {
