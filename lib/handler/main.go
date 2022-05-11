@@ -29,7 +29,8 @@ func Main() {
 	Router.HandleFunc("/tv-show/setserver/{id}/{seasoncode}/{episodecode}/{servername}", movies.SetEpisodeServer)
 	Router.HandleFunc("/tv-show/addserver/{id}/{seasoncode}/{episodecode}", movies.AddEpisodeServer)
 	Router.HandleFunc("/tv-show/addurl/{id}/{seasoncode}/{episodecode}/{urls}", movies.AddEpisodeUrl)
-	Router.HandleFunc("/movies/deleteurls/{id}/{seasoncode}/{episodecode}/{urls}", movies.DeleteUrls)
+	Router.HandleFunc("/tv-shows/deleteurls/{id}/{seasoncode}/{episodecode}/{urls}", movies.DeleteUrls)
+	Router.HandleFunc("/movies/deleteurls/{id}/{urls}", movies.DeleteUrls)
 	Router.HandleFunc("/errors/{package}", Errors)
 }
 
