@@ -40,7 +40,7 @@ func (Genre *Genre) Upload() error {
 
 	_, err := collection.InsertOne(ctx, Genre)
 	if err != nil {
-		variables.HandleError(err, "movies", "Movie.Upload", "could not upload genre to the Database")
+		variables.HandleError(err, "movies", "Genre.Upload", "could not upload genre to the Database")
 		return err
 	}
 	Genre.AddGenre()
@@ -84,7 +84,7 @@ func (Genre *Genre) Update() error{
 
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
-		variables.HandleError(err, "movies", "Movie.Upload", "could not update genre to the Database")
+		variables.HandleError(err, "movies", "Genre.Update", "could not update genre to the Database")
 		return err
 	}
 	Genre.UpdateGenre()

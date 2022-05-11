@@ -38,7 +38,7 @@ func AddEpisodeServer(MovieID primitive.ObjectID, SeasonCode, EpisodeCode string
 
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
-		variables.HandleError(err, "movies", "SetServer", "error while updating episode server")
+		variables.HandleError(err, "movies", "AddEpisodeServer", "error while updating episode server")
 		return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 	}
 	index, err := movie.GetIndex()
@@ -86,7 +86,7 @@ func AddEpioseUrl(MovieID primitive.ObjectID, SeasonCode, EpisodeCode string, ur
 
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
-		variables.HandleError(err, "movies", "SetServer", "error while updating episode urls")
+		variables.HandleError(err, "movies", "AddEpisodeUrl", "error while updating episode urls")
 		return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 	}
 	index, err := movie.GetIndex()
@@ -138,7 +138,7 @@ func SetEpisodeServer(MovieID primitive.ObjectID, SeasonCode, EpisodeCode string
 
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
-		variables.HandleError(err, "movies", "SetServer", "error while updating episode server")
+		variables.HandleError(err, "movies", "SetEpisodeServer", "error while updating episode server")
 		return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 	}
 	index, err := movie.GetIndex()
