@@ -1,0 +1,31 @@
+package movies
+
+import (
+	"interphlix/lib/movies"
+	"interphlix/lib/variables"
+	"net/http"
+	"strings"
+
+	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+
+func DeleteUrls(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	if req.Method != "DELETE"{
+		res.WriteHeader(http.StatusNotFound)
+		return
+	}
+	params := mux.Vars(req)
+	ID, err := primitive.ObjectIDFromHex(params["id"])
+	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid id"}))
+		return
+	}
+	urls := strings.Split(params["urls"], ",")
+	data, status := movies.DeleteUrls(ID, params["seasoncode"], params["episodecode"], urls...)
+	res.WriteHeader(status)
+	res.Write(data)
+}
