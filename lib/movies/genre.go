@@ -60,21 +60,21 @@ func (Genre *Genre) Update() error{
 	}
 
 	if Genre.Afro {
-		update = bson.M{
+		update = bson.M{"$set": bson.M{
 			"afro": true,
-		}
+		}}
 	}else if Genre.Fanproj {
-		update = bson.M{
+		update = bson.M{"$set": bson.M{
 			"fanproj": true,
-		}
+		}}
 	}else if Genre.TvShow {
-		update = bson.M{
+		update = bson.M{"$set": bson.M{
 			"tv-show": true,
-		}
+		}}
 	}else {
-		update = bson.M{
+		update = bson.M{"$set": bson.M{
 			"movie": true,
-		}
+		}}
 	}
 
 	genre := Genre.Find()

@@ -32,9 +32,9 @@ func AddServer(ID primitive.ObjectID, Server Server) ([]byte, int) {
             "$eq": ID, // check if bool field has value of 'false'
         },
     }
-	update := bson.M{
+	update := bson.M{"$set": bson.M{
 		"servers": movie.Servers,
-	}
+	}}
 
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
@@ -68,9 +68,9 @@ func AddUrl(ID primitive.ObjectID, url string) ([]byte, int){
             "$eq": ID, // check if bool field has value of 'false'
         },
     }
-	update := bson.M{
+	update := bson.M{"$set": bson.M{
 		"urls": movie.Urls,
-	}
+	}}
 
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {

@@ -26,9 +26,9 @@ func SetServer(MovieID primitive.ObjectID, Servername, ServerID string) ([]byte,
 					"$eq": MovieID, // check if bool field has value of 'false'
 				},
 			}
-			update := bson.M{
+			update := bson.M{"$set": bson.M{
 				"server": server,
-			}
+			}}
 
 			_, err := collection.UpdateOne(ctx, filter, update)
 			if err != nil {
