@@ -8,7 +8,7 @@ func (Movie *Movie) SetServer() {
 				Movie.Server = &Server
 			}
 		}
-	}else if Movie.Type == "Tv-show" {
+	}else if Movie.Type == "Tv-Show" {
 		for Sindex, Season := range Movie.Seasons {
 			for Eindex := range Season.Episodes {
 				Movie.Seasons[Sindex].Episodes[Eindex].SetServer()
