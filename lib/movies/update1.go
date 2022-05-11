@@ -42,7 +42,7 @@ func SetServer(MovieID primitive.ObjectID, Servername, ServerID string) ([]byte,
 			}else {
 				Movies[index].Server = movie.Server
 			}
-			return variables.JsonMarshal("success"), http.StatusOK
+			return variables.JsonMarshal(`{"success": true}`), http.StatusOK
 		}
 	}
 	return variables.JsonMarshal(variables.Error{Error: "Sevrer does not exist"}), http.StatusNotFound
