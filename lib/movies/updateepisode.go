@@ -48,7 +48,7 @@ func AddEpisodeServer(MovieID primitive.ObjectID, SeasonCode, EpisodeCode string
 	}else {
 		Movies[index].Seasons = movie.Seasons
 	}
-	return variables.JsonMarshal(`{"success": true}`), http.StatusOK
+	return []byte(`{"success": true}`), http.StatusOK
 }
 
 
@@ -96,7 +96,7 @@ func AddEpioseUrl(MovieID primitive.ObjectID, SeasonCode, EpisodeCode string, ur
 	}else {
 		Movies[index].Seasons = movie.Seasons
 	}
-	return variables.JsonMarshal(`{"success": true}`), http.StatusOK
+	return []byte(`{"success": true}`), http.StatusOK
 }
 
 
@@ -148,5 +148,5 @@ func SetEpisodeServer(MovieID primitive.ObjectID, SeasonCode, EpisodeCode string
 	}else {
 		Movies[index].Seasons = movie.Seasons
 	}
-	return variables.JsonMarshal(`{"success": true}`), http.StatusOK
+	return []byte(`{"success": true}`), http.StatusOK
 }
