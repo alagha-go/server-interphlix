@@ -12,6 +12,7 @@ import (
 )
 
 func AddEpisodeUrl(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
 	if req.Method != "PUT" &&  req.Method != "UPDATE" && req.Method != "PATCH"{
 		res.WriteHeader(http.StatusNotFound)
 		return
