@@ -36,7 +36,7 @@ func (log *Log) HandleError() {
 }
 
 func GetErrors(Package string) ([]byte, int) {
-	if Package == "" {
+	if Package == "all" {
 		return JsonMarshal(Errors), 200
 	}
 	var Logs []Log
