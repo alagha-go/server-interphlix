@@ -31,12 +31,13 @@ func LoadSecret() Secret {
 
 
 /// handle error by saving it to the DB and returning err == nil
-func HandleError(err error, function, comment string) bool {
+func HandleError(err error, Package, function, comment string) bool {
 	var Err bool = false
 	if err != nil {
 		Err = true
 		var Log Log
 		Log.Error = Error{Error: err.Error()}
+		log.Package = Package
 		Log.Comment = comment
 		Log.Function = function
 		Log.HandleError()
