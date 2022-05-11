@@ -25,7 +25,7 @@ func (Movie *Movie) Upload() error {
 
 	_, err := collection.InsertOne(ctx, Movie)
 	if err != nil {
-		variables.HandleError(err, "Movie.Upload", "could not upload movie to the remoteDB")
+		variables.HandleError(err, "movies","Movie.Upload", "could not upload movie to the remoteDB")
 		return err
 	}
 	Movie.AddMovie()

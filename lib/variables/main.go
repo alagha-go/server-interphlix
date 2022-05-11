@@ -24,7 +24,7 @@ var (
 func LoadSecret() Secret {
 	var secret Secret
 	data, err := ioutil.ReadFile("./secret.json")
-	HandleError(err, "LoadSecret", "error while reading the sect.json file")
+	HandleError(err, "variables","LoadSecret", "error while reading the sect.json file")
 	json.Unmarshal(data, &secret)
 	return secret
 }

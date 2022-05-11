@@ -32,7 +32,7 @@ func SetServer(MovieID primitive.ObjectID, Servername, ServerID string) ([]byte,
 
 			_, err := collection.UpdateOne(ctx, filter, update)
 			if err != nil {
-				variables.HandleError(err, "SetServer", "error while updating movie server")
+				variables.HandleError(err, "movies", "SetServer", "error while updating movie server")
 				return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 			}
 			index, err := movie.GetIndex()

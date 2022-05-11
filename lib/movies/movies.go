@@ -14,9 +14,9 @@ func LoadMovies() {
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 
 	cursor, err := collection.Find(ctx, bson.M{})
-	variables.HandleError(err, "LoadMovies", "error while getting movies from the Database")
+	variables.HandleError(err, "movies", "LoadMovies", "error while getting movies from the Database")
 	err = cursor.All(ctx, &Movies)
-	variables.HandleError(err, "LoadMovies", "error while decoding movies from the cursor")
+	variables.HandleError(err, "movies", "LoadMovies", "error while decoding movies from the cursor")
 }
 
 func (Movie *Movie) AddMovie() {

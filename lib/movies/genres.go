@@ -13,9 +13,9 @@ func LoadGenres() {
 	collection := variables.Client.Database("Interphlix").Collection("Genres")
 
 	cursor, err := collection.Find(ctx, bson.M{})
-	variables.HandleError(err, "LoadGenres", "error while getting genres from the Database")
+	variables.HandleError(err, "movies", "LoadGenres", "error while getting genres from the Database")
 	err = cursor.All(ctx, &Genres)
-	variables.HandleError(err, "LoadGenres", "error while decoding genres from the cursor")
+	variables.HandleError(err, "movies", "LoadGenres", "error while decoding genres from the cursor")
 }
 
 
