@@ -5,6 +5,7 @@ import (
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -50,7 +51,8 @@ func AddUrl(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	url := params["url"]
-	data, status := movies.AddUrl(ID, url)
+	urls := strings.Split(url, ",")
+	data, status := movies.AddUrl(ID, urls...)
 	res.WriteHeader(status)
 	res.Write(data)
 }
