@@ -26,15 +26,40 @@ func Main() {
 	Router.HandleFunc("/movies/addserver/{id}", movies.UploadMovie)
 	Router.HandleFunc("/movies/addurl/{id}/{url}", movies.UploadMovie)
 	Router.HandleFunc("/movies/setserver/{id}/{servername}/{serverid}", movies.UploadMovie)
+	Router.HandleFunc("/errors/{package}", Errors)
 }
 
 func ReloadServers(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	if req.Method != "GET" {
+		res.WriteHeader(http.StatusNotFound)
+		return
+	}
 	servers.ReloadServers()
 	res.Write(variables.JsonMarshal(`{"success": true}`))
 }
 
 
 func ReloadMe(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	if req.Method != "GET" {
+		res.WriteHeader(http.StatusNotFound)
+		return
+	}
 	movies.Main()
 	res.Write(variables.JsonMarshal(`{"success": true}`))
+}
+
+
+func Errors(res http.ResponseWriter, req *http.Request){
+	res.Header().Set("content-type", "application/json")
+	if req.Method != "GET" {
+		res.WriteHeader(http.StatusNotFound)
+		return
+	}
+	params := mux.Vars(req)
+	Package := params["package"]
+	data, status := variables.GetErrors(Package)
+	res.WriteHeader(status)
+	res.Write(data)
 }
