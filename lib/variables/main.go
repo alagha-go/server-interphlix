@@ -17,6 +17,7 @@ type Secret struct {
 
 var (
 	Client	*mongo.Client
+	Errors []Log
 )
 
 /// loads secret data from the the secret.json file

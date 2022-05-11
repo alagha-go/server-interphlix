@@ -28,5 +28,12 @@ func (log *Log) HandleError() {
 	log.ID = primitive.NewObjectID()
 	log.Time = time.Now()
 
-	collection.InsertOne(ctx, log)
+	_, err := collection.InsertOne(ctx, log)
+	if err == nil {
+		Errors = append(Errors, *log)
+	}
+}
+
+func GetErrors() ([]byte, int) {
+	return JsonMarshal(Errors), 200
 }
