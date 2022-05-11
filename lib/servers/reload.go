@@ -15,7 +15,7 @@ func ReloadServers() {
 	collection := variables.Client.Database("Interphlix").Collection("Servers")
 
 	cursor, err := collection.Find(ctx, bson.M{})
-	variables.HandleError(err, "ReloadServers", "error while getting servers from the database")
+	variables.HandleError(err, "servers", "ReloadServers", "error while getting servers from the database")
 	cursor.All(ctx, &Servers)
 
 	for _, Server := range Servers {
