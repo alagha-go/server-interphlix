@@ -12,11 +12,13 @@ type Comment struct {
 	MovieID									primitive.ObjectID							`json:"movie-id,omitempty" bson:"movie-id,omitempty"`
 	AccountID								primitive.ObjectID							`json:"account-id,omitempty" bson:"account-id,omitempty"`
 	UserID									primitive.ObjectID							`json:"user-id,omitempty" bson:"user-id,omitempty"`
+	Comments								[]CommentData								`json:"comments,omitempty" bson:"comments,omitempty"`
 }
 
 type CommentData struct {
 	Comment									string										`json:"comment,omitempty" bson:"comment,omitempty"`
 	TimeCommented							time.Time									`json:"time-commented,omitempty" bson:"time-commented,omitempty"`
+	Replies									[]Reply										`json:"replies,omitempty" bson:"replies,omitempty"`
 }
 
 
