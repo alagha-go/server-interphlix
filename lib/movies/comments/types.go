@@ -16,5 +16,11 @@ type Comment struct {
 
 type CommentData struct {
 	Comment									string										`json:"comment,omitempty" bson:"comment,omitempty"`
-	TimeCommented							time.Time									`json:"" bson:""`
+	TimeCommented							time.Time									`json:"time-commented,omitempty" bson:"time-commented,omitempty"`
+}
+
+
+type Reply struct {
+	Reply									string										`json:"reply,omitempty" bson:"reply,omitempty"`
+	TimeReplied								time.Time									`json:"time-replied,omitempty" bson:"time-replied,omitempty"`
 }
