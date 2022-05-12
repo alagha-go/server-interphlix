@@ -2,6 +2,7 @@ package movies
 
 import (
 	"interphlix/lib/variables"
+	"interphlix/lib/movies/genres"
 	"net/http"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -21,7 +22,7 @@ func UploadOneMovie(Movie Movie) ([]byte, int) {
 		}
 	}
 	for _, genre := range Movie.Genres {
-		var Genre Genre
+		var Genre genres.Genre
 		Genre.ID = primitive.NewObjectID()
 		Genre.Title = genre
 		if Movie.Type == "Tv-Show"{

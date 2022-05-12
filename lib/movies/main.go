@@ -1,15 +1,16 @@
 package movies
 
+import "interphlix/lib/movies/genres"
+
 
 var (
 	Movies []Movie
-	Genres []Genre
 )
 
 
 func Main() {
 	LoadMovies()
-	LoadGenres()
+	genres.LoadGenres()
 }
 
 
