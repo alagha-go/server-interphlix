@@ -19,6 +19,7 @@ type Movie struct {
     Urls										[]string								`json:"urls,omitempty" bson:"urls,omitempty"`
     Genres										[]string								`json:"genre,omitempty" bson:"genre,omitempty"`
     Views                                       int                                     `json:"views,omitempty" bson:"views,omitempty"`
+    Rating                                      float64                                 `json:"rating,omitempty" bson:"rating,omitempty"`
     Comments                                    int                                     `json:"comments,omitempty" bson:"comments,omitempty"`
 	Server										*Server									`json:"server,omitempty" bson:"server,omitempty"`
     Servers										[]Server								`json:"servers,omitempty" bson:"servers,omitempty"`
