@@ -1,0 +1,6 @@
+package ratings
+
+
+func Main() {
+	
+}
