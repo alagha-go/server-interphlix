@@ -21,18 +21,11 @@ func UploadOneMovie(Movie Movie) ([]byte, int) {
 		var Genre genres.Genre
 		Genre.ID = primitive.NewObjectID()
 		Genre.Title = genre
-		if Movie.Type == "Tv-Show"{
-			Genre.TvShow = true
-		}else if Movie.Type == "Movie" {
-			Genre.Movie = true
-		}else if Movie.Type == "Fanproj" {
-			Genre.Fanproj = true
-		}else {
-			Genre.Afro = true
-		}
 		if !Genre.Exists() {
+			Genre.Types = append(Genre.Types, Movie.Type)
 			Genre.Upload()
 		}else {
+			Genre.Type = Movie.Type
 			Genre.Update()
 		}
 	}
