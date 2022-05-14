@@ -1,25 +1,21 @@
 package movies
 
 import (
-	"interphlix/lib/variables"
 	"interphlix/lib/movies/genres"
+	"interphlix/lib/variables"
 	"net/http"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
 func UploadOneMovie(Movie Movie) ([]byte, int) {
-	Movie.ID = primitive.NewObjectID()
+	if strings.Contains(Movie.ID.Hex(), "00000000") {
+		Movie.ID = primitive.NewObjectID()
+	}
 	if Movie.Exists() {
 		return variables.JsonMarshal(Movie), http.StatusConflict
-	}
-	if Movie.Type == "" {
-		if len(Movie.Seasons) > 0 {
-			Movie.Type = "Tv-Show"
-		}else {
-			Movie.Type = "Movie"
-		}
 	}
 	for _, genre := range Movie.Genres {
 		var Genre genres.Genre

@@ -22,7 +22,6 @@ func (movie *Movie) Exists() bool {
 func (Movie *Movie) Upload() error {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
-	Movie.SetServer()
 
 	_, err := collection.InsertOne(ctx, Movie)
 	if err != nil {
