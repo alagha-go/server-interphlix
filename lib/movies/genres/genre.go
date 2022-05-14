@@ -50,7 +50,6 @@ func (Genre *Genre) Upload() error {
 
 /// update genre if it needs update
 func (Genre *Genre) Update() error{
-	var updatable bool = false
 	var filter primitive.M
 	var update primitive.M
 	ctx := context.Background()
@@ -74,14 +73,13 @@ func (Genre *Genre) Update() error{
 			"types": genre.Types,
 	}}
 
-	if updatable {
-		_, err := collection.UpdateOne(ctx, filter, update)
-		if err != nil {
-			variables.HandleError(err, "movies", "Genre.Update", "could not update genre to the Database")
-			return err
-		}
-		Genre.UpdateGenre()
+
+	_, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		variables.HandleError(err, "movies", "Genre.Update", "could not update genre to the Database")
+		return err
 	}
+	Genre.UpdateGenre()
 	return nil
 }
 
