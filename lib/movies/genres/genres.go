@@ -20,17 +20,14 @@ func LoadGenres() {
 
 
 func (Genre *Genre) UpdateGenre() {
-	for gindex, genre := range Genres {
+	for index, genre := range Genres {
 		if genre.ID == Genre.ID {
-			if Genre.Afro {
-				Genres[gindex].Afro = true
-			}else if Genre.Fanproj {
-				Genres[gindex].Fanproj = true
-			}else if Genre.TvShow {
-				Genres[gindex].TvShow = true
-			}else {
-				Genres[gindex].Movie = true
+			for _, Type := range genre.Types {
+				if Type == Genre.Type {
+					return
+				}
 			}
+			Genres[index].Types = append(Genres[index].Types, Genre.Type)
 		}
 	}
 }

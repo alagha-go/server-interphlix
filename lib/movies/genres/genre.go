@@ -50,6 +50,7 @@ func (Genre *Genre) Upload() error {
 
 /// update genre if it needs update
 func (Genre *Genre) Update() error{
+	var updatable bool = false
 	var filter primitive.M
 	var update primitive.M
 	ctx := context.Background()
@@ -59,35 +60,28 @@ func (Genre *Genre) Update() error{
 		"title": Genre.Title,
 	}
 
-	if Genre.Afro {
-		update = bson.M{"$set": bson.M{
-			"afro": true,
-		}}
-	}else if Genre.Fanproj {
-		update = bson.M{"$set": bson.M{
-			"fanproj": true,
-		}}
-	}else if Genre.TvShow {
-		update = bson.M{"$set": bson.M{
-			"tv-show": true,
-		}}
-	}else {
-		update = bson.M{"$set": bson.M{
-			"movie": true,
-		}}
-	}
-
 	genre := Genre.Find()
-	if Genre.Afro == genre.Afro && Genre.TvShow == genre.TvShow && Genre.Movie == genre.Movie && Genre.Fanproj == genre.Fanproj {
-		return nil
+
+	for _, Type := range genre.Types {
+		if Type == Genre.Type {
+			return nil
+		}
 	}
 
-	_, err := collection.UpdateOne(ctx, filter, update)
-	if err != nil {
-		variables.HandleError(err, "movies", "Genre.Update", "could not update genre to the Database")
-		return err
+	genre.Types = append(genre.Types, Genre.Type)
+
+	update = bson.M{"$set": bson.M{
+			"types": genre.Types,
+	}}
+
+	if updatable {
+		_, err := collection.UpdateOne(ctx, filter, update)
+		if err != nil {
+			variables.HandleError(err, "movies", "Genre.Update", "could not update genre to the Database")
+			return err
+		}
+		Genre.UpdateGenre()
 	}
-	Genre.UpdateGenre()
 	return nil
 }
 
