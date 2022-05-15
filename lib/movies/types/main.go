@@ -26,3 +26,13 @@ func LoadTypes() {
 	variables.HandleError(err, "types", "LoadTypes", "error while loading data from the database")
 	cursor.All(ctx, &Types)
 }
+
+
+func TypeExists(Type string) bool {
+	for index := range Types {
+		if Types[index].Type == Type {
+			return true
+		}
+	}
+	return false
+}
