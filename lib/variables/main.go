@@ -63,5 +63,5 @@ func LoadErrors() {
 
 	cursor, err := collection.Find(ctx, bson.M{})
 	HandleError(err, "variables", "LoadErrors", "error while getting errors from the database")
-	cursor.All(ctx, Errors)
+	cursor.All(ctx, &Errors)
 }
