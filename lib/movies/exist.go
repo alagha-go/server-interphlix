@@ -1,8 +1,6 @@
 package movies
 
 import (
-	"context"
-	"interphlix/lib/variables"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -17,20 +15,6 @@ func (movie *Movie) Exists() bool {
 	return false
 }
 
-
-/// upload movie to the database
-func (Movie *Movie) Upload() error {
-	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
-
-	_, err := collection.InsertOne(ctx, Movie)
-	if err != nil {
-		variables.HandleError(err, "movies","Movie.Upload", "could not upload movie to the Database")
-		return err
-	}
-	Movie.AddMovie()
-	return nil
-}
 
 
 /// find a specific movie from the Movies list
