@@ -14,7 +14,7 @@ var (
 
 
 func Main() {
-
+	LoadTypes()
 }
 
 
