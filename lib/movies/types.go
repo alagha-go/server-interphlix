@@ -55,8 +55,9 @@ type Episode struct {
 
 
 type Server struct {
-    Name                                           string                               `json:"name,omitempty" bson:"name,omitempty"`
-    ID                                             string                               `json:"id,omitempty" bson:"id,omitempty"`
-    WatchID                                        string                               `json:"watch_id,omitempty" bson:"watch_id,omitempty"`
-    Url                                            string                               `json:"url,omitempty" bson:"url,omitempty"`
+	ID											primitive.ObjectID						`json:"_id,omitempty" bson:"_id,omitempty"`
+    Name                                        string                               	`json:"name,omitempty" bson:"name,omitempty"`
+    Id                                          string                               	`json:"id,omitempty" bson:"id,omitempty"`
+    WatchID                                     string                               	`json:"watch_id,omitempty" bson:"watch_id,omitempty"`
+    Url                                         string                               	`json:"url,omitempty" bson:"url,omitempty"`
 }
