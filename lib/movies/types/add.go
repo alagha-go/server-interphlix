@@ -11,6 +11,8 @@ import (
 func AddType(title string) {
 	if TypeExists(title) {
 		return
+	}else if title == "" || title == " " {
+		return
 	}
 	var Type Type
 	Type.ID = primitive.NewObjectID()
