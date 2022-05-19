@@ -19,10 +19,6 @@ func LoadMovies() {
 	variables.HandleError(err, "movies", "LoadMovies", "error while decoding movies from the cursor")
 }
 
-func (Movie *Movie) AddMovie() {
-	Movies = append(Movies, *Movie)
-}
-
 func (Movie *Movie) GetIndex() (int, error) {
 	for index, movie := range Movies {
 		if movie.ID == Movie.ID {

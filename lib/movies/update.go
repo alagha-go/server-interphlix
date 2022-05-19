@@ -77,12 +77,5 @@ func AddUrl(ID primitive.ObjectID, url ...string) ([]byte, int){
 		variables.HandleError(err, "movies", "AddUrl", "error while updating movie urls")
 		return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 	}
-	index, err := movie.GetIndex()
-	if err != nil {
-		collection.FindOne(ctx, bson.M{"_id": movie.ID}).Decode(movie)
-		Movies = append(Movies, movie)
-	}else {
-		Movies[index].Urls = movie.Urls
-	}
 	return variables.JsonMarshal("success"), http.StatusOK
 }

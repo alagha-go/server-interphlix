@@ -89,13 +89,6 @@ func AddEpioseUrl(MovieID primitive.ObjectID, SeasonCode, EpisodeCode string, ur
 		variables.HandleError(err, "movies", "AddEpisodeUrl", "error while updating episode urls")
 		return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 	}
-	index, err := movie.GetIndex()
-	if err != nil {
-		collection.FindOne(ctx, bson.M{"_id": movie.ID}).Decode(movie)
-		Movies = append(Movies, movie)
-	}else {
-		Movies[index].Seasons = movie.Seasons
-	}
 	return []byte(`{"success": true}`), http.StatusOK
 }
 

@@ -50,6 +50,5 @@ func (Movie *Movie) Upload() error {
 		variables.HandleError(err, "movies","Movie.Upload", "could not upload movie to the Database")
 		return err
 	}
-	Movie.AddMovie()
 	return nil
 }
