@@ -14,8 +14,8 @@ type Movie struct {
 	Type										string									`json:"type,omitempty" bson:"type,omitempty"`
     Available                                   bool                                    `json:"available,omitempty" bson:"available,omitempty"`
     PageUrl										string									`json:"page_url,omitempty" bson:"page_url,omitempty"`
-    ImageUrl									string									`json:"image_url,omitempty" bson:"image_url"`
-    Released									*time.Time								`json:"released,omitempty" bson:"released"`
+    ImageUrl									string									`json:"image_url,omitempty" bson:"image_url,omitempty"`
+    Released									*time.Time								`json:"released,omitempty" bson:"released,omitempty"`
     Urls										[]string								`json:"urls,omitempty" bson:"urls,omitempty"`
     Genres										[]string								`json:"genre,omitempty" bson:"genre,omitempty"`
     Views                                       int                                     `json:"views,omitempty" bson:"views,omitempty"`
