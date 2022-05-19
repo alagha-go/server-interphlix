@@ -15,6 +15,7 @@ func Main() {
 	LoadMovies()
 	genres.LoadGenres()
 	types.Main()
+	genres.Main()
 	Listener()
 }
 
