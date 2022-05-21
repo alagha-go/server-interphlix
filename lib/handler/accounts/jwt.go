@@ -54,3 +54,14 @@ func VerifyToken(tokenString string) (bool, int) {
 
 	return true, http.StatusOK
 }
+
+
+func GetAccount(tokenString string) accounts.Account {
+	var claims *Claims
+
+	jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		secret := variables.LoadSecret()
+		return []byte(secret.JwtKey), nil
+	})
+	return claims.Account
+}
