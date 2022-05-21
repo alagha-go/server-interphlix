@@ -35,6 +35,7 @@ func Main() {
 	Router.HandleFunc("/tv-shows/deleteserver/{id}/{seasoncode}/{episodecode}", movies.DeleteServer).Methods("DELETE")
 	Router.HandleFunc("/all/{genre}", movies.GetMoviesByGenre).Methods("GET")
 	Router.HandleFunc("/login-url", accounts.LoginUrl).Methods("GET")
+	Router.HandleFunc("/login/redirect", accounts.LoginRedirect).Methods("GET")
 	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
 	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
 	Router.HandleFunc("/movies/deleteserver/{id}", movies.DeleteServer).Methods("DELETE")
