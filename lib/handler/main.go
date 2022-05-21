@@ -3,7 +3,6 @@ package handler
 import (
 	"interphlix/lib/handler/accounts"
 	"interphlix/lib/handler/movies"
-	"interphlix/lib/servers"
 	"interphlix/lib/variables"
 	"net/http"
 
