@@ -14,6 +14,7 @@ import (
 type Secret struct {
 	LocalDBUrl								string								`json:"local-db-url,omitempty"`
 	RemoteDBUrl								string								`json:"remote-db-url,omitempty"`
+	JwtKey									string								`json:"jwtkey,omitempty"`
 }
 
 
