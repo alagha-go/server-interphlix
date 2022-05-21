@@ -32,3 +32,25 @@ func GenerateToken(account accounts.Account) (string, int, error) {
 	}
 	return tokenString, 200, nil
 }
+
+
+func VerifyToken(tokenString string) (bool, int) {
+	var claims *Claims
+
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		secret := variables.LoadSecret()
+		return []byte(secret.JwtKey), nil
+	})
+	if err != nil {
+		if err == jwt.ErrSignatureInvalid {
+			return false, http.StatusUnauthorized
+		}
+		return false, http.StatusBadRequest
+	}
+
+	if !token.Valid {
+		return false, http.StatusUnauthorized
+	}
+
+	return true, http.StatusOK
+}
