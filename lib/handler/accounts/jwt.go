@@ -65,3 +65,13 @@ func GetAccount(tokenString string) accounts.Account {
 	})
 	return claims.Account
 }
+
+
+func RefreshToken(tokenString string) (string, int, error) {
+	valid, status := VerifyToken(tokenString)
+	if !valid {
+		return "", status, errors.New("invalid token")
+	}
+	account := GetAccount(tokenString)
+	return GenerateToken(account)
+}
