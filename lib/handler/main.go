@@ -20,11 +20,9 @@ var (
 func Main() {
 	movies.Main()
 	variables.LoadErrors()
-	Router.HandleFunc("/", movies.GetHomeMovies)
+	Router.HandleFunc("/", movies.GetHomeMovies).Methods("GET")
 	Router.HandleFunc("/movies/upload", movies.UploadMovie)
-	Router.HandleFunc("/home", movies.GetHomeMovies)
-	Router.HandleFunc("/servers/reload", ReloadServers)
-	Router.HandleFunc("/server/reload", ReloadMe)
+	Router.HandleFunc("/home", movies.GetHomeMovies).Methods("GET")
 	Router.HandleFunc("/movies/addserver/{id}", movies.AddServer)
 	Router.HandleFunc("/movies/addurl/{id}/{url}", movies.AddUrl)
 	Router.HandleFunc("/movies/setserver/{id}/{servername}", movies.SetServer)
@@ -38,40 +36,15 @@ func Main() {
 	Router.HandleFunc("/tv-shows/deleteserver/{id}/{seasoncode}/{episodecode}", movies.DeleteServer)
 	Router.HandleFunc("/all/{genre}", movies.GetMoviesByGenre)
 	Router.HandleFunc("/login-url", accounts.LoginUrl).Methods("GET")
-	Router.HandleFunc("/types", movies.GetTypes)
-	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre)
+	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
+	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
 	Router.HandleFunc("/movies/deleteserver/{id}", movies.DeleteServer)
-	Router.HandleFunc("/errors/{package}", Errors)
-}
-
-func ReloadServers(res http.ResponseWriter, req *http.Request) {
-	res.Header().Set("content-type", "application/json")
-	if req.Method != "GET" {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
-	servers.ReloadServers()
-	res.Write(variables.JsonMarshal(`{"success": true}`))
-}
-
-
-func ReloadMe(res http.ResponseWriter, req *http.Request) {
-	res.Header().Set("content-type", "application/json")
-	if req.Method != "GET" {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
-	movies.Main()
-	res.Write(variables.JsonMarshal(`{"success": true}`))
+	Router.HandleFunc("/errors/{package}", Errors).Methods("GET")
 }
 
 
 func Errors(res http.ResponseWriter, req *http.Request){
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "GET" {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	Package := params["package"]
 	data, status := variables.GetErrors(Package)
