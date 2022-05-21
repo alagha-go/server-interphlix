@@ -11,10 +11,6 @@ import (
 func GetMoviesByTypeAndGenre(res http.ResponseWriter, req *http.Request) {
 	var Movies []movies.Movie
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "GET" {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	Type := mux.Vars(req)["type"]
 	Genre := mux.Vars(req)["genre"]
 

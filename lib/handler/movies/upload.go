@@ -10,10 +10,6 @@ import (
 
 func UploadMovie(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "POST" {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	var Movie movies.Movie
 	err := json.NewDecoder(req.Body).Decode(&Movie)
 	if err != nil {

@@ -13,10 +13,6 @@ import (
 
 func AddEpisodeUrl(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "PUT" &&  req.Method != "UPDATE" && req.Method != "PATCH"{
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
@@ -36,10 +32,6 @@ func AddEpisodeUrl(res http.ResponseWriter, req *http.Request) {
 
 func SetEpisodeServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "PUT" &&  req.Method != "UPDATE" && req.Method != "PATCH"{
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
@@ -54,10 +46,6 @@ func SetEpisodeServer(res http.ResponseWriter, req *http.Request) {
 
 func AddEpisodeServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "PUT" &&  req.Method != "UPDATE" && req.Method != "PATCH"{
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {

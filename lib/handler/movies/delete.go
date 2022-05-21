@@ -14,10 +14,6 @@ import (
 
 func DeleteUrls(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "DELETE"{
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
@@ -33,10 +29,6 @@ func DeleteUrls(res http.ResponseWriter, req *http.Request) {
 
 func DeleteServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "DELETE"{
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {

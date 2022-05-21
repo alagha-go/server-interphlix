@@ -14,10 +14,6 @@ import (
 /// http handler to handle update request to add server to movie.Server
 func AddServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "PUT" &&  req.Method != "UPDATE" && req.Method != "PATCH"{
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	ID, err := primitive.ObjectIDFromHex(mux.Vars(req)["id"])
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
@@ -40,10 +36,6 @@ func AddServer(res http.ResponseWriter, req *http.Request) {
 /// http handler to handle get request to add url to movies urls
 func AddUrl(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "GET"{
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {

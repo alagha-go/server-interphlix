@@ -13,10 +13,6 @@ import (
 
 func AddSeason(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	if req.Method != "POST" {
-		res.WriteHeader(http.StatusNotFound)
-		return
-	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
