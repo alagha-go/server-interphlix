@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"interphlix/lib/handler/accounts"
 	"interphlix/lib/handler/movies"
 	"interphlix/lib/servers"
 	"interphlix/lib/variables"
@@ -36,6 +37,7 @@ func Main() {
 	Router.HandleFunc("/tv-shows/{id}/{seasonid}/addepisode", movies.AddEpisode)
 	Router.HandleFunc("/tv-shows/deleteserver/{id}/{seasoncode}/{episodecode}", movies.DeleteServer)
 	Router.HandleFunc("/all/{genre}", movies.GetMoviesByGenre)
+	Router.HandleFunc("/login-url", accounts.LoginUrl).Methods("GET")
 	Router.HandleFunc("/types", movies.GetTypes)
 	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre)
 	Router.HandleFunc("/movies/deleteserver/{id}", movies.DeleteServer)
