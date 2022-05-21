@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	cloud.google.com/go v0.65.0 // indirect
 	github.com/go-stack/stack v1.8.0 // indirect
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
