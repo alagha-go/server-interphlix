@@ -13,13 +13,18 @@ import (
 
 func LoginUrl(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	secretBody, err := ioutil.ReadFile("./secret1.json")
+	config, err := GetConfig()
 	HandlError(err)
-	config, err := google.ConfigFromJSON(secretBody, "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email")
 	url := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
 	body := []byte(fmt.Sprintf(`{"login-url": "%s"}`, url))
 	res.WriteHeader(200)
 	res.Write(body)
+}
+
+func GetConfig() (*oauth2.Config, error) {
+	secretBody, err := ioutil.ReadFile("./secret1.json")
+	HandlError(err)
+	return google.ConfigFromJSON(secretBody, "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email")
 }
 
 
