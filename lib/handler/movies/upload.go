@@ -2,6 +2,7 @@ package movies
 
 import (
 	"encoding/json"
+	"interphlix/lib/handler/accounts"
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
@@ -10,6 +11,12 @@ import (
 
 func UploadMovie(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
+	valid := accounts.ValidateRequest(req)
+	if !valid {
+		res.WriteHeader(http.StatusUnauthorized)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+		return
+	}
 	var Movie movies.Movie
 	err := json.NewDecoder(req.Body).Decode(&Movie)
 	if err != nil {
