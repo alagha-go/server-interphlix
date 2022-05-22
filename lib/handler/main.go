@@ -38,6 +38,7 @@ func Main() {
 	Router.HandleFunc("/login/redirect", accounts.LoginRedirect).Methods("GET")
 	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
 	Router.HandleFunc("/myaccount", accounts.GetMyAccount).Methods("GET")
+	Router.HandleFunc("/token/refresh", accounts.RenewToken).Methods("GET")
 	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
 	Router.HandleFunc("/movies/deleteserver/{id}", movies.DeleteServer).Methods("DELETE")
 	Router.HandleFunc("/errors/{package}", Errors).Methods("GET")
