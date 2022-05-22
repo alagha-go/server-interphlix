@@ -35,7 +35,7 @@ func GenerateToken(account accounts.Account) (string, int, error) {
 
 
 func VerifyToken(tokenString string) (bool, int) {
-	var claims *Claims
+	claims := &Claims{}
 
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		secret := variables.LoadSecret()
