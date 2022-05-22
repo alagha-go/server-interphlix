@@ -57,7 +57,7 @@ func VerifyToken(tokenString string) (bool, int) {
 
 
 func GetAccount(tokenString string) accounts.Account {
-	var claims *Claims
+	claims := &Claims{}
 
 	jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		secret := variables.LoadSecret()
