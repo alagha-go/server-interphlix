@@ -8,6 +8,7 @@ type Account struct {
 	GoogleID							string										`json:"id,omitempty" bson:"id,omitempty"`
 	Email								string										`json:"email,omitempty" bson:"email,omitempty"`
 	EmailVerified						bool										`json:"verified_email,omitempty" bson:"verified_email,omitempty"`
+	Name								string										`json:"name,omitempty" bson:"name,omitempty"`
 	GivenName							string										`json:"given_name,omitempty" bson:"given_name,omitempty"`
 	FamilyName							string										`json:"family_name,omitempty" bson:"family_name,omitempty"`
 	Picture								string										`json:"picture,omitempty" bson:"picture,omitempty"`
