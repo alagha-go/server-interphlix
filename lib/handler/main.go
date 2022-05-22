@@ -47,6 +47,12 @@ func Main() {
 
 func Errors(res http.ResponseWriter, req *http.Request){
 	res.Header().Set("content-type", "application/json")
+	valid := accounts.ValidateRequest(req)
+	if !valid {
+		res.WriteHeader(http.StatusUnauthorized)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+		return
+	}
 	params := mux.Vars(req)
 	Package := params["package"]
 	data, status := variables.GetErrors(Package)
