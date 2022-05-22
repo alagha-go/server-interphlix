@@ -2,6 +2,7 @@ package movies
 
 import (
 	"encoding/json"
+	"interphlix/lib/handler/accounts"
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
@@ -14,6 +15,12 @@ import (
 /// http handler to handle update request to add server to movie.Server
 func AddServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
+	valid := accounts.ValidateRequest(req)
+	if !valid {
+		res.WriteHeader(http.StatusUnauthorized)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+		return
+	}
 	ID, err := primitive.ObjectIDFromHex(mux.Vars(req)["id"])
 	if err != nil {
 		res.WriteHeader(http.StatusBadRequest)
@@ -36,6 +43,12 @@ func AddServer(res http.ResponseWriter, req *http.Request) {
 /// http handler to handle get request to add url to movies urls
 func AddUrl(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
+	valid := accounts.ValidateRequest(req)
+	if !valid {
+		res.WriteHeader(http.StatusUnauthorized)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+		return
+	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {
