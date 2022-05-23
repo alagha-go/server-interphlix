@@ -1,6 +1,9 @@
 package accounts
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"golang.org/x/oauth2"
+)
 
 
 type Account struct {
@@ -13,4 +16,5 @@ type Account struct {
 	FamilyName							string										`json:"family_name,omitempty" bson:"family_name,omitempty"`
 	Picture								string										`json:"picture,omitempty" bson:"picture,omitempty"`
 	Locale								string										`json:"locale,omitempty" bson:"locale,omitempty"`
+	Token								*oauth2.Token								`json:"token,omitempty" bson:"token,omitempty"`
 }
