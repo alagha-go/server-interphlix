@@ -10,6 +10,10 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
+var (
+	scopes = []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/drive.file"}
+)
+
 
 func LoginUrl(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
@@ -24,7 +28,7 @@ func LoginUrl(res http.ResponseWriter, req *http.Request) {
 func GetConfig() (*oauth2.Config, error) {
 	secretBody, err := ioutil.ReadFile("./secret1.json")
 	HandlError(err)
-	return google.ConfigFromJSON(secretBody, "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email")
+	return google.ConfigFromJSON(secretBody, scopes...)
 }
 
 
