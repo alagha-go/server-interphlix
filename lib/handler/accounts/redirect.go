@@ -20,6 +20,7 @@ func LoginRedirect(res http.ResponseWriter, req *http.Request) {
 	code := req.URL.Query().Get("code")
 	token := GetToken(code)
 	json.Unmarshal(GetUserInfo(token.AccessToken), &account)
+	account.Token = token
 	data, status := accounts.CreateAccount(account)
 	if status != 200 {
 		res.WriteHeader(status)
