@@ -27,6 +27,7 @@ func LoginRedirect(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	json.Unmarshal(data, &account)
+	account.Token = token
 	tokenString, status, err := GenerateToken(account)
 	if err != nil {
 		res.WriteHeader(status)
