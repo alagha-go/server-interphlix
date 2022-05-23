@@ -24,6 +24,7 @@ func RenewToken(res http.ResponseWriter, req *http.Request) {
 	http.SetCookie(res, &http.Cookie{
 		Name:    "token",
 		Value:   tokenString,
+		Path: "/",
 		Expires: time.Now().Add(120*time.Hour),
 	})
 	res.WriteHeader(status)
