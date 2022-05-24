@@ -13,7 +13,11 @@ func GetMyAccount(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: "no account found for you"}))
 		return
 	}
-	account := GetAccount(cookie.Value)
+	account, err := GetAccount(cookie.Value)
+	if err != nil {
+		res.WriteHeader(http.StatusNotFound)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
+	}
 	res.WriteHeader(http.StatusOK)
 	res.Write(variables.JsonMarshal(account))
 }
