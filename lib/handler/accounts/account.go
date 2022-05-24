@@ -17,6 +17,7 @@ func GetMyAccount(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		res.WriteHeader(http.StatusNotFound)
 		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
+		return
 	}
 	res.WriteHeader(http.StatusOK)
 	res.Write(variables.JsonMarshal(account))

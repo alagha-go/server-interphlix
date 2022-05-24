@@ -19,6 +19,7 @@ func GetMyFiles(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		res.WriteHeader(http.StatusNotFound)
 		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
+		return
 	}
 	data, status := drive.GetFiles(account)
 	res.WriteHeader(status)
@@ -38,6 +39,7 @@ func CreateFile(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		res.WriteHeader(http.StatusNotFound)
 		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
+		return
 	}
 	name := req.URL.Query().Get("name")
 	data, status := drive.CreateFile(account, name)
@@ -58,6 +60,7 @@ func DeleteFile(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		res.WriteHeader(http.StatusNotFound)
 		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
+		return
 	}
 	id := req.URL.Query().Get("id")
 	data, status := drive.DeleteFile(account, id)
