@@ -1,6 +1,0 @@
-package comments
-
-
-func Main() {
-	
-}
