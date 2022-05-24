@@ -2,6 +2,7 @@ package movies
 
 import (
 	"context"
+	"interphlix/lib/movies/casts"
 	"interphlix/lib/movies/genres"
 	"interphlix/lib/movies/types"
 	"interphlix/lib/variables"
@@ -30,6 +31,10 @@ func UploadOneMovie(Movie Movie) ([]byte, int) {
 			Genre.Type = Movie.Type
 			Genre.Update()
 		}
+	}
+
+	for index := range Movie.Casts {
+		casts.CreateCast(Movie.Casts[index])
 	}
 	err := Movie.Upload()
 	if err != nil {
