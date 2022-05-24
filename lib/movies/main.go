@@ -1,6 +1,7 @@
 package movies
 
 import (
+	"interphlix/lib/movies/casts"
 	"interphlix/lib/movies/genres"
 	"interphlix/lib/movies/types"
 )
@@ -16,6 +17,7 @@ func Main() {
 	genres.LoadGenres()
 	types.Main()
 	genres.Main()
+	casts.Main()
 	Listener()
 }
 

@@ -14,6 +14,7 @@ var (
 
 func Main() {
 	LoadCasts()
+	Listener()
 }
 
 

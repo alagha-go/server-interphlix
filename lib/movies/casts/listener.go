@@ -14,7 +14,7 @@ import (
 
 
 func Listener() {
-
+	go ListenForCastsCollection()
 }
 
 func ListenForCastsCollection() {
