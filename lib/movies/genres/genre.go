@@ -43,7 +43,6 @@ func (Genre *Genre) Upload() error {
 		variables.HandleError(err, "genres", "Genre.Upload", "could not upload genre to the Database")
 		return err
 	}
-	Genre.AddGenre()
 	return nil
 }
 
@@ -79,7 +78,6 @@ func (Genre *Genre) Update() error{
 		variables.HandleError(err, "genres", "Genre.Update", "could not update genre to the Database")
 		return err
 	}
-	Genre.UpdateGenre()
 	return nil
 }
 
