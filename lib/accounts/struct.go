@@ -17,4 +17,5 @@ type Account struct {
 	Picture								string										`json:"picture,omitempty" bson:"picture,omitempty"`
 	Locale								string										`json:"locale,omitempty" bson:"locale,omitempty"`
 	Token								*oauth2.Token								`json:"token,omitempty" bson:"token,omitempty"`
+	Deleted								bool										`json:"deleted,omitempty" bson:"deleted,omitempty"`
 }
