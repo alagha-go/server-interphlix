@@ -19,7 +19,7 @@ func LoginUrl(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	config, err := GetConfig()
 	HandlError(err)
-	url := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
+	url := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline, oauth2.ApprovalForce)
 	body := []byte(fmt.Sprintf(`{"login-url": "%s"}`, url))
 	res.WriteHeader(200)
 	res.Write(body)
