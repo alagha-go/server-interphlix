@@ -23,5 +23,6 @@ func CreateAccount(account Account) ([]byte, int) {
 	if err != nil {
 		return variables.JsonMarshal(variables.Error{Error: "could not save user"}), http.StatusInternalServerError
 	}
+	Accounts = append(Accounts, account)
 	return variables.JsonMarshal(account), http.StatusOK
 }
