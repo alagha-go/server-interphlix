@@ -17,23 +17,3 @@ func LoadGenres() {
 	err = cursor.All(ctx, &Genres)
 	variables.HandleError(err, "genres", "LoadGenres", "error while decoding genres from the cursor")
 }
-
-
-func (Genre *Genre) UpdateGenre() {
-	for index, genre := range Genres {
-		if genre.ID == Genre.ID {
-			for _, Type := range genre.Types {
-				if Type == Genre.Type {
-					return
-				}
-			}
-			Genres[index].Types = append(Genres[index].Types, Genre.Type)
-		}
-	}
-}
-
-
-
-func (Genre *Genre) AddGenre() {
-	Genres = append(Genres, *Genre)
-}
