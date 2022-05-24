@@ -44,7 +44,6 @@ func ListenForGenresCollection() {
 			Genres = append(Genres, genre)
 		}
 		Genres[index] = genre
-		println(genre.ID.Hex())
 	}
 	ListenForGenresCollection()
 }
