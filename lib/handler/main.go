@@ -41,6 +41,7 @@ func Main() {
 	Router.HandleFunc("/token/refresh", accounts.RenewToken).Methods("GET")
 	Router.HandleFunc("/files", accounts.GetMyFiles).Methods("GET")
 	Router.HandleFunc("/files/create", accounts.CreateFile).Methods("POST")
+	Router.HandleFunc("/files/delete", accounts.DeleteFile).Methods("DELETE")
 	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
 	Router.HandleFunc("/movies/deleteserver/{id}", movies.DeleteServer).Methods("DELETE")
 	Router.HandleFunc("/errors/{package}", Errors).Methods("GET")
