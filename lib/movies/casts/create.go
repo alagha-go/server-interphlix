@@ -11,6 +11,9 @@ import (
 func CreateCast(name string) {
 	Cast := Cast{ID: primitive.NewObjectID() ,Name: name}
 	collection := variables.Client.Database("Interphlix").Collection("Casts")
+	if CastExists(name) {
+		return
+	}
 	
 	collection.InsertOne(context.Background(), Cast)
 }
