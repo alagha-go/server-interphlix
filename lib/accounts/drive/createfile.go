@@ -44,10 +44,10 @@ func CreateFile(account accounts.Account, filename string) ([]byte, int) {
 
 
 func FileExist(account accounts.Account, filename string) bool {
-	var files []drive.File
+	var fileList drive.FileList
 	data, _ := GetFiles(account)
-	json.Unmarshal(data, &files)
-	for _, file := range files {
+	json.Unmarshal(data, &fileList)
+	for _, file := range fileList.Files {
 		if filename == file.Name {
 			return true
 		}
