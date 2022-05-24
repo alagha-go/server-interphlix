@@ -5,5 +5,6 @@ var (
 )
 
 func Main() {
-	
+	LoadGenres()
+	Listener()
 }

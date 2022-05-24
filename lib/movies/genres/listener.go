@@ -14,7 +14,7 @@ import (
 )
 
 func Listener() {
-
+	go ListenForGenresCollection()
 }
 
 func ListenForGenresCollection() {
