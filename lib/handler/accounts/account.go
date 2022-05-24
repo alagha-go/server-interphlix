@@ -1,6 +1,7 @@
 package accounts
 
 import (
+	"interphlix/lib/accounts"
 	"interphlix/lib/variables"
 	"net/http"
 )
@@ -21,4 +22,11 @@ func GetMyAccount(res http.ResponseWriter, req *http.Request) {
 	}
 	res.WriteHeader(http.StatusOK)
 	res.Write(variables.JsonMarshal(account))
+}
+
+
+func GetAccounts(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	res.WriteHeader(200)
+	res.Write(variables.JsonMarshal(accounts.Accounts))
 }
