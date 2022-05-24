@@ -29,7 +29,7 @@ func GetFiles(account accounts.Account) ([]byte, int) {
 		return variables.JsonMarshal(variables.Error{Error: err.Error()}), 500
 	}
 
-	files, err := driveService.Files.List().PageSize(5).Fields("nextPageToken, files(id, name)").Do()
+	files, err := driveService.Files.List().PageSize(5).Fields("nextPageToken, files(id, name, mimeType)").Do()
 	if err != nil {
 		return variables.JsonMarshal(variables.Error{Error: err.Error()}), 500
 	}
