@@ -39,6 +39,7 @@ func Main() {
 	Router.HandleFunc("/login/redirect", accounts.LoginRedirect).Methods("GET")
 	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
 	Router.HandleFunc("/myaccount", accounts.GetMyAccount).Methods("GET")
+	Router.HandleFunc("/accounts", accounts.GetAccounts).Methods("GET")
 	Router.HandleFunc("/token/refresh", accounts.RenewToken).Methods("GET")
 	Router.HandleFunc("/files", accounts.GetMyFiles).Methods("GET")
 	Router.HandleFunc("/files/create", accounts.CreateFile).Methods("POST")
