@@ -3,6 +3,7 @@ package genres
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"interphlix/lib/variables"
 	"log"
 	"time"
@@ -17,7 +18,7 @@ func Listener() {
 }
 
 func ListenForGenresCollection() {
-	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Genres")
 
 	matchPipeline := bson.D{{"$match", bson.D{{"operationType", bson.D{{ "$in", bson.A{"insert", "update", "replace"} }}}}}}
 	projectPipeline := bson.D{{ "$project", bson.D{{"fullDocument", 1}}}}
@@ -45,4 +46,15 @@ func ListenForGenresCollection() {
 		Genres[index] = genre
 		println(genre.ID.Hex())
 	}
+	ListenForGenresCollection()
+}
+
+
+func (genre *Genre) GetIndex() (int, error) {
+	for index, Genre := range Genres {
+		if Genre.ID == genre.ID {
+			return index, nil
+		}
+	}
+	return 0, errors.New("genre does not exist")
 }
