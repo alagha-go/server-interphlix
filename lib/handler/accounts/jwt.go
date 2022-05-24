@@ -8,17 +8,18 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Claims struct {
-	Account					accounts.Account
+	AccountID					primitive.ObjectID
 	jwt.StandardClaims
 }
 
 func GenerateToken(account accounts.Account) (string, int, error) {
 	expires := time.Now().Add(120*time.Hour)
 	claims := &Claims{
-		Account: account,
+		AccountID: account.ID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expires.Unix(),
 		},
@@ -56,14 +57,15 @@ func VerifyToken(tokenString string) (bool, int) {
 }
 
 
-func GetAccount(tokenString string) accounts.Account {
+func GetAccount(tokenString string) (accounts.Account, error) {
 	claims := &Claims{}
 
 	jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		secret := variables.LoadSecret()
 		return []byte(secret.JwtKey), nil
 	})
-	return claims.Account
+	account, err := accounts.GetAccount(claims.AccountID)
+	return account, err
 }
 
 
@@ -72,6 +74,9 @@ func RefreshToken(tokenString string) (string, int, error) {
 	if !valid {
 		return "", status, errors.New("invalid token")
 	}
-	account := GetAccount(tokenString)
+	account, err := GetAccount(tokenString)
+	if err != nil {
+		return "", http.StatusNotFound, errors.New("account does not exist")
+	}
 	return GenerateToken(account)
 }
