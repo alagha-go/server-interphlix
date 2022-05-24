@@ -20,32 +20,42 @@ func Main() {
 	movies.Main()
 	variables.LoadErrors()
 	accounts.Main()
-	Router.HandleFunc("/", movies.GetHomeMovies).Methods("GET")
+
+	//// routes that are related to movies
+		/// create routes
 	Router.HandleFunc("/movies/upload", movies.UploadMovie).Methods("POST")
-	Router.HandleFunc("/home", movies.GetHomeMovies).Methods("GET")
-	Router.HandleFunc("/movies/addserver/{id}", movies.AddServer).Methods("PUT", "UPDATE", "PATCH")
-	Router.HandleFunc("/movies/addurl/{id}/{url}", movies.AddUrl).Methods("GET")
-	Router.HandleFunc("/movies/setserver/{id}/{servername}", movies.SetServer).Methods("PUT", "UPDATE", "PATCH")
-	Router.HandleFunc("/tv-show/setserver/{id}/{seasoncode}/{episodecode}/{servername}", movies.SetEpisodeServer).Methods("PUT", "UPDATE", "PATCH")
-	Router.HandleFunc("/tv-show/addserver/{id}/{seasoncode}/{episodecode}", movies.AddEpisodeServer).Methods("PUT", "UPDATE", "PATCH")
-	Router.HandleFunc("/tv-show/addurl/{id}/{seasoncode}/{episodecode}/{urls}", movies.AddEpisodeUrl).Methods("PUT", "UPDATE", "PATCH")
-	Router.HandleFunc("/tv-shows/deleteurls/{id}/{seasoncode}/{episodecode}/{urls}", movies.DeleteUrls).Methods("DELETE")
-	Router.HandleFunc("/movies/deleteurls/{id}/{urls}", movies.DeleteUrls).Methods("DELETE")
 	Router.HandleFunc("/tv-shows/{id}/addseason", movies.AddSeason).Methods("POST")
 	Router.HandleFunc("/tv-shows/{id}/{seasonid}/addepisode", movies.AddEpisode).Methods("POST")
-	Router.HandleFunc("/tv-shows/deleteserver/{id}/{seasoncode}/{episodecode}", movies.DeleteServer).Methods("DELETE")
+		/// get routes
+	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
+	Router.HandleFunc("/", movies.GetHomeMovies).Methods("GET")
+	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
 	Router.HandleFunc("/all/{genre}", movies.GetMoviesByGenre).Methods("GET")
+		/// update routes
+	Router.HandleFunc("/movies/setserver/{id}/{servername}", movies.SetServer).Methods("PUT", "UPDATE", "PATCH")
+	Router.HandleFunc("/tv-show/setserver/{id}/{seasoncode}/{episodecode}/{servername}", movies.SetEpisodeServer).Methods("PUT", "UPDATE", "PATCH")
+	Router.HandleFunc("/movies/addserver/{id}", movies.AddServer).Methods("PUT", "UPDATE", "PATCH")
+	Router.HandleFunc("/tv-show/addserver/{id}/{seasoncode}/{episodecode}", movies.AddEpisodeServer).Methods("PUT", "UPDATE", "PATCH")
+	Router.HandleFunc("/movies/addurl/{id}/{url}", movies.AddUrl).Methods("PUT", "UPDATE", "PATCH")
+	Router.HandleFunc("/tv-show/addurl/{id}/{seasoncode}/{episodecode}/{urls}", movies.AddEpisodeUrl).Methods("PUT", "UPDATE", "PATCH")
+		/// delete routes
+	Router.HandleFunc("/movies/deleteserver/{id}", movies.DeleteServer).Methods("DELETE")
+	Router.HandleFunc("/tv-shows/deleteserver/{id}/{seasoncode}/{episodecode}", movies.DeleteServer).Methods("DELETE")
+	Router.HandleFunc("/tv-shows/deleteurls/{id}/{seasoncode}/{episodecode}/{urls}", movies.DeleteUrls).Methods("DELETE")
+	Router.HandleFunc("/movies/deleteurls/{id}/{urls}", movies.DeleteUrls).Methods("DELETE")
+
+
+	//// routes related to account
+	Router.HandleFunc("/accounts", accounts.GetAccounts).Methods("GET")
 	Router.HandleFunc("/login-url", accounts.LoginUrl).Methods("GET")
 	Router.HandleFunc("/login/redirect", accounts.LoginRedirect).Methods("GET")
-	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
-	Router.HandleFunc("/myaccount", accounts.GetMyAccount).Methods("GET")
-	Router.HandleFunc("/accounts", accounts.GetAccounts).Methods("GET")
 	Router.HandleFunc("/token/refresh", accounts.RenewToken).Methods("GET")
-	Router.HandleFunc("/files", accounts.GetMyFiles).Methods("GET")
+	Router.HandleFunc("/myaccount", accounts.GetMyAccount).Methods("GET")
 	Router.HandleFunc("/files/create", accounts.CreateFile).Methods("POST")
+	Router.HandleFunc("/files", accounts.GetMyFiles).Methods("GET")
 	Router.HandleFunc("/files/delete", accounts.DeleteFile).Methods("DELETE")
-	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
-	Router.HandleFunc("/movies/deleteserver/{id}", movies.DeleteServer).Methods("DELETE")
+
+	//// routes related to errors
 	Router.HandleFunc("/errors/{package}", Errors).Methods("GET")
 }
 
