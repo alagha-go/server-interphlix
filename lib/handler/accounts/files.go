@@ -36,3 +36,19 @@ func CreateFile(res http.ResponseWriter, req *http.Request) {
 	res.WriteHeader(status)
 	res.Write(data)
 }
+
+
+func DeleteFile(res http.ResponseWriter, req *http.Request) {
+	res.Header().Set("content-type", "application/json")
+	cookie, err := req.Cookie("token")
+	if err != nil {
+		res.WriteHeader(http.StatusUnauthorized)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "no account found for you"}))
+		return
+	}
+	account := GetAccount(cookie.Value)
+	id := req.URL.Query().Get("id")
+	data, status := drive.DeleteFile(account, id)
+	res.WriteHeader(status)
+	res.Write(data)
+}
