@@ -19,6 +19,7 @@ var (
 func Main() {
 	movies.Main()
 	variables.LoadErrors()
+	accounts.Main()
 	Router.HandleFunc("/", movies.GetHomeMovies).Methods("GET")
 	Router.HandleFunc("/movies/upload", movies.UploadMovie).Methods("POST")
 	Router.HandleFunc("/home", movies.GetHomeMovies).Methods("GET")
