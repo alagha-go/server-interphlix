@@ -10,23 +10,19 @@ import (
 
 /// check if a genre exists in our inmemory Genres
 func (genre *Genre) Exists() bool {
-	for _, Genre := range Genres {
-		if Genre.Title == genre.Title {
-			return true
-		}
-	}
-	return false
+	var Genre Genre
+	collection := variables.Client1.Database("Interphlix").Collection("Genres")
+	err := collection.FindOne(context.Background(), bson.M{"title": genre.Title}).Decode(&Genre)
+	return err == nil
 }
 
 
 // finc and return genre with the same title
 func (genre *Genre) Find() Genre {
-	for _, Genre := range Genres {
-		if Genre.Title == genre.Title {
-			return Genre
-		}
-	}
-	return Genre{}
+	var Genre Genre
+	collection := variables.Client1.Database("Interphlix").Collection("Genres")
+	err := collection.FindOne(context.Background(), bson.M{"title": genre.Title}).Decode(&Genre)
+	return err == nil
 }
 
 
