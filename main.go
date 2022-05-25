@@ -7,14 +7,15 @@ import (
 )
 
 var (
-	PORT = ":7000"
+	HTTPPORT = ":7000"
+	SOCKETPORT = ":9000"
 )
 
 func main() {
 	ConnectToDBs()
 	go handler.Main()
 
-	err := http.ListenAndServe(PORT, handler.Router)
+	err := http.ListenAndServe(HTTPPORT, handler.Router)
 	HandlError(err)
 }
 
