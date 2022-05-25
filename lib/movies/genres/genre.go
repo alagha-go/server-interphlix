@@ -21,8 +21,8 @@ func (genre *Genre) Exists() bool {
 func (genre *Genre) Find() Genre {
 	var Genre Genre
 	collection := variables.Client1.Database("Interphlix").Collection("Genres")
-	err := collection.FindOne(context.Background(), bson.M{"title": genre.Title}).Decode(&Genre)
-	return err == nil
+	collection.FindOne(context.Background(), bson.M{"title": genre.Title}).Decode(&Genre)
+	return Genre
 }
 
 
