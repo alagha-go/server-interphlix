@@ -3,8 +3,6 @@ package types
 import (
 	"context"
 	"interphlix/lib/variables"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -14,13 +12,12 @@ func AddType(title string) {
 	}else if title == "" || title == " " {
 		return
 	}
-	var Type Type
-	Type.ID = primitive.NewObjectID()
-	Type.Type = title
-	inserted := Type.AddToDB()
-	if inserted {
-		Types = append(Types, Type)
-	}
+	Type := Type{Type: title}
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Types")
+
+	_, err := collection.InsertOne(ctx, Type)
+	variables.HandleError(err, "types", "AddType", "error while inserting type to the remote database")
 }
 
 
