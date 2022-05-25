@@ -27,3 +27,21 @@ func LoadGenres() {
 	collection.Drop(ctx)
 	collection.InsertMany(ctx, documents)
 }
+
+
+func (genre *Genre) AddToDB() {
+	var Genre Genre
+	collection := variables.Client1.Database("Interphlix").Collection("Genres")
+	err := collection.FindOne(context.Background(), bson.M{"title": genre.Title}).Decode(&Genre)
+	if err == nil {
+		collection.InsertOne(context.Background(), genre)
+		return
+	}
+	filter := bson.M{
+		"title": genre.Title,
+	}
+	update := bson.M{"$set": bson.M{
+		"types": genre.Types,
+	}}
+	collection.UpdateOne(context.Background(), filter, update)
+}
