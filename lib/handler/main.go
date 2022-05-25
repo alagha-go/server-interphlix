@@ -18,7 +18,6 @@ var (
 
 func Main() {
 	movies.Main()
-	variables.LoadErrors()
 	accounts.Main()
 
 	//// routes that are related to movies
