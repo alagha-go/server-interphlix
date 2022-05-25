@@ -19,12 +19,17 @@ func Main() {
 
 
 func LoadTypes() {
+	var documents []interface{}
 	ctx := context.Background()
-	collection := variables.Client.Database("Interphlix").Collection("Types")
+	collection1 := variables.Client.Database("Interphlix").Collection("Types")
+	collection := variables.Client1.Database("Interphlix").Collection("Types")
 
-	cursor, err := collection.Find(ctx, bson.M{})
+	cursor, err := collection1.Find(ctx, bson.M{})
 	variables.HandleError(err, "types", "LoadTypes", "error while loading data from the database")
-	cursor.All(ctx, &Types)
+	err = cursor.All(ctx, &documents)
+	variables.HandleError(err, "types", "LoadTypes", "error decoding cursor")
+	_, err = collection.InsertMany(ctx, documents)
+	variables.HandleError(err, "types", "LoadTypes", "error inserting types to the local database")
 }
 
 
