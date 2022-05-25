@@ -35,10 +35,9 @@ func LoadTypes() {
 
 
 func TypeExists(Type string) bool {
-	for index := range Types {
-		if Types[index].Type == Type {
-			return true
-		}
-	}
-	return false
+	var DbType interface{}
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Types")
+	err := collection.FindOne(ctx, bson.M{"type": Type}).Decode(&DbType)
+	return err == nil
 }
