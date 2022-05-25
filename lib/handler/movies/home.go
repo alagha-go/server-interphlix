@@ -5,6 +5,7 @@ import (
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -22,14 +23,18 @@ func GetHomeMovies(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusNotFound)
 		return
 	}
-	data, status := movies.GetMovies()
+	index, err := strconv.Atoi(req.URL.Query().Get("index"))
+	if err != nil {
+		res.WriteHeader(http.StatusBadRequest)
+		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid index"}))
+	}
+	data, status := movies.GetMovies(index)
 	res.WriteHeader(status)
 	res.Write(data)
 }
 
 
 func GetMoviesByGenre(res http.ResponseWriter, req *http.Request) {
-	var Movies []movies.Movie
 	res.Header().Set("content-type", "application/json")
 	valid := accounts.ValidateRequest(req)
 	if !valid {
@@ -38,13 +43,7 @@ func GetMoviesByGenre(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	genre := mux.Vars(req)["genre"]
-	for _, Movie := range movies.Movies {
-		for _, Genre := range Movie.Genres {
-			if genre == Genre {
-				Movies = append(Movies, Movie)
-			}
-		}
-	}
-	res.WriteHeader(200)
-	res.Write(variables.JsonMarshal(Movies))
+	data, status := movies.GetMoviesByGenre(genre)
+	res.WriteHeader(status)
+	res.Write(data)
 }
