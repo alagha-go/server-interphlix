@@ -24,7 +24,11 @@ func (movie *Movie) Exists() bool {
 
 /// find a specific movie from the Movies list
 func FindMovie(ID primitive.ObjectID) Movie {
-	
+	var Movie Movie
+	collection := variables.Client1.Database("Interphlix").Collection("Movies")
+
+	collection.FindOne(context.Background(), bson.M{"_id": ID}).Decode(&Movie)
+	return Movie
 }
 
 func (Movie *Movie) Valid() bool {
