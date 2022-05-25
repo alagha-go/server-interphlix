@@ -25,7 +25,7 @@ type Error struct {
 /// handle error by saving to the database for feature reference
 func (log *Log) HandleError() {
 	ctx := context.Background()
-	collection := Client.Database("Interphlix").Collection("Errors")
+	collection := Client2.Database("Interphlix").Collection("Errors")
 
 	log.ID = primitive.NewObjectID()
 	log.Time = time.Now()
