@@ -47,12 +47,6 @@ func AddEpisode(MovieID, SeasonID primitive.ObjectID, Episode Episode) ([]byte, 
 				variables.HandleError(err, "movies", "AddSeason", "error while adding episode to a tvshow")
 				return variables.JsonMarshal(variables.Error{Error: "could not update movie"}), http.StatusInternalServerError
 			}
-			index, err := Movie.GetIndex()
-			if err != nil {
-				Movies = append(Movies, Movie)
-			}else {
-				Movies[index].Seasons = Movie.Seasons
-			}
 			return []byte(`{"success": true}`), http.StatusOK
 		}
 	}

@@ -69,12 +69,5 @@ func (Movie *Movie) UpdateServers() ([]byte, int) {
 		variables.HandleError(err, "movies", "UpdateServers", "error while deleting server")
 		return variables.JsonMarshal(variables.Error{Error: "could not delete the server"}), http.StatusInternalServerError
 	}
-	index, err := Movie.GetIndex()
-	if err != nil {
-		collection.FindOne(ctx, bson.M{"_id": Movie.ID}).Decode(Movie)
-		Movies = append(Movies, *Movie)
-	}else {
-		Movies[index] = *Movie
-	}
 	return []byte(`{"success": true}`), http.StatusOK
 }

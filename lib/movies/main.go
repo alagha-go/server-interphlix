@@ -23,7 +23,7 @@ func Main() {
 }
 
 
-func LoadMoviesFromDB() {
+func LoadMovies() {
 	var documents []interface{}
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")

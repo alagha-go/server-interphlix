@@ -78,12 +78,5 @@ func (Movie *Movie) RemoveUrl() ([]byte, int) {
 		variables.HandleError(err, "movies", "RemoveUrl", "error while deleting movie urls")
 		return variables.JsonMarshal(variables.Error{Error: "could not not delete urls"}), http.StatusInternalServerError
 	}
-	index, err := Movie.GetIndex()
-	if err != nil {
-		collection.FindOne(ctx, bson.M{"_id": Movie.ID}).Decode(Movie)
-		Movies = append(Movies, *Movie)
-	}else {
-		Movies[index] = *Movie
-	}
 	return []byte(`{"success": true}`), http.StatusOK
 }
