@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -33,4 +34,14 @@ func (log *Log) HandleError() {
 	if err == nil {
 		Errors = append(Errors, *log)
 	}
+}
+
+
+func LoadErrors() {
+	ctx := context.Background()
+	collection := Client.Database("Interphlix").Collection("Errors")
+
+	cursor, err := collection.Find(ctx, bson.M{})
+	HandleError(err, "variables", "LoadErrors", "error while getting errors from the database")
+	cursor.All(ctx, &Errors)
 }

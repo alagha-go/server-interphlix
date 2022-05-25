@@ -2,10 +2,8 @@ package variables
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -40,14 +38,4 @@ func JsonMarshal(data interface{}) []byte {
     encoder.SetEscapeHTML(false)
     encoder.Encode(data)
 	return buff.Bytes()
-}
-
-
-func LoadErrors() {
-	ctx := context.Background()
-	collection := Client.Database("Interphlix").Collection("Errors")
-
-	cursor, err := collection.Find(ctx, bson.M{})
-	HandleError(err, "variables", "LoadErrors", "error while getting errors from the database")
-	cursor.All(ctx, &Errors)
 }
