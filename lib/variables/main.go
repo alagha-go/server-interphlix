@@ -14,12 +14,15 @@ import (
 type Secret struct {
 	LocalDBUrl								string								`json:"local-db-url,omitempty"`
 	RemoteDBUrl								string								`json:"remote-db-url,omitempty"`
+	Remote2DBUrl							string								`json:"remote2-db-url,omitempty"`
 	JwtKey									string								`json:"jwtkey,omitempty"`
 }
 
 
 var (
 	Client	*mongo.Client
+	Client1 *mongo.Client
+	Client2 *mongo.Client
 	Errors []Log
 )
 
