@@ -14,10 +14,7 @@ func (movie *Movie) Exists() bool {
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 
 	err := collection.FindOne(context.Background(), bson.M{"code": movie.Code}).Decode(&Movie)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
 
 
