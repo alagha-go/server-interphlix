@@ -19,3 +19,15 @@ func ConnectToRemoteDB1() {
 	variables.Client = client
 	HandlError(err)
 }
+
+
+func ConnectRemotedDB2() {
+	secret := variables.LoadSecret()
+	clientOptions := options.Client().
+		ApplyURI(secret.Remote2DBUrl)
+	ctx := context.Background()
+	
+	client, err := mongo.Connect(ctx, clientOptions)
+	variables.Client2 = client
+	HandlError(err)
+}
