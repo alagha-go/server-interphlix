@@ -1,15 +1,25 @@
 package variables
 
+import (
+	"context"
+	"net/http"
+
+	"go.mongodb.org/mongo-driver/bson"
+)
+
 
 func GetErrors(Package string) ([]byte, int) {
+	var Errors []Log
+	ctx := context.Background()
+	collection := Client2.Database("Interphlix").Collection("Errors")
 	if Package == "all" {
-		return JsonMarshal(Errors), 200
+		cursor, err := collection.Find(ctx, bson.M{})
+		HandleError(err, "variables", "GetErrors", "error while getting errors from the database")
+		cursor.All(ctx, &Errors)
+	}else {
+		cursor, err := collection.Find(ctx, bson.M{"package": Package})
+		HandleError(err, "variables", "GetErrors", "error while getting errors from the database")
+		cursor.All(ctx, &Errors)
 	}
-	var Logs []Log
-	for _, Log := range Errors {
-		if Log.Package == Package {
-			Logs = append(Logs, Log)
-		}
-	}
-	return JsonMarshal(Logs), 200
+	return JsonMarshal(Errors), http.StatusOK
 }
