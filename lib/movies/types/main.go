@@ -7,12 +7,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-
-var (
-	Types []Type
-)
-
-
 func Main() {
 	LoadTypes()
 }
