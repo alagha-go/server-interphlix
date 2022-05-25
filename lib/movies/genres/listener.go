@@ -47,13 +47,3 @@ func ListenForGenresCollection() {
 	}
 	ListenForGenresCollection()
 }
-
-
-func (genre *Genre) GetIndex() (int, error) {
-	for index, Genre := range Genres {
-		if Genre.ID == genre.ID {
-			return index, nil
-		}
-	}
-	return 0, errors.New("genre does not exist")
-}
