@@ -16,6 +16,7 @@ func GetTypes(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
 		return
 	}
-	res.WriteHeader(200)
-	res.Write(variables.JsonMarshal(types.Types))
+	data, status := types.GetTypes()
+	res.WriteHeader(status)
+	res.Write(data)
 }
