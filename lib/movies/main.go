@@ -1,15 +1,13 @@
 package movies
 
 import (
+	"context"
 	"interphlix/lib/movies/casts"
 	"interphlix/lib/movies/genres"
 	"interphlix/lib/movies/types"
 )
 
 
-var (
-	Movies []Movie
-)
 
 
 func Main() {
@@ -23,5 +21,5 @@ func Main() {
 
 
 func LoadMoviesFromDB() {
-
+	
 }
