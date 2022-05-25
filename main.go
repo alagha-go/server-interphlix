@@ -1,14 +1,9 @@
 package main
 
 import (
-	"context"
 	"interphlix/lib/handler"
-	"interphlix/lib/variables"
 	"log"
 	"net/http"
-
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var (
@@ -16,7 +11,7 @@ var (
 )
 
 func main() {
-	ConnectToDB()
+	ConnectToDBs()
 	go handler.Main()
 
 	err := http.ListenAndServe(PORT, handler.Router)
@@ -24,15 +19,10 @@ func main() {
 }
 
 /// connect to both the local and remote mongodb databases
-func ConnectToDB() {
-	secret := variables.LoadSecret()
-	clientOptions := options.Client().
-		ApplyURI(secret.RemoteDBUrl)
-	ctx := context.Background()
-	
-	client, err := mongo.Connect(ctx, clientOptions)
-	variables.Client = client
-	HandlError(err)
+func ConnectToDBs() {
+	ConnectToRemoteDB1()
+	ConnectRemotedDB2()
+	ConnectLocalDB()
 }
 
 
