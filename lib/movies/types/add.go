@@ -35,3 +35,7 @@ func (Type *Type) AddToDB() bool {
 	}
 	return true
 }
+
+func (Type *Type) AddToLocalDB() {
+
+}
