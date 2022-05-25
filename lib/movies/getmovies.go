@@ -19,3 +19,16 @@ func GetMoviesByGenre(genre string) ([]byte, int) {
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
 	return variables.JsonMarshal(Movies), http.StatusOK
 }
+
+
+func GetMoviesByGenreAndType(Type, genre string) ([]byte, int) {
+	var Movies []Movie
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Movies")
+
+	cursor, err := collection.Find(ctx, bson.M{"type": Type, "genres": bson.A{genre}})
+	variables.HandleError(err, "movies", "GetMovieByGenre", "error while getting movies from the database")
+	err = cursor.All(ctx, &Movies)
+	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
+	return variables.JsonMarshal(Movies), http.StatusOK
+}
