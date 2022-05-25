@@ -4,19 +4,10 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
-
-
-type Secret struct {
-	LocalDBUrl								string								`json:"local-db-url,omitempty"`
-	RemoteDBUrl								string								`json:"remote-db-url,omitempty"`
-	Remote2DBUrl							string								`json:"remote2-db-url,omitempty"`
-	JwtKey									string								`json:"jwtkey,omitempty"`
-}
 
 
 var (
@@ -25,15 +16,6 @@ var (
 	Client2 *mongo.Client
 	Errors []Log
 )
-
-/// loads secret data from the the secret.json file
-func LoadSecret() Secret {
-	var secret Secret
-	data, err := ioutil.ReadFile("./secret.json")
-	HandleError(err, "variables","LoadSecret", "error while reading the sect.json file")
-	json.Unmarshal(data, &secret)
-	return secret
-}
 
 
 /// handle error by saving it to the DB and returning err == nil
