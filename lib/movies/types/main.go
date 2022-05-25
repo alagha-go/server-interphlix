@@ -28,6 +28,7 @@ func LoadTypes() {
 	variables.HandleError(err, "types", "LoadTypes", "error while loading data from the database")
 	err = cursor.All(ctx, &documents)
 	variables.HandleError(err, "types", "LoadTypes", "error decoding cursor")
+	collection.Drop(ctx)
 	_, err = collection.InsertMany(ctx, documents)
 	variables.HandleError(err, "types", "LoadTypes", "error inserting types to the local database")
 }
