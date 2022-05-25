@@ -40,12 +40,7 @@ func ListenForMoviesCollection() {
 		content := variables.JsonMarshal(data["fullDocument"])
 		var movie Movie
 		json.Unmarshal(content, &movie)
-		index, err := movie.GetIndex()
-		if err != nil {
-			Movies = append(Movies, movie)
-		}
-		Movies[index] = movie
-		println(movie.ID.Hex())
+		movie.AddToDB()
 	}
 	ListenForMoviesCollection()
 }
