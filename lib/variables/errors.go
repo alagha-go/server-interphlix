@@ -38,10 +38,14 @@ func (log *Log) HandleError() {
 
 
 func LoadErrors() {
+	var Errors []interface{}
 	ctx := context.Background()
+	collection1 := Client2.Database("Interphlix").Collection("Errors")
 	collection := Client.Database("Interphlix").Collection("Errors")
 
-	cursor, err := collection.Find(ctx, bson.M{})
+	cursor, err := collection1.Find(ctx, bson.M{})
 	HandleError(err, "variables", "LoadErrors", "error while getting errors from the database")
 	cursor.All(ctx, &Errors)
+	collection.Drop(ctx)
+	collection.InsertMany(ctx, Errors)
 }
