@@ -3,7 +3,6 @@ package genres
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"interphlix/lib/variables"
 	"log"
 	"time"
@@ -39,11 +38,7 @@ func ListenForGenresCollection() {
 		content := variables.JsonMarshal(data["fullDocument"])
 		var genre Genre
 		json.Unmarshal(content, &genre)
-		index, err := genre.GetIndex()
-		if err != nil {
-			Genres = append(Genres, genre)
-		}
-		Genres[index] = genre
+		genre.AddToDB()
 	}
 	ListenForGenresCollection()
 }
