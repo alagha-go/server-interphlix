@@ -34,5 +34,12 @@ func (Type *Type) AddToDB() bool {
 }
 
 func (Type *Type) AddToLocalDB() {
+	if TypeExists(Type.Type) {
+		return
+	}
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Types")
 
+	_, err := collection.InsertOne(ctx, Type)
+	variables.HandleError(err, "types", "type.AddToLocalDB", "error while inserting type to the local database")
 }
