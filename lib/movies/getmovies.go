@@ -13,7 +13,7 @@ func GetMoviesByGenre(genre string) ([]byte, int) {
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 
-	cursor, err := collection.Find(ctx, bson.M{"genres": bson.A{genre}})
+	cursor, err := collection.Find(ctx, bson.M{"genres": bson.M{"$all": bson.A{genre}}})
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while getting movies from the database")
 	err = cursor.All(ctx, &Movies)
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
@@ -23,12 +23,24 @@ func GetMoviesByGenre(genre string) ([]byte, int) {
 
 func GetMoviesByGenreAndType(Type, genre string) ([]byte, int) {
 	var Movies []Movie
+	var movies []Movie
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 
-	cursor, err := collection.Find(ctx, bson.M{"type": Type, "genres": bson.A{genre}})
+	cursor, err := collection.Find(ctx, bson.M{"type": Type})
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while getting movies from the database")
 	err = cursor.All(ctx, &Movies)
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
-	return variables.JsonMarshal(Movies), http.StatusOK
+
+	return variables.JsonMarshal(movies), http.StatusOK
+}
+
+
+func (Movie *Movie) ContainsGenre(genre string) bool {
+	for _, Genre := range Movie.Genres {
+		if Genre == genre {
+			return true
+		}
+	}
+	return false
 }
