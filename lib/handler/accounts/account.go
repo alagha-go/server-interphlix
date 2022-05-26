@@ -28,5 +28,7 @@ func GetMyAccount(res http.ResponseWriter, req *http.Request) {
 func GetAccounts(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	res.WriteHeader(200)
-	res.Write(variables.JsonMarshal(accounts.Accounts))
+	data, status := accounts.GetAccounts()
+	res.WriteHeader(status)
+	res.Write(data)
 }
