@@ -32,6 +32,12 @@ func GetMoviesByGenreAndType(Type, genre string) ([]byte, int) {
 	err = cursor.All(ctx, &Movies)
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
 
+	for _, Movie := range Movies {
+		if Movie.ContainsGenre(genre) {
+			movies = append(movies, Movie)
+		}
+	}
+
 	return variables.JsonMarshal(movies), http.StatusOK
 }
 
