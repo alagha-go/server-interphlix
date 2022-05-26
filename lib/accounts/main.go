@@ -17,9 +17,12 @@ func Main() {
 }
 
 func LoadAccounts() {
-	collection := variables.Client.Database("Interphlix").Collection("Accounts")
+	var documents []interface{}
+	collection1 := variables.Client.Database("Interphlix").Collection("Accounts")
+	collection := variables.Client1.Database("Interphlix").Collection("Accounts")
 
-	cursor, err := collection.Find(context.Background(), bson.M{})
+	cursor, err := collection1.Find(context.Background(), bson.M{})
 	variables.HandleError(err, "accounts", "LoadAccounts", "error while loading accounts from the database")
-	cursor.All(context.Background(), &Accounts)
+	cursor.All(context.Background(), &documents)
+	collection.InsertMany(context.Background(), documents)
 }
