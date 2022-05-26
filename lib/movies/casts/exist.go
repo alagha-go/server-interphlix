@@ -1,23 +1,18 @@
 package casts
 
-import "errors"
+import (
+	"context"
+	"interphlix/lib/variables"
+
+	"go.mongodb.org/mongo-driver/bson"
+)
 
 
 func CastExists(name string) bool {
-	for _, Cast := range Casts {
-		if Cast.Name == name {
-			return true
-		}
-	}
-	return false
-}
+	var Cast Cast
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Casts")
 
-
-func (cast *Cast) Index() (int, error) {
-	for index, Cast := range Casts {
-		if Cast.ID == cast.ID {
-			return index, nil
-		}
-	}
-	return 0, errors.New("cast does not exist")
+	err := collection.FindOne(ctx, bson.M{"name": name}).Decode(&Cast)
+	return err == nil
 }
