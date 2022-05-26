@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -42,7 +41,6 @@ func ConnectLocalDB() {
 	client, err := mongo.Connect(ctx, clientOptions)
 	Client1 = client
 	handleerror(err)
-	println(Client1.ListDatabaseNames(context.Background(), bson.M{}))
 }
 
 func handleerror(err error) {

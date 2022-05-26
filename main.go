@@ -2,6 +2,7 @@ package main
 
 import (
 	"interphlix/lib/handler"
+	"interphlix/lib/variables"
 	"log"
 	"net/http"
 )
@@ -14,6 +15,7 @@ var (
 func main() {
 	ConnectToDBs()
 	go handler.Main()
+	println("starting server...")
 
 	err := http.ListenAndServe(HTTPPORT, handler.Router)
 	HandlError(err)
@@ -21,9 +23,9 @@ func main() {
 
 /// connect to both the local and remote mongodb databases
 func ConnectToDBs() {
-	ConnectToRemoteDB1()
-	ConnectRemotedDB2()
-	ConnectLocalDB()
+	variables.ConnectToRemoteDB1()
+	variables.ConnectRemotedDB2()
+	variables.ConnectLocalDB()
 }
 
 

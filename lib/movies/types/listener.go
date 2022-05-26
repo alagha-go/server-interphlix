@@ -13,7 +13,7 @@ import (
 )
 
 func Listener() {
-
+	go ListenForTypesCollection()
 }
 
 func ListenForTypesCollection() {

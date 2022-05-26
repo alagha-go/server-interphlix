@@ -19,6 +19,7 @@ var (
 func Main() {
 	movies.Main()
 	accounts.Main()
+	println("server successfully started.")
 
 	//// routes that are related to movies
 		/// create routes

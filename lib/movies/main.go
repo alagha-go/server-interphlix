@@ -15,7 +15,6 @@ import (
 
 func Main() {
 	LoadMovies()
-	genres.LoadGenres()
 	types.Main()
 	genres.Main()
 	casts.Main()

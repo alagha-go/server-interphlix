@@ -9,6 +9,7 @@ import (
 
 func Main() {
 	LoadTypes()
+	Listener()
 }
 
 
