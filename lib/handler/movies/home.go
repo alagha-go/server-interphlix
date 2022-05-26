@@ -25,8 +25,7 @@ func GetHomeMovies(res http.ResponseWriter, req *http.Request) {
 	}
 	index, err := strconv.Atoi(req.URL.Query().Get("index"))
 	if err != nil {
-		res.WriteHeader(http.StatusBadRequest)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "invalid index"}))
+		index = 0
 	}
 	data, status := movies.GetMovies(index)
 	res.WriteHeader(status)
