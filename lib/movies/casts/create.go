@@ -17,3 +17,14 @@ func CreateCast(name string) {
 	
 	collection.InsertOne(context.Background(), Cast)
 }
+
+
+func (cast *Cast) AddToLocalDB() {
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Casts")
+	if CastExists(cast.Name) {
+		cast.Update()
+		return
+	}
+	collection.InsertOne(ctx, cast)
+}
