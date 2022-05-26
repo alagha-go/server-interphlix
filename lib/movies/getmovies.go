@@ -10,6 +10,7 @@ import (
 
 func GetMoviesByGenre(genre string) ([]byte, int) {
 	var Movies []Movie
+	var movies []Movie
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 
@@ -17,7 +18,14 @@ func GetMoviesByGenre(genre string) ([]byte, int) {
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while getting movies from the database")
 	err = cursor.All(ctx, &Movies)
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
-	return variables.JsonMarshal(Movies), http.StatusOK
+
+	for _, Movie := range Movies {
+		if Movie.ContainsGenre(genre) {
+			movies = append(movies, Movie)
+		}
+	}
+
+	return variables.JsonMarshal(movies), http.StatusOK
 }
 
 
