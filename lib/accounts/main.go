@@ -8,10 +8,6 @@ import (
 )
 
 
-var (
-	Accounts []Account
-)
-
 func Main() {
 	LoadAccounts()
 }
