@@ -39,11 +39,7 @@ func ListenForCastsCollection() {
 		content := variables.JsonMarshal(data["fullDocument"])
 		var cast Cast
 		json.Unmarshal(content, &cast)
-		index, err := cast.Index()
-		if err != nil {
-			Casts = append(Casts, cast)
-		}
-		Casts[index] = cast
+		cast.AddToLocalDB()
 	}
 	ListenForCastsCollection()
 }
