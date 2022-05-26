@@ -24,7 +24,7 @@ func ListenForMoviesCollection() {
 	matchPipeline := bson.D{{"$match", bson.D{{"operationType", bson.D{{ "$in", bson.A{"insert", "update", "replace"} }}}}}}
 	projectPipeline := bson.D{{ "$project", bson.D{{"fullDocument", 1}}}}
 
-	opts := options.ChangeStream().SetMaxAwaitTime(2 * time.Second)
+	opts := options.ChangeStream()
 	opts.SetFullDocument("updateLookup")
 
 	stream, err := collection.Watch(context.TODO(), mongo.Pipeline{matchPipeline, projectPipeline}, opts)
