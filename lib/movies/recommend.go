@@ -26,7 +26,11 @@ func GetMovies(index int) ([]byte, int) {
 	if length == 0 {
 		return variables.JsonMarshal(variables.Error{Error: "invalid index"}), http.StatusBadRequest
 	}else if length == 30 {
-		return variables.JsonMarshal(Movies[:30]), http.StatusOK
+		if len(Movies) < length {
+			return variables.JsonMarshal(Movies), http.StatusOK
+		}else {
+			return variables.JsonMarshal(Movies[:length]), http.StatusOK
+		}
 	}else {
 		startIndex := 30+(index*10)
 		if startIndex > len(Movies) {
