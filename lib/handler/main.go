@@ -51,16 +51,13 @@ func Main() {
 		/// create routes
 	Router.HandleFunc("/login-url", accounts.LoginUrl).Methods("GET")
 	Router.HandleFunc("/login/redirect", accounts.LoginRedirect).Methods("GET")
-	Router.HandleFunc("/files/create", accounts.CreateFile).Methods("POST")
 		/// get routes
 	Router.HandleFunc("/accounts", accounts.GetAccounts).Methods("GET")
 	Router.HandleFunc("/token/refresh", accounts.RenewToken).Methods("GET")
 	Router.HandleFunc("/myaccount", accounts.GetMyAccount).Methods("GET")
-	Router.HandleFunc("/files", accounts.GetMyFiles).Methods("GET")
 		/// update routes
 
 		/// delete routes
-	Router.HandleFunc("/files/delete", accounts.DeleteFile).Methods("DELETE")
 
 	//// routes related to errors
 	Router.HandleFunc("/errors/{package}", Errors).Methods("GET")
