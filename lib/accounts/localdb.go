@@ -13,7 +13,7 @@ func (account *Account) AddToDB() {
 	collection := variables.Client1.Database("Interphlix").Collection("Accounts")
 
 	err := collection.FindOne(ctx, bson.M{"_id": account.ID}).Decode(&Account)
-	if err != nil {
+	if err == nil {
 		account.Update()
 		return
 	}
