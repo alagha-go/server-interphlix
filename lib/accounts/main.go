@@ -10,6 +10,7 @@ import (
 
 func Main() {
 	LoadAccounts()
+	Listener()
 }
 
 func LoadAccounts() {
