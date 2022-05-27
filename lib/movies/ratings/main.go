@@ -26,6 +26,7 @@ func LoadRatings() {
 		return
 	}
 	cursor.All(ctx, &documents)
+	collection.Drop(ctx)
 	_, err = collection.InsertMany(ctx, documents)
 	variables.HandleError(err, "ratings", "LoadRatings", "error while inserting ratings to the local database")
 }
