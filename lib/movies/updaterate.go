@@ -2,6 +2,7 @@ package movies
 
 import (
 	"context"
+	"interphlix/lib/movies/ratings"
 	"interphlix/lib/variables"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,7 +13,7 @@ import (
 func (Movie *Movie) UpdateRate(stars int) {
 	var rating float64
 	ctx := context.Background()
-	collection := variables.Client1.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	
 	err := collection.FindOne(ctx, bson.M{"_id": Movie.ID}).Decode(Movie)
 	if err != nil {
@@ -22,6 +23,39 @@ func (Movie *Movie) UpdateRate(stars int) {
 	rating = Movie.Rating + float64(stars)
 	rating = rating / 2
 	
+	filter := bson.M{
+		"_id": bson.M{
+			"$eq": Movie.ID, // check if bool field has value of 'false'
+		},
+	}
+
+	update := bson.M{"$set": bson.M{
+		"rating": rating,
+	}}
+
+	collection.UpdateOne(ctx, filter, update)
+}
+
+
+func (Movie *Movie) ChangeRating() {
+	var Ratings []ratings.Rate
+	var rating float64
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
+	collection1 := variables.Client.Database("Interphlix").Collection("Ratings")
+
+	err := collection1.FindOne(ctx, bson.M{"movie_id":Movie.ID}).Decode(&Ratings)
+	if err != nil {
+		variables.HandleError(err, "movies", "Movie.ChangeRating", "error while getting ratings from the database")
+		return
+	}
+
+	for _, rate := range Ratings {
+		rating = float64(rate.Stars) + rating
+	}
+
+	rating = rating / float64(len(Ratings))
+
 	filter := bson.M{
 		"_id": bson.M{
 			"$eq": Movie.ID, // check if bool field has value of 'false'
