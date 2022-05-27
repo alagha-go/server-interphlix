@@ -34,6 +34,6 @@ func (rate *Rate) Exists() bool {
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Ratings")
 
-	err := collection.FindOne(ctx, bson.M{"movie_id": rate.MovieID, "account-Id": rate.AccountID}).Decode(&Rate)
+	err := collection.FindOne(ctx, bson.M{"movie_id": rate.MovieID, "account_Id": rate.AccountID}).Decode(&Rate)
 	return err == nil
 }
