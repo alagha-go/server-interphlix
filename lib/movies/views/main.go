@@ -1,6 +1,0 @@
-package views
-
-
-func Main() {
-	
-}
