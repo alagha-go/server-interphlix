@@ -6,6 +6,7 @@ import (
 	"interphlix/lib/variables"
 	"net/http"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -25,4 +26,14 @@ func RateMovie(Rate Rate) ([]byte, int) {
 	}
 	Movie.UpdateRate(Rate.Stars)
 	return variables.JsonMarshal(Rate), http.StatusOK
+}
+
+
+func (rate *Rate) Exists() bool {
+	var Rate Rate
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Ratings")
+
+	err := collection.FindOne(ctx, bson.M{"movie_id": rate.MovieID, "account-Id": rate.AccountID})
+	return err == nil
 }
