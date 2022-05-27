@@ -9,7 +9,7 @@ import (
 )
 
 
-func GetMoviesByCast() ([]byte, int) {
+func GetMoviesByCast(cast string) ([]byte, int) {
 	var Movies []Movie
 	var movies []Movie
 	ctx := context.Background()
@@ -23,10 +23,20 @@ func GetMoviesByCast() ([]byte, int) {
 	cursor.All(ctx, &Movies)
 
 	for _, Movie := range Movies {
-		if Movie.ContainsCast() {
+		if Movie.ContainsCast(cast) {
 			movies = append(movies, Movie)
 		}
 	}
 
 	return variables.JsonMarshal(movies), http.StatusOK
+}
+
+
+func (Movie *Movie) ContainsCast(cast string) bool {
+	for _, Cast := range Movie.Casts {
+		if Cast == cast {
+			return true
+		}
+	}
+	return false
 }
