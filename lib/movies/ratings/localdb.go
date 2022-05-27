@@ -30,3 +30,20 @@ func (rate *Rate) ExistsByID() bool {
 	err := collection.FindOne(ctx, bson.M{"_id": rate.ID}).Decode(&Rate)
 	return err == nil
 }
+
+
+func (Rate *Rate) LocalUpdate() {
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Ratings")
+
+	filter := bson.M{
+		"_id": bson.M{
+			"$eq": Rate.ID, // check if bool field has value of 'false'
+		},
+	}
+
+	update := bson.M{"$set": Rate}
+
+	_, err := collection.UpdateOne(ctx, filter, update)
+	variables.HandleError(err, "ratings", "Rate.LocalUpdate", "error while updating rate to the local db")
+}
