@@ -24,7 +24,7 @@ func RateMovie(Rate Rate) ([]byte, int) {
 		variables.HandleError(err, "ratings", "RateMovie", "error while inserting rate to the database")
 		return variables.JsonMarshal(variables.Error{Error: "could save your rate"}), http.StatusInternalServerError
 	}
-	Movie.UpdateRate(Rate.Stars)
+	UpdateRate(&Movie, Rate.Stars)
 	return variables.JsonMarshal(Rate), http.StatusOK
 }
 
@@ -34,6 +34,6 @@ func (rate *Rate) Exists() bool {
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Ratings")
 
-	err := collection.FindOne(ctx, bson.M{"movie_id": rate.MovieID, "account-Id": rate.AccountID})
+	err := collection.FindOne(ctx, bson.M{"movie_id": rate.MovieID, "account-Id": rate.AccountID}).Decode(&Rate)
 	return err == nil
 }
