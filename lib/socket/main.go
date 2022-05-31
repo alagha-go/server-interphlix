@@ -19,6 +19,10 @@ type Message struct {
 	Text    string `json:"text"`
 }
 
+var (
+	PORT = ":9000"
+)
+
 
 func Main() {
 	server := gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
@@ -34,5 +38,5 @@ func Main() {
 	serveMux.Handle("/socket.io/", server)
 
 	log.Println("Starting server...")
-	log.Panic(http.ListenAndServe(":9000", serveMux))
+	log.Panic(http.ListenAndServe(PORT, serveMux))
 }
