@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	HTTPPORT = ":7000"
+	PORT = ":7000"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 	go socket.Main()
 	println("starting server...")
 
-	err := http.ListenAndServe(HTTPPORT, handler.Router)
+	err := http.ListenAndServe(PORT, handler.Router)
 	HandlError(err)
 }
 
