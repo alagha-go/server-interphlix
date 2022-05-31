@@ -10,7 +10,6 @@ import (
 
 var (
 	HTTPPORT = ":7000"
-	SOCKETPORT = ":9000"
 )
 
 func main() {
