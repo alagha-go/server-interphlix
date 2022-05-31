@@ -2,6 +2,7 @@ package main
 
 import (
 	"interphlix/lib/handler"
+	"interphlix/lib/socket"
 	"interphlix/lib/variables"
 	"log"
 	"net/http"
@@ -15,6 +16,7 @@ var (
 func main() {
 	ConnectToDBs()
 	go handler.Main()
+	go socket.Main()
 	println("starting server...")
 
 	err := http.ListenAndServe(HTTPPORT, handler.Router)
