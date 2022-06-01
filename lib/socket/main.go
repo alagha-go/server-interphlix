@@ -17,6 +17,9 @@ type Channel struct {
 	ID						string					`json:"id,omitempty" bson:"id,omitempty"`
 	TimeConnected			time.Time				`json:"time_connected,omitempty" bson:"time_connected,omitempty"`
 	IP						string					`json:"ip,omitempty" bson:"ip,omitempty"`
+	Verified				bool					`json:"verified,omitempty" bson:"verified,omitempty"`
+	Staff					bool					`json:"staff,omitempty" bson:"staff,omitempty"`
+	Admin					bool					`json:"admin,omitempty" bson:"admin,omitempty"`
 }
 
 type Message struct {
