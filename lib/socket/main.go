@@ -76,10 +76,5 @@ func OnConnection(channel *gosocketio.Channel) {
 
 /// func to handle socket.io disconnection 
 func OnDisconnection(channel *gosocketio.Channel) {
-	for index := range Channels {
-		if Channels[index].ID == channel.Id() {
-			RemoveChannel(index)
-			return
-		}
-	}
+	DeleteChannel(channel.Id())
 }
