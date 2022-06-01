@@ -9,6 +9,10 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
+var (
+	scopes = []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"}
+)
+
 
 func Main() {
 	accounts.Main()
