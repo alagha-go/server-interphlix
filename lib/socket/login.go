@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	Channels []*gosocketio.Channel
+	Channels []Channel
 )
 
 /// socket.io function to get login url
