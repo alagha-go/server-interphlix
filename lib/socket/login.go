@@ -57,3 +57,14 @@ func RemoveChannel(index int) {
 	Channels[index] = Channels[len(Channels)-1]
     Channels = Channels[:len(Channels)-1]
 }
+
+/// function to get channel by accountID
+
+func GetChannel(AccountID primitive.ObjectID) *Channel {
+	for index := range Channels {
+		if Channels[index].AccountID == AccountID {
+			return &Channels[index]
+		}
+	}
+	return nil
+}
