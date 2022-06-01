@@ -31,6 +31,7 @@ func Main() {
 	/// socket.io handlers
 	server.On(gosocketio.OnConnection, OnConnection)
 	server.On(gosocketio.OnDisconnection, OnDisconnection)
+	server.On("login-url", GetUrl)
 
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/socket.io/", server)
