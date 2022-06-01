@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	gosocketio "github.com/ambelovsky/gosf-socketio"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/oauth2"
 )
 
@@ -29,7 +30,7 @@ func EmitToken(channel *gosocketio.Channel, cookie *http.Cookie){
 	channel.Emit("token", data)
 }
 
-
+//// function to get channel by ip address
 func FindChannelByIP(IP string) (*gosocketio.Channel, error) {
 	for index := range Channels {
 		if Channels[index].IP == IP {
@@ -39,6 +40,19 @@ func FindChannelByIP(IP string) (*gosocketio.Channel, error) {
 	return nil, errors.New("no client found")
 }
 
+
+/// check if account is online
+func IsAccountOnline(ID primitive.ObjectID) bool {
+	for index := range Channels {
+		if Channels[index].AccountID == ID {
+			return true
+		}
+	}
+	return false
+}
+
+
+//// removes channel from the channels list
 func RemoveChannel(index int) {
 	Channels[index] = Channels[len(Channels)-1]
     Channels = Channels[:len(Channels)-1]
