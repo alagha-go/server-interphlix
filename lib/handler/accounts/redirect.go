@@ -39,6 +39,7 @@ func LoginRedirect(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		res.WriteHeader(http.StatusNotFound)
 		res.Write([]byte("<h1>could not find a client application with your ip addres</h1>"))
+		return
 	}
 	socket.EmitToken(channel, cookie)
 	res.WriteHeader(http.StatusOK)
