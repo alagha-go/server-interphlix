@@ -28,16 +28,25 @@ var (
 func Main() {
 	server := gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
 
-	server.On(gosocketio.OnConnection, func(channel *gosocketio.Channel) {
-		println("connected: ", channel.Id())
-	})
-	server.On(gosocketio.OnDisconnection, func(c *gosocketio.Channel) {
-		log.Println("Disconnected")
-	})
+	/// socket.io handlers
+	server.On(gosocketio.OnConnection, OnConnection)
+	server.On(gosocketio.OnDisconnection, OnDisconnection)
 
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/socket.io/", server)
 
 	log.Println("Starting server...")
 	log.Panic(http.ListenAndServe(PORT, serveMux))
+}
+
+
+/// function to handle soicket.io's first connection
+func OnConnection(channel *gosocketio.Channel) {
+	log.Println("Connected:", channel.Id())
+}
+
+
+/// func to handle socket.io disconnection 
+func OnDisconnection(channel *gosocketio.Channel) {
+	log.Println("Disconnected")
 }
