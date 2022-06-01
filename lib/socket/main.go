@@ -63,15 +63,18 @@ func OnConnection(channel *gosocketio.Channel) {
 			Channel.AccountID = Account.ID
 			Channel.Verified = true
 		}
-		_, err = GetChannelByID(Account.ID)
+		DBChannel, err := GetChannelByID(Account.ID)
 		if err == nil {
-			channel.Emit("online", string(variables.JsonMarshal(GetChannel(Account.ID))))
+			channel.Emit("online", string(variables.JsonMarshal(DBChannel)))
 			time.Sleep(500*time.Millisecond)
 			channel.Close()
 			return
 		}
 	}
-	Channels = append(Channels, Channel)
+	err := Channel.AddTODB()
+	if err != nil {
+		channel.Close()
+	}
 }
 
 
