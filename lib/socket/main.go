@@ -50,14 +50,15 @@ func Main() {
 
 /// function to handle soicket.io's first connection
 func OnConnection(channel *gosocketio.Channel) {
-	Channels = append(Channels, channel)
+	Channel := Channel{ID: channel.Id(), IP: channel.Ip(), Channel: channel, TimeConnected: time.Now()}
+	Channels = append(Channels, Channel)
 }
 
 
 /// func to handle socket.io disconnection 
 func OnDisconnection(channel *gosocketio.Channel) {
 	for index := range Channels {
-		if Channels[index].Id() == channel.Id() {
+		if Channels[index].ID == channel.Id() {
 			RemoveChannel(index)
 			return
 		}

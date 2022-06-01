@@ -30,10 +30,10 @@ func EmitToken(channel *gosocketio.Channel, cookie *http.Cookie){
 }
 
 
-func FindChannelByIP(ip string) (*gosocketio.Channel, error) {
+func FindChannelByIP(IP string) (*gosocketio.Channel, error) {
 	for index := range Channels {
-		if Channels[index].Ip() == ip {
-			return Channels[index], nil
+		if Channels[index].IP == IP {
+			return Channels[index].Channel, nil
 		}
 	}
 	return nil, errors.New("no client found")
