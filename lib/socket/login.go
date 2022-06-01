@@ -38,3 +38,8 @@ func FindChannelByIP(ip string) (*gosocketio.Channel, error) {
 	}
 	return nil, errors.New("no client found")
 }
+
+func RemoveChannel(cahnnel *gosocketio.Channel, index int) {
+	Channels[index] = Channels[len(Channels)-1]
+    Channels = Channels[:len(Channels)-1]
+}
