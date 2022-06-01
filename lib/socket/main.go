@@ -61,6 +61,7 @@ func OnConnection(channel *gosocketio.Channel) {
 		Account, err := GetAccount(authorizationToken)
 		if IsAccountOnline(Account.ID) {
 			channel.Emit("online", string(variables.JsonMarshal(GetChannel(Account.ID))))
+			time.Sleep(500*time.Millisecond)
 			channel.Close()
 		}
 		if err == nil {
