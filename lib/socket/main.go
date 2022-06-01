@@ -1,6 +1,7 @@
 package socket
 
 import (
+	"interphlix/lib/variables"
 	"log"
 	"net/http"
 	"time"
@@ -31,29 +32,42 @@ type Message struct {
 var (
 	PORT = ":9000"
 	scopes = []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"}
+	Server = gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
 )
 
 
 func Main() {
-	server := gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
 
 	/// socket.io handlers
-	server.On(gosocketio.OnConnection, OnConnection)
-	server.On(gosocketio.OnDisconnection, OnDisconnection)
-	server.On("online-users", GetOnlineUsers)
-	server.On("login-url", GetUrl)
+	Server.On(gosocketio.OnConnection, OnConnection)
+	Server.On(gosocketio.OnDisconnection, OnDisconnection)
+	Server.On("online-users", GetOnlineUsers)
+	Server.On("login-url", GetUrl)
 
 	serveMux := http.NewServeMux()
-	serveMux.Handle("/socket.io/", server)
+	serveMux.Handle("/socket.io/", Server)
 
-	log.Println("Starting server...")
+	log.Println("Starting Server...")
 	log.Panic(http.ListenAndServe(PORT, serveMux))
 }
 
 
 /// function to handle soicket.io's first connection
 func OnConnection(channel *gosocketio.Channel) {
+	var authorizationToken string
 	Channel := Channel{ID: channel.Id(), IP: channel.Ip(), Channel: channel, TimeConnected: time.Now()}
+	if len(channel.Request().Header["Cookie"][0]) > 0 {
+		authorizationToken = channel.Request().Header["Cookie"][0]
+		Account, err := GetAccount(authorizationToken)
+		if IsAccountOnline(Account.ID) {
+			channel.Emit("online", string(variables.JsonMarshal(GetChannel(Account.ID))))
+			channel.Close()
+		}
+		if err == nil {
+			Channel.AccountID = Account.ID
+			Channel.Verified = true
+		}
+	}
 	Channels = append(Channels, Channel)
 }
 
