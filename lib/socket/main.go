@@ -13,6 +13,7 @@ import (
 
 type Channel struct {
 	AccountID				primitive.ObjectID		`json:"_id,omitempty" bson:"_id,omitempty"`
+	Channel					*gosocketio.Channel		`json:"channel,omitempty" bson:"channel,omitempty"`
 	ID						string					`json:"id,omitempty" bson:"id,omitempty"`
 	TimeConnected			time.Time				`json:"time_connected,omitempty" bson:"time_connected,omitempty"`
 	IP						string					`json:"ip,omitempty" bson:"ip,omitempty"`
