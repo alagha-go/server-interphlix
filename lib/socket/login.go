@@ -1,12 +1,17 @@
 package socket
 
 import (
+	"errors"
 	"fmt"
 	"interphlix/lib/variables"
 	"net/http"
 
 	gosocketio "github.com/ambelovsky/gosf-socketio"
 	"golang.org/x/oauth2"
+)
+
+var (
+	Channels []*gosocketio.Channel
 )
 
 /// socket.io function to get login url
@@ -22,4 +27,14 @@ func GetUrl(channel *gosocketio.Channel) interface{} {
 func GetToken(channel *gosocketio.Channel, cookie *http.Cookie){
 	data := string(variables.JsonMarshal(cookie))
 	channel.Emit("token", data)
+}
+
+
+func FindChannelByIP(ip string) (*gosocketio.Channel, error) {
+	for index := range Channels {
+		if Channels[index].Ip() == ip {
+			return Channels[index], nil
+		}
+	}
+	return nil, errors.New("no client found")
 }
