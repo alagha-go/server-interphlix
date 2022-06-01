@@ -59,15 +59,16 @@ func OnConnection(channel *gosocketio.Channel) {
 	if len(channel.Request().Header["Cookie"][0]) > 0 {
 		authorizationToken = channel.Request().Header["Cookie"][0]
 		Account, err := GetAccount(authorizationToken)
-		if IsAccountOnline(Account.ID) {
+		if err == nil {
+			Channel.AccountID = Account.ID
+			Channel.Verified = true
+		}
+		_, err = GetChannelByID(Account.ID)
+		if err == nil {
 			channel.Emit("online", string(variables.JsonMarshal(GetChannel(Account.ID))))
 			time.Sleep(500*time.Millisecond)
 			channel.Close()
 			return
-		}
-		if err == nil {
-			Channel.AccountID = Account.ID
-			Channel.Verified = true
 		}
 	}
 	Channels = append(Channels, Channel)
