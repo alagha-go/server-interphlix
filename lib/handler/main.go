@@ -50,7 +50,6 @@ func Main() {
 
 	//// routes related to account
 		/// create routes
-	Router.HandleFunc("/login-url", accounts.LoginUrl).Methods("GET")
 	Router.HandleFunc("/login/redirect", accounts.LoginRedirect).Methods("GET")
 		/// get routes
 	Router.HandleFunc("/accounts", accounts.GetAccounts).Methods("GET")
