@@ -63,6 +63,7 @@ func OnConnection(channel *gosocketio.Channel) {
 			channel.Emit("online", string(variables.JsonMarshal(GetChannel(Account.ID))))
 			time.Sleep(500*time.Millisecond)
 			channel.Close()
+			return
 		}
 		if err == nil {
 			Channel.AccountID = Account.ID
