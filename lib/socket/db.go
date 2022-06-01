@@ -5,9 +5,10 @@ import (
 	"interphlix/lib/variables"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-
+/// function adds channel to the database
 func (Channel *Channel) AddTODB() error {
 	ctx := context.Background()
 	collection := variables.Client2.Database("Interphlix").Collection("Channels")
@@ -16,6 +17,8 @@ func (Channel *Channel) AddTODB() error {
 	return err
 }
 
+
+/// function deletes channel from the database
 func DeleteChannel(id string) {
 	ctx := context.Background()
 	collection := variables.Client2.Database("Interphlix").Collection("Channels")
@@ -24,4 +27,14 @@ func DeleteChannel(id string) {
 	if err != nil {
 		DeleteChannel(id)
 	}
+}
+
+//// function gets channel from the database
+func GetChannelByID(ID primitive.ObjectID) (Channel, error) {
+	var Channel Channel
+	ctx := context.Background()
+	collection := variables.Client2.Database("Interphlix").Collection("Channels")
+
+	err := collection.FindOne(ctx, bson.M{"_id": ID}).Decode(&Channel)
+	return Channel, err
 }
