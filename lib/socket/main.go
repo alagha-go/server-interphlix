@@ -43,6 +43,7 @@ func Main() {
 
 /// function to handle soicket.io's first connection
 func OnConnection(channel *gosocketio.Channel) {
+	Channels = append(Channels, channel)
 	log.Println("Connected:", channel.Id())
 }
 
