@@ -32,12 +32,11 @@ func EmitToken(channel *gosocketio.Channel, cookie *http.Cookie){
 
 //// function to get channel by ip address
 func FindChannelByIP(IP string) (*gosocketio.Channel, error) {
-	for index := range Channels {
-		if Channels[index].IP == IP {
-			return Server.GetChannel(Channels[index].ID)
-		}
+	Channel, err := GetChannelByIP(IP)
+	if err != nil {
+		return nil, err
 	}
-	return nil, errors.New("no client found")
+	return Server.GetChannel(Channel.ID)
 }
 
 
