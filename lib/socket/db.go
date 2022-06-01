@@ -38,3 +38,14 @@ func GetChannelByID(ID primitive.ObjectID) (Channel, error) {
 	err := collection.FindOne(ctx, bson.M{"_id": ID}).Decode(&Channel)
 	return Channel, err
 }
+
+
+//// function Gets channel from the database with ip filter
+func GetChannelByIP(IP string) (Channel, error) {
+	var Channel Channel
+	ctx := context.Background()
+	collection := variables.Client2.Database("Interphlix").Collection("Channels")
+
+	err := collection.FindOne(ctx, bson.M{"ip": IP}).Decode(&Channel)
+	return Channel, err
+}
