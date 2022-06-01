@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"interphlix/lib/accounts"
+	"interphlix/lib/socket"
 	"interphlix/lib/variables"
 	"io/ioutil"
 	"net/http"
@@ -28,13 +29,19 @@ func LoginRedirect(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(status)
 		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 	}
-	http.SetCookie(res, &http.Cookie{
+	cookie := &http.Cookie{
 		Name:    "token",
 		Value:   tokenString,
 		Path: "/",
 		Expires: time.Now().Add(120*time.Hour),
-	})
-	res.WriteHeader(200)
+	}
+	channel, err := socket.FindChannelByIP(req.Header["X-Real-Ip"][0])
+	if err != nil {
+		res.WriteHeader(http.StatusNotFound)
+		res.Write([]byte("<h1>could not find a client application with your ip addres</h1>"))
+	}
+	socket.EmitToken(channel, cookie)
+	res.WriteHeader(http.StatusOK)
 	res.Write([]byte(fmt.Sprintf("<h1>Successfully loged in to Interphlix. Welcome %s</h1>", account.Name)))
 }
 
