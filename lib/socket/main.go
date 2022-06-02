@@ -1,10 +1,15 @@
 package socket
 
 import (
+	"interphlix/lib/socket/server"
 	"log"
 	"net"
 )
 
+
+var (
+	Server server.Server
+)
 
 
 func Main() {
@@ -23,4 +28,16 @@ func GetMyIPAddress() string {
 
     println(localAddr)
 	return localAddr
+}
+
+func SetServer(IP string) {
+	Servers, err := server.GetAllServers()
+	HandlError(err)
+	for _, server := range Servers {
+		if server.LocalIPAddress == IP {
+			Server = server
+			return
+		}
+	}
+	log.Panic("this server is not in the servers record")
 }
