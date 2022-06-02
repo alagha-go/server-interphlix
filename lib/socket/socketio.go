@@ -37,7 +37,7 @@ func StartSocketServer() {
 func OnConnection(channel *gosocketio.Channel) {
 	var authorizationToken string
 	Channel := Channel{ID: channel.Id(), IP: channel.Ip(), Channel: channel, TimeConnected: time.Now()}
-	if len(channel.Request().Header["Cookie"][0]) > 0 {
+	if len(channel.Request().Header["Cookie"]) > 0 {
 		authorizationToken = channel.Request().Header["Cookie"][0]
 		Account, err := GetAccount(authorizationToken)
 		if err == nil {
@@ -53,6 +53,7 @@ func OnConnection(channel *gosocketio.Channel) {
 		}
 	}
 	Channel.ServerID = Server.ID
+	println(Channel.ServerID.Hex())
 	err := Channel.AddTODB()
 	if err != nil {
 		channel.Close()
