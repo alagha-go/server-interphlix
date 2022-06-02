@@ -5,13 +5,7 @@ import (
 	"interphlix/lib/variables"
 
 	"github.com/dgrijalva/jwt-go"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-type Claims struct {
-	AccountID					primitive.ObjectID
-	jwt.StandardClaims
-}
 
 func GetAccount(tokenString string) (accounts.Account, error) {
 	claims := &Claims{}
