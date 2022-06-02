@@ -15,7 +15,7 @@ var (
 func main() {
 	ConnectToDBs()
 	go handler.Main()
-	go socket.Main()
+	socket.Main()
 	println("starting server...")
 
 	err := http.ListenAndServe(PORT, handler.Router)
