@@ -53,7 +53,6 @@ func OnConnection(channel *gosocketio.Channel) {
 		}
 	}
 	Channel.ServerID = Server.ID
-	println(Channel.ServerID.Hex())
 	err := Channel.AddTODB()
 	if err != nil {
 		channel.Close()
