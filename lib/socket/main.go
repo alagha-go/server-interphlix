@@ -19,6 +19,7 @@ func Main() {
 		log.Panic(err)
 	}
 	go StartSocketServer()
+	go CleanChannelsCollection()
 }
 
 
