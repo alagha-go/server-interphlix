@@ -13,8 +13,8 @@ var (
 
 
 func Main() {
-	go StartSocketServer()
 	SetServer(GetMyIPAddress())
+	go StartSocketServer()
 }
 
 func GetMyIPAddress() string {
