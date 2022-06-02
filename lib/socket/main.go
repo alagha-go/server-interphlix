@@ -14,9 +14,12 @@ var (
 
 func Main() {
 	SetServer(GetMyIPAddress())
+	Server.SetWorking(true)
 	go StartSocketServer()
 }
 
+
+/// get the local Ip addres in which the machine is running on
 func GetMyIPAddress() string {
 	 conn, err := net.Dial("udp", "8.8.8.8:80")
     if err != nil {
@@ -30,6 +33,8 @@ func GetMyIPAddress() string {
 	return localAddr
 }
 
+
+/// Inititalizes Server variable
 func SetServer(IP string) {
 	Servers, err := server.GetAllServers()
 	HandlError(err)
