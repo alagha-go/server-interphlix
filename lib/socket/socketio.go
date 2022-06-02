@@ -15,20 +15,20 @@ import (
 var (
 	PORT = ":9000"
 	scopes = []string{"https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"}
-	Server = gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
+	SocketServer = gosocketio.NewServer(transport.GetDefaultWebsocketTransport())
 )
 
 func StartSocketServer() {
 	/// socket.io handlers
-	Server.On(gosocketio.OnConnection, OnConnection)
-	Server.On(gosocketio.OnDisconnection, OnDisconnection)
-	Server.On("online-users", GetOnlineUsers)
-	Server.On("login-url", GetUrl)
+	SocketServer.On(gosocketio.OnConnection, OnConnection)
+	SocketServer.On(gosocketio.OnDisconnection, OnDisconnection)
+	SocketServer.On("online-users", GetOnlineUsers)
+	SocketServer.On("login-url", GetUrl)
 
 	serveMux := http.NewServeMux()
-	serveMux.Handle("/socket.io/", Server)
+	serveMux.Handle("/socket.io/", SocketServer)
 
-	log.Println("Starting Server...")
+	log.Println("Starting SocketServer...")
 	log.Panic(http.ListenAndServe(PORT, serveMux))
 }
 

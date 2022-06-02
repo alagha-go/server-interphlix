@@ -15,7 +15,7 @@ func FindChannelByIP(IP string) (*gosocketio.Channel, error) {
 	if err != nil {
 		return nil, err
 	}
-	return Server.GetChannel(Channel.ID)
+	return SocketServer.GetChannel(Channel.ID)
 }
 
 
