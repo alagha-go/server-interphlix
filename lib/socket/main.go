@@ -14,7 +14,7 @@ var (
 
 func Main() {
 	go StartSocketServer()
-	GetMyIPAddress()
+	SetServer(GetMyIPAddress())
 }
 
 func GetMyIPAddress() string {
