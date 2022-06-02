@@ -14,7 +14,10 @@ var (
 
 func Main() {
 	SetServer(GetMyIPAddress())
-	Server.SetWorking(true)
+	err := Server.SetWorking(true)
+	if err != nil {
+		log.Panic(err)
+	}
 	go StartSocketServer()
 }
 
