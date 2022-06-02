@@ -18,7 +18,9 @@ func EmitToken(channel *gosocketio.Channel, cookie *http.Cookie){
 	if err == nil {
 		channel.Emit("online", string(variables.JsonMarshal(DBChannel)))
 		time.Sleep(500*time.Millisecond)
-		channel.Close()
+		if channel.Ip() != DBChannel.IP {
+			channel.Close()
+		}
 		return
 	}
 	Channel.AccountID = Account.ID
