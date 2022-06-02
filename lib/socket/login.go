@@ -2,8 +2,6 @@ package socket
 
 import (
 	"fmt"
-	"interphlix/lib/variables"
-	"net/http"
 
 	gosocketio "github.com/ambelovsky/gosf-socketio"
 	"golang.org/x/oauth2"
@@ -19,13 +17,6 @@ func GetUrl(channel *gosocketio.Channel) interface{} {
 	HandlError(err)
 	url := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline, oauth2.ApprovalForce)
 	return fmt.Sprintf(`{"url": "%s"}`, url)
-}
-
-
-/// socket.io function to get Authorization token
-func EmitToken(channel *gosocketio.Channel, cookie *http.Cookie){
-	data := string(variables.JsonMarshal(cookie))
-	channel.Emit("token", data)
 }
 
 //// function to get channel by ip address
