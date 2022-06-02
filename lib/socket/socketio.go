@@ -1,6 +1,5 @@
 package socket
 
-
 import (
 	"interphlix/lib/variables"
 	"log"
@@ -53,6 +52,7 @@ func OnConnection(channel *gosocketio.Channel) {
 			return
 		}
 	}
+	Channel.ServerID = Server.ID
 	err := Channel.AddTODB()
 	if err != nil {
 		channel.Close()
