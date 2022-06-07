@@ -34,7 +34,6 @@ func GetMyIPAddress() string {
 
     localAddr := conn.LocalAddr().(*net.UDPAddr).IP.String()
 
-    println(localAddr)
 	return localAddr
 }
 
