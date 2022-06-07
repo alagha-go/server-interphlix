@@ -19,6 +19,7 @@ func (Rate *Rate) RateMovie() string {
 		return string(variables.JsonMarshal(variables.Error{Error: "rate already exists"}))
 	}
 	Rate.ID = primitive.NewObjectID()
+	Rate.TimeRated = time.Now()
 	_, err := collection.InsertOne(ctx, Rate)
 	if err != nil {
 		variables.HandleError(err, "ratings", "RateMovie", "error while inserting rate to the database")
