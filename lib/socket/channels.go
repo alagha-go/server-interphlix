@@ -30,3 +30,16 @@ func RemoveUnNeededChannels() {
 		}
 	}
 }
+
+
+func RemoveMyChannels() {
+	Servers, _ := server.GetAllServers()
+	for _, Server := range Servers {
+		if Server.LocalIPAddress == GetMyIPAddress() {
+			ctx := context.Background()
+			collection := variables.Client2.Database("Interphlix").Collection("Channels")
+
+			collection.DeleteMany(ctx, bson.M{"server_id": Server.ID})
+		}
+	}
+}
