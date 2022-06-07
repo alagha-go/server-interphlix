@@ -65,5 +65,6 @@ func (Rate *Rate) Update() string {
 		variables.HandleError(err, "ratings", "Rate.Update", "error while updating a rating")
 		return `{"error": "internal server error"}`
 	}
+	ChangeRating(&movies.Movie{ID: Rate.MovieID})
 	return string(variables.JsonMarshal(Rate))
 }
