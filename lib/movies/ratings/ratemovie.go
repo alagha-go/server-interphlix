@@ -4,7 +4,6 @@ import (
 	"context"
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
-	"net/http"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -12,21 +11,21 @@ import (
 )
 
 
-func RateMovie(Rate Rate) ([]byte, int) {
+func RateMovie(Rate Rate) string {
 	Movie := movies.Movie{ID: Rate.MovieID}
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Ratings")
 	if Rate.Exists() {
-		return variables.JsonMarshal(variables.Error{Error: "rate already exists"}), http.StatusBadRequest
+		return string(variables.JsonMarshal(variables.Error{Error: "rate already exists"}))
 	}
 	Rate.ID = primitive.NewObjectID()
 	_, err := collection.InsertOne(ctx, Rate)
 	if err != nil {
 		variables.HandleError(err, "ratings", "RateMovie", "error while inserting rate to the database")
-		return variables.JsonMarshal(variables.Error{Error: "could save your rate"}), http.StatusInternalServerError
+		return string(variables.JsonMarshal(variables.Error{Error: "could save your rate"}))
 	}
 	UpdateRate(&Movie, Rate.Stars)
-	return variables.JsonMarshal(Rate), http.StatusOK
+	return string(variables.JsonMarshal(Rate))
 }
 
 
