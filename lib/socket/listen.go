@@ -46,6 +46,15 @@ func OnRateMovie(channel *gosocketio.Channel, data string) interface{} {
 		return `{"error": "could not decode json data"}`
 	}
 	Rate.AccountID = Channel.AccountID
-	data = Rate.RateMovie()
-	return data
+	return Rate.RateMovie()
+}
+
+/// socket.io function to handle request to update rate
+func OnRateUpdate(channel *gosocketio.Channel, data string) interface{} {
+	var Rate ratings.Rate
+	err := json.Unmarshal([]byte(data), &Rate)
+	if err != nil {
+		return `{"error": "could not decode json data"}`
+	}
+	return Rate.Update()
 }
