@@ -5,6 +5,7 @@ import (
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -36,4 +37,34 @@ func (rate *Rate) Exists() bool {
 
 	err := collection.FindOne(ctx, bson.M{"movie_id": rate.MovieID, "account_id": rate.AccountID}).Decode(&Rate)
 	return err == nil
+}
+
+
+func (Rate *Rate) Update() string {
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Ratings")
+
+	if !Rate.ExistsByID() {
+		return `{"error": "rating does not exist"}`
+	}
+	
+	filter := bson.M{
+		"_id": bson.M{
+			"$eq": Rate.ID, // check if bool field has value of 'false'
+		},
+	}
+	Rate.TimeRated = time.Now()
+
+	update := bson.M{"$set": bson.M{
+		"stars": Rate.Stars,
+		"review": Rate.Review,
+		"time_rated": Rate.TimeRated,
+	}}
+
+	_, err := collection.UpdateOne(ctx, filter, update)
+	if err != nil {
+		variables.HandleError(err, "ratings", "Rate.Update", "error while updating a rating")
+		return `{"error": "internal server error"}`
+	}
+	return string(variables.JsonMarshal(Rate))
 }
