@@ -50,9 +50,15 @@ func ChangeRating(Movie *movies.Movie) {
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	collection1 := variables.Client.Database("Interphlix").Collection("Ratings")
 
-	err := collection1.FindOne(ctx, bson.M{"movie_id":Movie.ID}).Decode(&Ratings)
+	cursor, err := collection1.Find(ctx, bson.M{"movie_id":Movie.ID})
 	if err != nil {
 		variables.HandleError(err, "movies", "Movie.ChangeRating", "error while getting ratings from the database")
+		return
+	}
+
+	err = cursor.All(ctx, &Ratings)
+	if err != nil {
+		variables.HandleError(err, "movies", "Movie.ChangeRating", "error while decoding cursor")
 		return
 	}
 
