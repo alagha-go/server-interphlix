@@ -13,5 +13,5 @@ type Rate struct {
 	MovieID								primitive.ObjectID								`json:"movie_id,omitempty" bson:"movie_id,omitempty"`
 	Stars								int												`json:"stars,omitempty" bson:"stars,omitempty"`
 	Review								string											`json:"review,omitempty" bson:"review,omitempty"`
-	TimeRated							time.Time										`json:"time-rated,omitempty" bson:"time-rated,omitempty"`
+	TimeRated							time.Time										`json:"time_rated,omitempty" bson:"time_rated,omitempty"`
 }
