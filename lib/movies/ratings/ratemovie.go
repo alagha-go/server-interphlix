@@ -11,7 +11,7 @@ import (
 )
 
 
-func RateMovie(Rate Rate) string {
+func (Rate *Rate) RateMovie() string {
 	Movie := movies.Movie{ID: Rate.MovieID}
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Ratings")
