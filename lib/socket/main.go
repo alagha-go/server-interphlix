@@ -14,6 +14,7 @@ var (
 
 func Main() {
 	SetServer(GetMyIPAddress())
+	RemoveMyChannels()
 	err := Server.SetWorking(true)
 	if err != nil {
 		log.Panic(err)
@@ -40,6 +41,7 @@ func GetMyIPAddress() string {
 
 /// Inititalizes Server variable
 func SetServer(IP string) {
+	println(IP)
 	Servers, err := server.GetAllServers()
 	HandlError(err)
 	for _, server := range Servers {
