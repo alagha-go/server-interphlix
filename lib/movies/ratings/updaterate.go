@@ -20,8 +20,10 @@ func UpdateRate(Movie *movies.Movie, stars int) {
 		return
 	}
 
-	rating = Movie.Rating + float64(stars)
-	rating = rating / 2
+	if Movie.Rating != 0 {
+		rating = Movie.Rating + float64(stars)
+		rating = rating / 2
+	}
 	
 	filter := bson.M{
 		"_id": bson.M{
