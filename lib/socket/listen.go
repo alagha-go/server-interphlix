@@ -32,7 +32,7 @@ func GetUrl(channel *gosocketio.Channel) interface{} {
 
 
 /// socket.io function to handle ratemovie
-func OnRate(channel *gosocketio.Channel, data string) interface{} {
+func OnRateMovie(channel *gosocketio.Channel, data string) interface{} {
 	Channel, err := GetChannelByIP(channel.Ip())
 	if err != nil {
 		channel.Emit("error", `{"error": "client does not exist"}`)

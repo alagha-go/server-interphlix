@@ -23,6 +23,7 @@ func StartSocketServer() {
 	SocketServer.On(gosocketio.OnDisconnection, OnDisconnection)
 	SocketServer.On("online-users", GetOnlineUsers)
 	SocketServer.On("login-url", GetUrl)
+	SocketServer.On("rate-movie", OnRateMovie)
 
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/socket.io/", SocketServer)
