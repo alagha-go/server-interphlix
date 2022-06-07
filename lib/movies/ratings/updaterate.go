@@ -21,10 +21,12 @@ func UpdateRate(Movie *movies.Movie, stars int) {
 	}
 
 	rating = Movie.Rating + float64(stars)
-	
-	if Movie.Rating != 0 {
+
+	if Movie.Raters != 0 {
 		rating = rating / 2
 	}
+
+	Movie.Raters=+1
 	
 	filter := bson.M{
 		"_id": bson.M{
@@ -34,6 +36,7 @@ func UpdateRate(Movie *movies.Movie, stars int) {
 
 	update := bson.M{"$set": bson.M{
 		"rating": rating,
+		"raters": Movie.Raters,
 	}}
 
 	collection.UpdateOne(ctx, filter, update)
