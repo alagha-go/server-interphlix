@@ -46,6 +46,6 @@ func OnRateMovie(channel *gosocketio.Channel, data string) interface{} {
 		return `{"error": "could not decode json data"}`
 	}
 	Rate.AccountID = Channel.AccountID
-	content, _ := ratings.RateMovie(Rate)
-	return string(content)
+	data = Rate.RateMovie()
+	return data
 }
