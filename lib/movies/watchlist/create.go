@@ -12,6 +12,10 @@ func (WatchList *WatchList) Create() string {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Watchlist")
 
+	if WatchList.Exists() {
+		return "already in watchlist"
+	}
+
 	_, err := collection.InsertOne(ctx, WatchList)
 	if err != nil {
 		variables.HandleError(err, "watchlist", "WatchList.Create", "error while inserting document to the database")
