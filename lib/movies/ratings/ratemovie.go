@@ -2,8 +2,8 @@ package ratings
 
 import (
 	"context"
-	"interphlix/lib/movies"
 	"interphlix/lib/variables"
+	"net/http"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -11,22 +11,20 @@ import (
 )
 
 
-func (Rate *Rate) RateMovie() string {
-	Movie := movies.Movie{ID: Rate.MovieID}
+func (Rate *Rate) RateMovie() (string, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Ratings")
 	if Rate.Exists() {
-		return string(variables.JsonMarshal(variables.Error{Error: "rate already exists"}))
+		return string(variables.JsonMarshal(variables.Error{Error: "rate already exists"})), http.StatusConflict
 	}
 	Rate.ID = primitive.NewObjectID()
 	Rate.TimeRated = time.Now()
 	_, err := collection.InsertOne(ctx, Rate)
 	if err != nil {
 		variables.HandleError(err, "ratings", "RateMovie", "error while inserting rate to the database")
-		return string(variables.JsonMarshal(variables.Error{Error: "could save your rate"}))
+		return string(variables.JsonMarshal(variables.Error{Error: "could save your rate"})), http.StatusInternalServerError
 	}
-	UpdateRate(&Movie, Rate.Stars)
-	return string(variables.JsonMarshal(Rate))
+	return string(variables.JsonMarshal(Rate)), http.StatusCreated
 }
 
 
@@ -40,12 +38,12 @@ func (rate *Rate) Exists() bool {
 }
 
 
-func (Rate *Rate) Update() string {
+func (Rate *Rate) Update() (string, int) {
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Ratings")
 
 	if !Rate.ExistsByID() {
-		return `{"error": "rating does not exist"}`
+		return `{"error": "rating does not exist"}`, http.StatusNotFound
 	}
 	
 	filter := bson.M{
@@ -64,8 +62,7 @@ func (Rate *Rate) Update() string {
 	_, err := collection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		variables.HandleError(err, "ratings", "Rate.Update", "error while updating a rating")
-		return `{"error": "internal server error"}`
+		return `{"error": "internal server error"}`, http.StatusInternalServerError
 	}
-	ChangeRating(&movies.Movie{ID: Rate.MovieID})
-	return string(variables.JsonMarshal(Rate))
+	return string(variables.JsonMarshal(Rate)), http.StatusOK
 }

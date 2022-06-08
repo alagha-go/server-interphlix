@@ -1,8 +1,7 @@
-package ratings
+package movies
 
 import (
 	"context"
-	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,7 +9,7 @@ import (
 
 
 
-func UpdateRate(Movie *movies.Movie, stars int) {
+func (Movie *Movie) UpdateRate(stars int) {
 	var rating float64
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -43,7 +42,7 @@ func UpdateRate(Movie *movies.Movie, stars int) {
 }
 
 
-func ChangeRating(Movie *movies.Movie) {
+func (Movie *Movie) ChangeRating() {
 	var Ratings []Rate
 	var rating float64
 	ctx := context.Background()
