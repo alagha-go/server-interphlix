@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func GetWatchList(res http.ResponseWriter, req *http.Request) {
+func GetRatedMovies(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	valid := accounts.ValidateRequest(req)
 	if !valid {
