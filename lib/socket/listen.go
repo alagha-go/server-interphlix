@@ -3,6 +3,7 @@ package socket
 import (
 	"encoding/json"
 	"fmt"
+	"interphlix/lib/movies"
 	"interphlix/lib/movies/ratings"
 	"interphlix/lib/variables"
 	"time"
@@ -46,7 +47,12 @@ func OnRateMovie(channel *gosocketio.Channel, data string) interface{} {
 		return `{"error": "could not decode json data"}`
 	}
 	Rate.AccountID = Channel.AccountID
-	return Rate.RateMovie()
+	data, status := Rate.RateMovie()
+	if status == 201 {
+		var Movie = movies.Movie{ID: Rate.MovieID}
+		Movie.UpdateRate(Rate.Stars)
+	}
+	return data
 }
 
 /// socket.io function to handle request to update rate
@@ -56,5 +62,10 @@ func OnRateUpdate(channel *gosocketio.Channel, data string) interface{} {
 	if err != nil {
 		return `{"error": "could not decode json data"}`
 	}
-	return Rate.Update()
+	data, status := Rate.Update()
+	if status == 200 {
+		var Movie = movies.Movie{ID: Rate.MovieID}
+		Movie.ChangeRating()
+	}
+	return data
 }
