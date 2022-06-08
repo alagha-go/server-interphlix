@@ -4,6 +4,7 @@ import (
 	"context"
 	"interphlix/lib/movies/casts"
 	"interphlix/lib/movies/genres"
+	"interphlix/lib/movies/ratings"
 	"interphlix/lib/movies/types"
 	"interphlix/lib/variables"
 
@@ -18,6 +19,7 @@ func Main() {
 	types.Main()
 	genres.Main()
 	casts.Main()
+	ratings.Main()
 	Listener()
 }
 

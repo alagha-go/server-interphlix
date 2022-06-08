@@ -3,7 +3,6 @@ package handler
 import (
 	"interphlix/lib/handler/accounts"
 	"interphlix/lib/handler/movies"
-	"interphlix/lib/movies/ratings"
 	"interphlix/lib/variables"
 	"net/http"
 
@@ -20,7 +19,6 @@ var (
 func Main() {
 	movies.Main()
 	accounts.Main()
-	ratings.Main()
 	println("server successfully started.")
 
 	//// routes that are related to movies
