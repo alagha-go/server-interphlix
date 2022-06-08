@@ -6,6 +6,7 @@ import (
 	"interphlix/lib/movies/genres"
 	"interphlix/lib/movies/ratings"
 	"interphlix/lib/movies/types"
+	"interphlix/lib/movies/watchlist"
 	"interphlix/lib/variables"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -20,6 +21,7 @@ func Main() {
 	genres.Main()
 	casts.Main()
 	ratings.Main()
+	watchlist.Main()
 	Listener()
 }
 
