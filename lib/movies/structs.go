@@ -1,6 +1,7 @@
 package movies
 
 import (
+	"interphlix/lib/movies/ratings"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -60,4 +61,9 @@ type Server struct {
     Id                                          string                               	`json:"id,omitempty" bson:"id,omitempty"`
     WatchID                                     string                               	`json:"watch_id,omitempty" bson:"watch_id,omitempty"`
     Url                                         string                               	`json:"url,omitempty" bson:"url,omitempty"`
+}
+
+type RatedMovie struct {
+    Rate                                        ratings.Rate                            `json:"rate,omitempty" bson:"rate,omitempty"`
+    Movie                                       Movie                                   `json:"movie,omitempty" bson:"movie,omitempty"`
 }
