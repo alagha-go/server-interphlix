@@ -24,7 +24,7 @@ func GetRatedMovies(AccountID primitive.ObjectID) ([]byte, int) {
 		variables.HandleError(err, "movies", "GetRatedMovies", "error while getting ratings from the database")
 		return variables.JsonMarshal(variables.Error{Error: "could not get ratings from the database"}), http.StatusInternalServerError
 	}
-	err = cursor.All(ctx, Ratings)
+	err = cursor.All(ctx, &Ratings)
 	if err != nil {
 		variables.HandleError(err, "movies", "GetRatedMovies", "error while decoding ratings from the cursor")
 		return variables.JsonMarshal(variables.Error{Error: "could not decode data"}), http.StatusInternalServerError
