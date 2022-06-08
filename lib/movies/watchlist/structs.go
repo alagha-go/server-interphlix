@@ -1,4 +1,4 @@
-package wtachlist
+package watchlist
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
