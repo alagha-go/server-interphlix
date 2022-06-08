@@ -13,6 +13,7 @@ import (
 
 func Main() {
 	LoadWatchList()
+	Listener()
 	go ListenLength()
 }
 
