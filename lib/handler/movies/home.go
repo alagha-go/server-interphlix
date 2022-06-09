@@ -23,11 +23,11 @@ func GetHomeMovies(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusNotFound)
 		return
 	}
-	index, err := strconv.Atoi(req.URL.Query().Get("index"))
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
 	if err != nil {
-		index = 0
+		round = 0
 	}
-	data, status := movies.GetMovies(index)
+	data, status := movies.GetMovies(round)
 	res.WriteHeader(status)
 	res.Write(data)
 }
