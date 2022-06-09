@@ -12,10 +12,10 @@ import (
 
 func GetMovieRatings(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	ID, err := primitive.ObjectIDFromHex(req.URL.Query().Get("id"))

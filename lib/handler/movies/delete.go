@@ -15,10 +15,10 @@ import (
 
 func DeleteUrls(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	params := mux.Vars(req)
@@ -36,6 +36,12 @@ func DeleteUrls(res http.ResponseWriter, req *http.Request) {
 
 func DeleteServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
+		return
+	}
 	params := mux.Vars(req)
 	ID, err := primitive.ObjectIDFromHex(params["id"])
 	if err != nil {

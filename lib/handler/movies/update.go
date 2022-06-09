@@ -15,10 +15,10 @@ import (
 /// http handler to handle update request to add server to movie.Server
 func AddServer(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	ID, err := primitive.ObjectIDFromHex(mux.Vars(req)["id"])
@@ -43,10 +43,10 @@ func AddServer(res http.ResponseWriter, req *http.Request) {
 /// http handler to handle get request to add url to movies urls
 func AddUrl(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	params := mux.Vars(req)

@@ -10,10 +10,10 @@ import (
 
 func GetRatedMovies(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	cookie, err := req.Cookie("token")
@@ -40,10 +40,10 @@ func GetRatedMovies(res http.ResponseWriter, req *http.Request) {
 
 func GetMyWatchlist(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	cookie, err := req.Cookie("token")
@@ -70,10 +70,10 @@ func GetMyWatchlist(res http.ResponseWriter, req *http.Request) {
 
 func GetMyHistory(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	cookie, err := req.Cookie("token")

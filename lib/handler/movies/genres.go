@@ -12,10 +12,10 @@ import (
 
 func GetAllGenres(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	res.WriteHeader(200)
@@ -25,10 +25,10 @@ func GetAllGenres(res http.ResponseWriter, req *http.Request) {
 
 func GetGenreByType(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
-	valid := accounts.ValidateRequest(req)
-	if !valid {
-		res.WriteHeader(http.StatusUnauthorized)
-		res.Write(variables.JsonMarshal(variables.Error{Error: "unauthorized"}))
+	err, status := accounts.ValidateRequest(req, "user")
+	if err != nil {
+		res.WriteHeader(status)
+		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
 	Type := mux.Vars(req)["type"]
