@@ -40,4 +40,5 @@ func ListenForWatchlistCollection() {
 		json.Unmarshal(content, &Watchlist)
 		Watchlist.Create()
 	}
+	ListenForWatchlistCollection()
 }
