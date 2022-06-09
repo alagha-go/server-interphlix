@@ -46,3 +46,14 @@ func (history *History) Update() {
 		return
 	}
 }
+
+
+func (History *History) LocalUpdate() {
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("History")
+
+	filter := bson.M{"_id": bson.M{"$eq": History.ID}}
+	update := bson.M{"$set": History}
+
+	collection.UpdateOne(ctx, filter, update)
+}
