@@ -5,6 +5,7 @@ import (
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
+	"strconv"
 )
 
 func GetRatedMovies(res http.ResponseWriter, req *http.Request) {
@@ -27,7 +28,11 @@ func GetRatedMovies(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
 		return
 	}
-	data, status := movies.GetRatedMovies(account.ID)
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
+	if err != nil {
+		round = 0
+	}
+	data, status := movies.GetRatedMovies(account.ID, round)
 	res.WriteHeader(status)
 	res.Write(data)
 }
@@ -53,7 +58,11 @@ func GetMyWatchlist(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
 		return
 	}
-	data, status := movies.GetMyWatchlist(account.ID)
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
+	if err != nil {
+		round = 0
+	}
+	data, status := movies.GetMyWatchlist(account.ID, round)
 	res.WriteHeader(status)
 	res.Write(data)
 }
@@ -79,7 +88,11 @@ func GetMyHistory(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: "account does not exist"}))
 		return
 	}
-	data, status := movies.GetMyHistory(account.ID)
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
+	if err != nil {
+		round = 0
+	}
+	data, status := movies.GetMyHistory(account.ID, round)
 	res.WriteHeader(status)
 	res.Write(data)
 }

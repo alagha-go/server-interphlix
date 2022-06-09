@@ -42,7 +42,11 @@ func GetMoviesByGenre(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	genre := mux.Vars(req)["genre"]
-	data, status := movies.GetMoviesByGenre(genre)
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
+	if err != nil {
+		round = 0
+	}
+	data, status := movies.GetMoviesByGenre(genre, round)
 	res.WriteHeader(status)
 	res.Write(data)
 }
