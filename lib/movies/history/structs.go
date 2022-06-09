@@ -13,6 +13,7 @@ type History struct {
 }
 
 type Episode struct {
+	SeasonIndex					int											`json:"season_index,omitempty" bson:"season_index,omitempty"`
 	ID							primitive.ObjectID							`json:"_id,omitempty" bson:"_id,omitempty"`
 	Percentage					float64										`json:"percentage,omitempty" bson:"percentage,omitempty"`
 }
