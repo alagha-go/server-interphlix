@@ -32,6 +32,16 @@ func (History *History) Create() {
 }
 
 
+func (History *History) LocalCreate() {
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("History")
+
+	collection.InsertOne(ctx, History)
+}
+
+
+
+
 func (history *History) Exists() bool {
 	var History History
 	ctx := context.Background()
