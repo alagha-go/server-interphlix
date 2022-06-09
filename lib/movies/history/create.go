@@ -10,7 +10,11 @@ import (
 )
 
 
-func (History *History) Create() string {
+func (History *History) Create() {
+	if History.Exists() {
+		History.Update()
+		return
+	}
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("History")
 
@@ -23,9 +27,8 @@ func (History *History) Create() string {
 	_, err := collection.InsertOne(ctx, History)
 	if err != nil {
 		variables.HandleError(err, "history", "History.Create", "error while inserting document to the database")
-		return `{"error": "could not add movie to watchlist"}`
+		return
 	}
-	return "success"
 }
 
 
