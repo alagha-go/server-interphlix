@@ -36,13 +36,11 @@ func GetMoviesByGenre(genre string, round int) ([]byte, int) {
 		return []byte(`{"error": "end"}`), http.StatusOK
 	}
 
-	if len(Movies) >= end {
+	if end >= len(Movies) {
 		return variables.JsonMarshal(Movies[start:]), http.StatusOK
 	}
 
 	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
-
-	return variables.JsonMarshal(movies), http.StatusOK
 }
 
 

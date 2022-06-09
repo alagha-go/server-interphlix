@@ -48,11 +48,9 @@ func GetRatedMovies(AccountID primitive.ObjectID, round int) ([]byte, int) {
 		return []byte(`{"error": "end"}`), http.StatusOK
 	}
 
-	if len(RatedMovies) >= end {
+	if end >= len(RatedMovies) {
 		return variables.JsonMarshal(RatedMovies[start:]), http.StatusOK
 	}
 
 	return variables.JsonMarshal(RatedMovies[start:end]), http.StatusOK
-
-	return variables.JsonMarshal(RatedMovies), http.StatusOK
 }
