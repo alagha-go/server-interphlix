@@ -12,9 +12,11 @@ import (
 
 
 
-func GetRatedMovies(AccountID primitive.ObjectID) ([]byte, int) {
+func GetRatedMovies(AccountID primitive.ObjectID, round int) ([]byte, int) {
 	var Ratings []ratings.Rate
 	var RatedMovies []RatedMovie
+	start := 0
+	end := 30
 	ctx := context.Background()
 	collection1 := variables.Client1.Database("Interphlix").Collection("Ratings")
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
@@ -36,6 +38,21 @@ func GetRatedMovies(AccountID primitive.ObjectID) ([]byte, int) {
 		collection.FindOne(ctx, bson.M{"_id": Ratings[index].MovieID}).Decode(&RatedMovie.Movie)
 		RatedMovies = append(RatedMovies, RatedMovie)
 	}
+
+	if round != 0 {
+		start = round * 30
+		end = round * 30 + 30
+	}
+
+	if start >= len(RatedMovies) {
+		return []byte(`{"error": "end"}`), http.StatusOK
+	}
+
+	if len(RatedMovies) >= end {
+		return variables.JsonMarshal(RatedMovies[start:]), http.StatusOK
+	}
+
+	return variables.JsonMarshal(RatedMovies[start:end]), http.StatusOK
 
 	return variables.JsonMarshal(RatedMovies), http.StatusOK
 }

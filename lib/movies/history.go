@@ -12,9 +12,11 @@ import (
 )
 
 
-func GetMyHistory(AccountID primitive.ObjectID) ([]byte, int) {
+func GetMyHistory(AccountID primitive.ObjectID, round int) ([]byte, int) {
 	var Histories []history.History
 	var Movies []Movie
+	start := 0
+	end := 30
 
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -40,6 +42,21 @@ func GetMyHistory(AccountID primitive.ObjectID) ([]byte, int) {
 			Movies = append(Movies, Movie)
 		}
 	}
+
+	if round != 0 {
+		start = round * 30
+		end = round * 30 + 30
+	}
+
+	if start >= len(Movies) {
+		return []byte(`{"error": "end"}`), http.StatusOK
+	}
+
+	if len(Movies) >= end {
+		return variables.JsonMarshal(Movies[start:]), http.StatusOK
+	}
+
+	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
 
 	return variables.JsonMarshal(Movies), http.StatusOK
 }

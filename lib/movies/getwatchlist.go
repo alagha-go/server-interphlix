@@ -11,9 +11,11 @@ import (
 )
 
 
-func GetMyWatchlist(AccountID primitive.ObjectID) ([]byte, int) {
+func GetMyWatchlist(AccountID primitive.ObjectID, round int) ([]byte, int) {
 	var WatchLists []watchlist.WatchList
 	var Movies []Movie
+	start := 0
+	end := 30
 	ctx := context.Background()
 	collection1 := variables.Client1.Database("Interphlix").Collection("Watchlist")
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
@@ -37,5 +39,18 @@ func GetMyWatchlist(AccountID primitive.ObjectID) ([]byte, int) {
 		}
 	}
 
-	return variables.JsonMarshal(Movies), http.StatusOK
+	if round != 0 {
+		start = round * 30
+		end = round * 30 + 30
+	}
+
+	if start >= len(Movies) {
+		return []byte(`{"error": "end"}`), http.StatusOK
+	}
+
+	if len(Movies) >= end {
+		return variables.JsonMarshal(Movies[start:]), http.StatusOK
+	}
+
+	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
 }
