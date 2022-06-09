@@ -26,7 +26,7 @@ func GetMovies(round int) ([]byte, int) {
 		return []byte(`{"error": "end"}`), http.StatusOK
 	}
 
-	if len(Movies) >= end {
+	if end >= len(Movies){
 		return variables.JsonMarshal(Movies[start:]), http.StatusOK
 	}
 
