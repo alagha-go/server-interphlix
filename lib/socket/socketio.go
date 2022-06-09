@@ -27,6 +27,8 @@ func StartSocketServer() {
 	SocketServer.On("rate-update", OnRateUpdate)
 	SocketServer.On("create-watchlist", CreateWatchlist)
 	SocketServer.On("delete-watchlist", DeleteWatchlist)
+	SocketServer.On("history", OnHistory)
+	SocketServer.On("movie-history", OnMovieHistory)
 
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/socket.io/", SocketServer)
