@@ -29,6 +29,7 @@ type Movie struct {
     Duration									int										`json:"duration,omitempty" bson:"duration,omitempty"`
     Countries									[]string								`json:"countries,omitempty" bson:"countries,omitempty"`
     Producers									[]string								`json:"producers,omitempty" bson:"producers,omitempty"`
+    Percentage					                float64									`json:"percentage,omitempty" bson:"percentage,omitempty"`
     Description									string									`json:"description,omitempty" bson:"description,omitempty"`
 }
 
@@ -52,6 +53,7 @@ type Episode struct {
     Urls										[]string								`json:"urls,omitempty" bson:"urls,omitempty"`
 	Server										*Server									`json:"server,omitempty" bson:"server,omitempty"`
 	Servers										[]Server								`json:"servers,omitempty" bson:"servers,omitempty"`
+    Percentage					                float64									`json:"percentage,omitempty" bson:"percentage,omitempty"`
 }
 
 
