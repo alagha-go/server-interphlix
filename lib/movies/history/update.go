@@ -38,6 +38,7 @@ func (history *History) Update() {
 		"episodes": History.Episodes,
 		"last_time_watched": time.Now(),
 		"percentage": History.Percentage,
+		"last_season_index": history.Episode.SeasonIndex,
 	}}
 
 	_, err = collection1.UpdateOne(ctx, filter, update)

@@ -21,6 +21,7 @@ func (History *History) Create() {
 	History.LastTimeWatched = time.Now()
 	History.Episode.LastTimeWatched = time.Now()
 	History.Episodes = append(History.Episodes, *History.Episode)
+	History.LastSeasonIndex = History.Episode.SeasonIndex
 	History.Episode = nil
 	History.ID = primitive.NewObjectID()
 
