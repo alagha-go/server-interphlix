@@ -6,6 +6,7 @@ import (
 	"time"
 
 	gosocketio "github.com/ambelovsky/gosf-socketio"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -29,4 +30,20 @@ func OnHistory(channel *gosocketio.Channel, data string) interface{} {
 	}
 	History.Create()
 	return "done"
+}
+
+
+func OnMovieHistory(channel *gosocketio.Channel, id string) interface{} {
+	MovieID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return `{"error": "invalid id"}`
+	}
+	Channel, err := GetChannelByIP(channel.Ip())
+	if err != nil {
+		channel.Emit("error", `{"error": "client does not exist"}`)
+		time.Sleep(500*time.Millisecond)
+		channel.Close()
+		return ""
+	}
+	return history.GetMovieHistory(Channel.AccountID, MovieID)
 }
