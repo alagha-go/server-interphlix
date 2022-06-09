@@ -44,9 +44,11 @@ func GetMoviesByGenre(genre string, round int) ([]byte, int) {
 }
 
 
-func GetMoviesByGenreAndType(Type, genre string) ([]byte, int) {
+func GetMoviesByGenreAndType(Type, genre string, round int) ([]byte, int) {
 	var Movies []Movie
 	var movies []Movie
+	start := 0
+	end := 30
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 
@@ -61,7 +63,20 @@ func GetMoviesByGenreAndType(Type, genre string) ([]byte, int) {
 		}
 	}
 
-	return variables.JsonMarshal(movies), http.StatusOK
+	if round != 0 {
+		start = round * 30
+		end = round * 30 + 30
+	}
+
+	if start >= len(movies) {
+		return []byte(`{"error": "end"}`), http.StatusOK
+	}
+
+	if end >= len(movies) {
+		return variables.JsonMarshal(movies[start:]), http.StatusOK
+	}
+
+	return variables.JsonMarshal(movies[start:end]), http.StatusOK
 }
 
 
