@@ -42,6 +42,7 @@ func LoginRedirect(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	socket.EmitToken(channel, cookie)
+	http.SetCookie(res, cookie)
 	res.WriteHeader(http.StatusOK)
 	res.Write([]byte(fmt.Sprintf("<h1>Successfully loged in to Interphlix. Welcome %s</h1>", account.Name)))
 }
