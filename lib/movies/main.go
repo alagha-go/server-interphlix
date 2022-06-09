@@ -4,6 +4,7 @@ import (
 	"context"
 	"interphlix/lib/movies/casts"
 	"interphlix/lib/movies/genres"
+	"interphlix/lib/movies/history"
 	"interphlix/lib/movies/ratings"
 	"interphlix/lib/movies/types"
 	"interphlix/lib/movies/watchlist"
@@ -22,6 +23,7 @@ func Main() {
 	casts.Main()
 	ratings.Main()
 	watchlist.Main()
+	history.Main()
 	Listener()
 }
 
