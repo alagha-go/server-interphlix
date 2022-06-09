@@ -5,6 +5,7 @@ import (
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -20,7 +21,12 @@ func GetMoviesByTypeAndGenre(res http.ResponseWriter, req *http.Request) {
 	Type := mux.Vars(req)["type"]
 	Genre := mux.Vars(req)["genre"]
 
-	data, status := movies.GetMoviesByGenreAndType(Type, Genre)
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
+	if err != nil {
+		round = 0
+	}
+
+	data, status := movies.GetMoviesByGenreAndType(Type, Genre, round)
 
 	res.WriteHeader(status)
 	res.Write(data)
