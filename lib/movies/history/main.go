@@ -11,7 +11,8 @@ import (
 
 
 func Main() {
-	
+	LoadHistory()
+	Listener()
 }
 
 
