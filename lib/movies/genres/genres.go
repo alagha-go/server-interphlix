@@ -33,7 +33,7 @@ func (genre *Genre) AddToDB() {
 	var Genre Genre
 	collection := variables.Client1.Database("Interphlix").Collection("Genres")
 	err := collection.FindOne(context.Background(), bson.M{"title": genre.Title}).Decode(&Genre)
-	if err == nil {
+	if err != nil {
 		collection.InsertOne(context.Background(), genre)
 		return
 	}
