@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	PORT = ":7000"
+	PORT = ":8000"
 )
 
 func main() {
