@@ -3,8 +3,10 @@ package ratings
 import (
 	"context"
 	"interphlix/lib/variables"
+	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 
@@ -22,11 +24,16 @@ func LoadRatings() {
 
 	cursor, err := collection1.Find(ctx, bson.M{})
 	if err != nil {
-		variables.HandleError(err, "ratings", "LoadRatings", "error while getting ratings from the remote database")
-		return
+		log.Panic(err)
 	}
-	cursor.All(ctx, &documents)
+	err = cursor.All(ctx, &documents)
+	if err != nil {
+		log.Panic(err)
+	}
+
 	collection.Drop(ctx)
 	_, err = collection.InsertMany(ctx, documents)
-	variables.HandleError(err, "ratings", "LoadRatings", "error while inserting ratings to the local database")
+	if err != nil && err != mongo.ErrEmptySlice {
+		log.Panic(err)
+	}
 }

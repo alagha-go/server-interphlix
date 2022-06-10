@@ -3,8 +3,10 @@ package types
 import (
 	"context"
 	"interphlix/lib/variables"
+	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func Main() {
@@ -20,12 +22,19 @@ func LoadTypes() {
 	collection := variables.Client1.Database("Interphlix").Collection("Types")
 
 	cursor, err := collection1.Find(ctx, bson.M{})
-	variables.HandleError(err, "types", "LoadTypes", "error while loading data from the database")
+	if err != nil {
+		log.Panic(err)
+	}
 	err = cursor.All(ctx, &documents)
-	variables.HandleError(err, "types", "LoadTypes", "error decoding cursor")
+	if err != nil {
+		log.Panic(err)
+	}
+
 	collection.Drop(ctx)
 	_, err = collection.InsertMany(ctx, documents)
-	variables.HandleError(err, "types", "LoadTypes", "error inserting types to the local database")
+	if err != nil && err != mongo.ErrEmptySlice {
+		log.Panic(err)
+	}
 }
 
 

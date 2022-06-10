@@ -3,8 +3,10 @@ package casts
 import (
 	"context"
 	"interphlix/lib/variables"
+	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 
@@ -21,8 +23,17 @@ func LoadCasts() {
 	collection := variables.Client1.Database("Interphlix").Collection("Casts")
 
 	cursor, err := collection1.Find(ctx, bson.M{})
-	variables.HandleError(err, "casts", "LoadCasts", "error while getting casts from the database")
-	cursor.All(ctx, &documents)
+	if err != nil {
+		log.Panic(err)
+	}
+	err = cursor.All(ctx, &documents)
+	if err != nil {
+		log.Panic(err)
+	}
+
 	collection.Drop(ctx)
-	collection.InsertMany(ctx, documents)
+	_, err = collection.InsertMany(ctx, documents)
+	if err != nil && err != mongo.ErrEmptySlice {
+		log.Panic(err)
+	}
 }

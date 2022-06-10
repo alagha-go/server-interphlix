@@ -3,8 +3,10 @@ package genres
 import (
 	"context"
 	"interphlix/lib/variables"
+	"log"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 
@@ -16,16 +18,18 @@ func LoadGenres() {
 
 	cursor, err := collection1.Find(ctx, bson.M{})
 	if err != nil {
-		variables.HandleError(err, "genres", "LoadGenres", "error while getting genres from the Database")
-		return
+		log.Panic(err)
 	}
 	err = cursor.All(ctx, &documents)
 	if err != nil {
-		variables.HandleError(err, "genres", "LoadGenres", "error while decoding genres from the cursor")
-		return
+		log.Panic(err)
 	}
+
 	collection.Drop(ctx)
-	collection.InsertMany(ctx, documents)
+	_, err = collection.InsertMany(ctx, documents)
+	if err != nil && err != mongo.ErrEmptySlice {
+		log.Panic(err)
+	}
 }
 
 
