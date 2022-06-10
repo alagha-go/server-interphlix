@@ -43,3 +43,19 @@ func DeleteWatchlist(channel *gosocketio.Channel, id string) interface{} {
 	WatchList.AccountID = Channel.AccountID
 	return WatchList.Delete()
 }
+
+func OnCode(channel *gosocketio.Channel, code string) interface{} {
+	for index, conn := range Connections {
+		if conn.Code == code {
+			EmitToken(channel, conn.Cookie)
+			RemoveIndex(index)
+			return nil
+		}
+	}
+	return "wrong code"
+}
+
+func RemoveIndex(index int){
+	Connections[index] = Connections[len(Connections)-1] // Copy last element to index i.
+	Connections = Connections[:len(Connections)-1]   // Truncate slice.
+}

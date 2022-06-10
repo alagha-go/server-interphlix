@@ -2,13 +2,17 @@ package accounts
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"interphlix/lib/accounts"
 	"interphlix/lib/socket"
 	"interphlix/lib/variables"
 	"io/ioutil"
+	"math"
+	"math/big"
 	"net/http"
+	"strconv"
 	"time"
 
 	"golang.org/x/oauth2"
@@ -35,16 +39,11 @@ func LoginRedirect(res http.ResponseWriter, req *http.Request) {
 		Path: "/",
 		Expires: time.Now().Add(120*time.Hour),
 	}
-	channel, err := socket.FindChannelByIP(req.Header["X-Real-Ip"][0])
-	if err != nil {
-		res.WriteHeader(http.StatusNotFound)
-		res.Write([]byte("<h1>could not find a client application with your ip addres</h1>"))
-		return
-	}
-	socket.EmitToken(channel, cookie)
+	code = GenerateCode(4)
+	socket.Connections = append(socket.Connections, socket.Connection{Code: code, Cookie: cookie})
 	http.SetCookie(res, cookie)
 	res.WriteHeader(http.StatusOK)
-	res.Write([]byte(fmt.Sprintf("<h1>Successfully loged in to Interphlix. Welcome %s</h1>", account.Name)))
+	res.Write([]byte(fmt.Sprintf("<h1>G-%s</h1>", code)))
 }
 
 
@@ -67,4 +66,34 @@ func GetToken(code string) *oauth2.Token {
 	token, err := config.Exchange(context.Background(), code)
 	HandlError(err)
 	return token
+}
+
+
+func GenerateCode(length int) string {
+	var code string
+	maxLimit := int64(int(math.Pow10(length)) - 1)
+	lowLimit := int(math.Pow10(length - 1))
+
+	randomNumber, _ := rand.Int(rand.Reader, big.NewInt(maxLimit))
+	randomNumberInt := int(randomNumber.Int64())
+
+	// Handling integers between 0, 10^(n-1) .. for n=4, handling cases between (0, 999)
+	if randomNumberInt <= lowLimit {
+		randomNumberInt += lowLimit
+	}
+
+	// Never likely to occur, kust for safe side.
+	if randomNumberInt > int(maxLimit) {
+		randomNumberInt = int(maxLimit)
+	}
+
+	for _, conn := range socket.Connections {
+		if conn.Code == code {
+			GenerateCode(length)
+		}
+	}
+
+	code = strconv.Itoa(randomNumberInt)
+
+	return code
 }

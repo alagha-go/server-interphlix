@@ -9,6 +9,7 @@ import (
 
 var (
 	Server server.Server
+	Connections []Connection
 )
 
 

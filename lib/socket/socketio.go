@@ -10,6 +10,10 @@ import (
 	"github.com/ambelovsky/gosf-socketio/transport"
 )
 
+type Connection struct {
+	Code				string
+	Cookie				*http.Cookie
+}
 
 var (
 	PORT = ":9000"
@@ -29,6 +33,7 @@ func StartSocketServer() {
 	SocketServer.On("delete-watchlist", DeleteWatchlist)
 	SocketServer.On("history", OnHistory)
 	SocketServer.On("movie-history", OnMovieHistory)
+	SocketServer.On("code", OnCode)
 
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/socket.io/", SocketServer)
