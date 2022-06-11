@@ -18,7 +18,7 @@ var (
 
 func CollectFeaturesTitles() {
 	start := 1
-	for start < 10000{
+	for start < 1000{
 		CollectData(start)
 		start += 50
 	}
