@@ -49,7 +49,7 @@ func OnCode(channel *gosocketio.Channel, code string) interface{} {
 		if conn.Code == code {
 			EmitToken(channel, conn.Cookie)
 			RemoveIndex(index)
-			return nil
+			return ""
 		}
 	}
 	return "wrong code"
