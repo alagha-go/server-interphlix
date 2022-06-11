@@ -2,7 +2,6 @@ package movies
 
 import (
 	"context"
-	"fmt"
 	"interphlix/lib/variables"
 
 	"github.com/gocolly/colly"
@@ -48,7 +47,6 @@ func GetPopularTvShows() {
 	collector.OnHTML("tbody", func(element *colly.HTMLElement) {
 		element.ForEach("tr", func(_ int, element *colly.HTMLElement) {
 			Titles = append(Titles, element.ChildText(".text-bold.text-large1"))
-			fmt.Println(element.ChildText(".text-bold.text-large1"))
 		})
 	})
 
