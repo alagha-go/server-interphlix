@@ -69,3 +69,15 @@ type RatedMovie struct {
     Rate                                        ratings.Rate                            `json:"rate,omitempty" bson:"rate,omitempty"`
     Movie                                       Movie                                   `json:"movie,omitempty" bson:"movie,omitempty"`
 }
+
+
+type Recommendation struct {
+    Seed                                        int64                                   `json:"seed,omitempty" bson:"seed,omitempty"`
+    Categories                                  []Category                              `json:"categories,omitempty" bson:"categories,omitempty"`
+}
+
+
+type Category struct {
+    Title                                       string                                  `json:"title,omitempty" bson:"title,omitempty"`
+    Movies                                      []Movie                                 `json:"movies,omitempty" bson:"movies,omitempty"`
+}
