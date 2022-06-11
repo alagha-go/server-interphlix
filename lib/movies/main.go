@@ -24,6 +24,7 @@ func Main() {
 	ratings.Main()
 	watchlist.Main()
 	history.Main()
+	CollectMovies()
 	Listener()
 }
 

@@ -16,6 +16,13 @@ var (
 )
 
 
+func CollectMovies() {
+	GetPopularMovies()
+	GetPopularTvShows()
+	go CollectFeaturesTitles()
+}
+
+
 func CollectFeaturesTitles() {
 	start := 1
 	for start < 1000{
