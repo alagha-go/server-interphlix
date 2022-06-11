@@ -45,7 +45,7 @@ func GetHome() ([]byte, int) {
 	ctx := context.Background()
 	collection1 := variables.Client1.Database("Interphlix").Collection("Genres")
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
-	Categories := []Category{{Title: "Popular Movies", Movies: RandomMovies(recommendation.Seed, PopularMovies)}, {Title: "Popular Tvs", Movies: RandomMovies(recommendation.Seed, PopularTvShows)}}
+	Categories := []Category{{Title: "Featured", Movies: RandomMovies(recommendation.Seed, FeaturedMovies)}, {Title: "Popular Movies", Movies: RandomMovies(recommendation.Seed, PopularMovies)}, {Title: "Popular Tvs", Movies: RandomMovies(recommendation.Seed, PopularTvShows)}}
 	recommendation.Categories = append(recommendation.Categories, Categories...)
 
 	cursor, err := collection1.Find(ctx, bson.M{})
