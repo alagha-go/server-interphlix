@@ -37,7 +37,7 @@ func SearchCasts(querry string, round int) ([]byte, int) {
 		}
 	}
 
-	if len(Casts) > length {
+	if len(Casts) < length {
 		return variables.JsonMarshal(Casts), http.StatusOK
 	}
 

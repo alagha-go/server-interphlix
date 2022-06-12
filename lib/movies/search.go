@@ -47,7 +47,7 @@ func SearchMovies(querry, Type, genre string, round int) ([]byte, int) {
 		}
 	}
 
-	if len(Movies) > length {
+	if len(Movies) < length {
 		return variables.JsonMarshal(Movies), http.StatusOK
 	}
 
