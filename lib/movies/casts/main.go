@@ -12,6 +12,7 @@ import (
 
 func Main() {
 	LoadCasts()
+	StartIndex()
 	Listener()
 }
 
