@@ -8,12 +8,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-
-var (
-	PopularMovies []Movie
-	PopularTvShows []Movie
-)
-
 func GetPopularMovies() {
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
@@ -29,11 +23,9 @@ func GetPopularMovies() {
 	collector.Visit("https://imdb-api.com/most-popular-movies")
 
 	for index := range Titles {
-		var Movie Movie
-		err := collection.FindOne(ctx, bson.M{"title": Titles[index]}).Decode(&Movie)
-		if err == nil {
-			PopularMovies = append(PopularMovies, Movie)
-		}
+		filter := bson.M{"title": bson.M{"$eq": Titles[index]}}
+		update := bson.M{"$set": bson.M{"popular": true}}
+		collection.UpdateOne(ctx, filter, update)
 	}
 }
 
@@ -53,10 +45,8 @@ func GetPopularTvShows() {
 	collector.Visit("https://imdb-api.com/most-popular-tvs")
 
 	for index := range Titles {
-		var Movie Movie
-		err := collection.FindOne(ctx, bson.M{"title": Titles[index]}).Decode(&Movie)
-		if err == nil {
-			PopularTvShows = append(PopularTvShows, Movie)
-		}
+		filter := bson.M{"title": bson.M{"$eq": Titles[index]}}
+		update := bson.M{"$set": bson.M{"popular": true}}
+		collection.UpdateOne(ctx, filter, update)
 	}
 }
