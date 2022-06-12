@@ -40,6 +40,7 @@ func UploadOneMovie(Movie Movie) ([]byte, int) {
 	if err != nil {
 		return variables.JsonMarshal(variables.Error{Error: "could not save Movie to the Database"}), http.StatusInternalServerError
 	}
+	Movie.AddIndex()
 	return variables.JsonMarshal(Movie), http.StatusCreated
 }
 

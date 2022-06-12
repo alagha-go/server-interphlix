@@ -25,6 +25,7 @@ func Main() {
 	watchlist.Main()
 	history.Main()
 	CollectMovies()
+	StartIndex()
 	Listener()
 }
 
