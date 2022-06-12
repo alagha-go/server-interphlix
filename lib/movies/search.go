@@ -12,6 +12,7 @@ import (
 
 
 func SearchMovies(querry string, round int) ([]byte, int) {
+	length := (round * 20) + 50
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
@@ -32,5 +33,9 @@ func SearchMovies(querry string, round int) ([]byte, int) {
 		}
 	}
 
-	return variables.JsonMarshal(Movies), http.StatusOK
+	if len(Movies) > length {
+		return variables.JsonMarshal(Movies), http.StatusOK
+	}
+
+	return variables.JsonMarshal(Movies[:length]), http.StatusOK
 }
