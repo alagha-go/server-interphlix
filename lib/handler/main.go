@@ -28,6 +28,8 @@ func Main() {
 	Router.HandleFunc("/tv-shows/{id}/{seasonid}/addepisode", movies.AddEpisode).Methods("POST")
 		/// get routes
 	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
+	Router.HandleFunc("/movies/search", movies.SearchMovies).Methods("GET")
+	Router.HandleFunc("/cast/search", movies.SearchCast).Methods("GET")
 	Router.HandleFunc("/genres", movies.GetAllGenres).Methods("GET")
 	Router.HandleFunc("/", movies.GetHomeMovies).Methods("GET")
 	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
