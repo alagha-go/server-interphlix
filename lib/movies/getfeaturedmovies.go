@@ -8,6 +8,6 @@ var (
 
 
 func CollectMovies() {
-	GetPopularMovies()
-	GetPopularTvShows()
+	SetPopularMovies()
+	SetPopularTvShows()
 }

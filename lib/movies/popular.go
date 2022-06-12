@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func GetPopularMovies() {
+func SetPopularMovies() {
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 	var Titles []string
@@ -30,7 +30,7 @@ func GetPopularMovies() {
 }
 
 
-func GetPopularTvShows() {
+func SetPopularTvShows() {
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 	var Titles []string
@@ -49,4 +49,32 @@ func GetPopularTvShows() {
 		update := bson.M{"$set": bson.M{"popular": true}}
 		collection.UpdateOne(ctx, filter, update)
 	}
+}
+
+
+func GetPopularMovies() ([]Movie, error) {
+	var Movies []Movie
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Movies")
+
+	cursor, err := collection.Find(ctx, bson.M{"type": "Movie", "popular": true})
+	if err != nil {
+		variables.HandleError(err, "movies", "GetPopularMovies", "error while getting data from the database")
+	}
+	cursor.All(ctx, &Movies)
+	return Movies, nil
+}
+
+
+func GetPopularTvShows() ([]Movie, error) {
+	var Movies []Movie
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("Movies")
+
+	cursor, err := collection.Find(ctx, bson.M{"type": "Tv-Show", "popular": true})
+	if err != nil {
+		variables.HandleError(err, "movies", "GetPopularMovies", "error while getting data from the database")
+	}
+	cursor.All(ctx, &Movies)
+	return Movies, nil
 }
