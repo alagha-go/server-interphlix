@@ -11,7 +11,7 @@ import (
 )
 
 
-func SearchMovies(querry string, round int) ([]byte, int) {
+func SearchMovies(querry, Type, genre string, round int) ([]byte, int) {
 	var length int = 50
 	if round != 0 {
 		length = (round*20) + 50
@@ -32,7 +32,18 @@ func SearchMovies(querry string, round int) ([]byte, int) {
 		ID, _ := primitive.ObjectIDFromHex(Hit.ID)
 		err := collection.FindOne(ctx, bson.M{"_id": ID}).Decode(&Movie)
 		if err == nil {
-			Movies = append(Movies, Movie)
+			if Type != "" {
+				if Movie.Type == Type {
+					for _, Genre := range Movie.Genres {
+						if Genre == genre {
+							Movies = append(Movies, Movie)
+							break
+						}
+					}
+				}
+			}else {
+				Movies = append(Movies, Movie)
+			}
 		}
 	}
 
