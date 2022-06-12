@@ -38,6 +38,7 @@ func StartIndex() {
 	}
 
 	for _, Movie := range Movies {
+		Movie.Seasons = []Season{}
 		Index.Index(Movie.ID.Hex(), Movie)
 	}
 }
