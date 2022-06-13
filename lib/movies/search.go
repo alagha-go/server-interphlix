@@ -29,6 +29,12 @@ func SearchMovies(querry, Type, genre string, round int) ([]byte, int) {
 			return variables.JsonMarshal(variables.Error{Error: "could not search data"}), http.StatusInternalServerError
 		}
 		cursor.All(ctx, &Movies)
+	}else {
+		cursor, err := collection.Find(ctx, bson.M{"$text": bson.M{"$search": querry}}, opts)
+		if err != nil {
+			return variables.JsonMarshal(variables.Error{Error: "could not search data"}), http.StatusInternalServerError
+		}
+		cursor.All(ctx, &Movies)
 	}
 
 	if len(Movies) < length {
