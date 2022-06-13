@@ -10,7 +10,7 @@ import (
 
 func SetPopularMovies() {
 	ctx := context.Background()
-	collection := variables.Client1.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	var Titles []string
 	collector := colly.NewCollector()
 
@@ -32,7 +32,7 @@ func SetPopularMovies() {
 
 func SetPopularTvShows() {
 	ctx := context.Background()
-	collection := variables.Client1.Database("Interphlix").Collection("Movies")
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
 	var Titles []string
 	collector := colly.NewCollector()
 
