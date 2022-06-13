@@ -16,6 +16,7 @@ type History struct {
 	Episode						*Episode									`json:"episode,omitempty" bson:"episode,omitempty"`
 	LastTimeWatched				time.Time									`json:"last_time_watched,omitempty" bson:"last_time_watched,omitempty"`
 	LastSeasonIndex				int											`json:"last_season_index,omitempty" bson:"last_season_index,omitempty"`
+	Continue					bool										`json:"continue,omitempty" bson:"continue,omitempty"`
 }
 
 type Episode struct {

@@ -35,6 +35,7 @@ func (history *History) Update() {
 	filter := bson.M{"_id": bson.M{"$eq": history.ID}}
 
 	update := bson.M{"$set": bson.M{
+		"continue": true,
 		"episodes": History.Episodes,
 		"last_time_watched": time.Now(),
 		"percentage": History.Percentage,
