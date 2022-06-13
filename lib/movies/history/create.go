@@ -19,6 +19,7 @@ func (History *History) Create() {
 	collection := variables.Client.Database("Interphlix").Collection("History")
 
 	History.LastTimeWatched = time.Now()
+	History.FirstTimeWathed = time.Now()
 	History.Episode.LastTimeWatched = time.Now()
 	History.Episodes = append(History.Episodes, *History.Episode)
 	History.LastSeasonIndex = History.Episode.SeasonIndex

@@ -3,6 +3,7 @@ package history
 import (
 	"context"
 	"interphlix/lib/variables"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -51,4 +52,18 @@ func GetLatestHistory(AccountID primitive.ObjectID, Continue bool, start, end in
 	}
 
 	return Histories[start:end], nil
+}
+
+func MovieAllowed(AccountID, MovieID primitive.ObjectID) bool {
+	var History History
+	ctx := context.Background()
+	collection := variables.Client1.Database("Interphlix").Collection("History")
+
+	filter := bson.M{"account_id": AccountID, "first_time_watched": bson.M{"$gte": time.Now().AddDate(0, -1, 0)}}
+
+	err := collection.FindOne(ctx, filter).Decode(&History)
+	if err == nil && MovieID == History.MovieID{
+		return false
+	}
+	return true
 }

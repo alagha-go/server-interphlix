@@ -10,6 +10,7 @@ import (
 type History struct {
 	ID							primitive.ObjectID							`json:"_id,omitempty" bson:"_id,omitempty"`
 	AccountID					primitive.ObjectID							`json:"account_id,omitempty" bson:"account_id,omitempty"`
+	FirstTimeWathed				time.Time									`json:"first_time_watched,omitempty" bson:"first_time_watched,omitempty"`
 	MovieID						primitive.ObjectID							`json:"movie_id,omitempty" bson:"movie_id,omitempty"`
 	Percentage					float64										`json:"percentage,omitempty" bson:"percentage,omitempty"`
 	Episodes					[]Episode									`json:"episodes,omitempty" bson:"episodes,omitempty"`
