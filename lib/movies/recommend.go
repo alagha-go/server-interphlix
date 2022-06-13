@@ -96,13 +96,12 @@ func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 		}
 	}
 
-	for index := range recommendation.Categories {
-		if len(recommendation.Categories[index].Movies) > 20 {
-			recommendation.Categories[index].Movies = recommendation.Categories[index].Movies[:20]
+	for Index := range recommendation.Categories {
+		if len(recommendation.Categories[Index].Movies) > 20 {
+			recommendation.Categories[Index].Movies = recommendation.Categories[Index].Movies[:20]
 		}
-		for index := range recommendation.Categories[index].Movies {
-			movie := recommendation.Categories[index].Movies[index]
-			recommendation.Categories[index].Movies[index] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
+		for index, movie := range recommendation.Categories[Index].Movies {
+			recommendation.Categories[Index].Movies[index] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
 		}
 	}
 
