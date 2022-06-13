@@ -34,6 +34,7 @@ func StartSocketServer() {
 	SocketServer.On("history", OnHistory)
 	SocketServer.On("movie-history", OnMovieHistory)
 	SocketServer.On("code", OnCode)
+	SocketServer.On("watch", OnWatch)
 
 	serveMux := http.NewServeMux()
 	serveMux.Handle("/socket.io/", SocketServer)

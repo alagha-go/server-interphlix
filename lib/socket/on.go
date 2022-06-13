@@ -1,6 +1,8 @@
 package socket
 
 import (
+	"interphlix/lib/accounts"
+	"interphlix/lib/movies/history"
 	"interphlix/lib/movies/watchlist"
 	"time"
 
@@ -58,4 +60,26 @@ func OnCode(channel *gosocketio.Channel, code string) interface{} {
 func RemoveIndex(index int){
 	Connections[index] = Connections[len(Connections)-1] // Copy last element to index i.
 	Connections = Connections[:len(Connections)-1]   // Truncate slice.
+}
+
+func OnWatch(channel *gosocketio.Channel, id string) interface{} {
+	Channel, err := GetChannelByIP(channel.Ip())
+	if err != nil {
+		channel.Emit("error", `{"error": "client does not exist"}`)
+		time.Sleep(500*time.Millisecond)
+		channel.Close()
+		return ""
+	}
+	Account, err := accounts.GetAccount(Channel.AccountID)
+	if err != nil {
+		return `{"error": "user does not exist"}`
+	}
+	if Account.Paid {
+		return true
+	}
+	MovieID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return `{"error": "invalid id"}`
+	}
+	return history.MovieAllowed(Channel.AccountID, MovieID)
 }
