@@ -17,6 +17,7 @@ var (
 func CollectMovies() {
 	SetPopularMovies()
 	SetPopularTvShows()
+	CollectFeatured()
 }
 
 
