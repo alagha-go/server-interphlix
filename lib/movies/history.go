@@ -16,6 +16,10 @@ func GetMyHistory(AccountID primitive.ObjectID, round int) ([]byte, int) {
 	var Movies []Movie
 	start := 0
 	end := 30
+	if round != 0 {
+		start = round * 30
+		end = round * 30 + 30
+	}
 
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
@@ -33,10 +37,6 @@ func GetMyHistory(AccountID primitive.ObjectID, round int) ([]byte, int) {
 		}
 	}
 
-	if round != 0 {
-		start = round * 30
-		end = round * 30 + 30
-	}
 
 	if start >= len(Movies) {
 		return []byte(`{"error": "end"}`), http.StatusOK
@@ -47,4 +47,29 @@ func GetMyHistory(AccountID primitive.ObjectID, round int) ([]byte, int) {
 	}
 
 	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
+}
+
+
+func GetContinue(AccountID primitive.ObjectID, start int, end int) []Movie {
+	var Histories []history.History
+	var Movies []Movie
+	ctx := context.Background()
+	collection := variables.Client.Database("Interphlix").Collection("Movies")
+
+	Histories, _ = history.GetLatestHistory(AccountID, true, start, end)
+
+	for index, History := range Histories {
+		var Movie Movie
+		if index < start {
+			continue
+		}else if index > end {
+			return Movies
+		}
+		err := collection.FindOne(ctx, bson.M{"_id": History.MovieID}).Decode(&Movie)
+		if err == nil {
+			Movies = append(Movies, Movie)
+		}
+	}
+
+	return Movies
 }
