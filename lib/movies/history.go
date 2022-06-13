@@ -8,7 +8,6 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 
@@ -20,19 +19,10 @@ func GetMyHistory(AccountID primitive.ObjectID, round int) ([]byte, int) {
 
 	ctx := context.Background()
 	collection := variables.Client.Database("Interphlix").Collection("Movies")
-	collection1 := variables.Client1.Database("Interphlix").Collection("History")
 
-	opts := options.Find().SetSort(bson.D{{"last_time_watched", -1}})
-
-	cursor, err := collection1.Find(ctx, bson.M{"account_id": AccountID}, opts)
+	Histories, err := history.GetLatestHistory(AccountID, false, start, end)
 	if err != nil {
-		variables.HandleError(err, "movies", "GetMyHistory", "error while getting sorted history")
-		return variables.JsonMarshal(variables.Error{Error: "could not get history"}), http.StatusInternalServerError
-	}
-	err = cursor.All(ctx, &Histories)
-	if err != nil {
-		variables.HandleError(err, "movies", "GetMyHistory", "error while decoding cursor")
-		return variables.JsonMarshal(variables.Error{Error: "could not get history"}), http.StatusInternalServerError
+		return variables.JsonMarshal(variables.Error{Error: "could not get data"}), http.StatusInternalServerError
 	}
 
 	for _, History := range Histories {
