@@ -7,44 +7,26 @@ import (
 
 	"github.com/blevesearch/bleve/v2"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 
 var (
 	Index bleve.Index
-	err error
 )
 
 
 func StartIndex() {
-	var Casts []Cast
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Casts")
 
-	mapping := bleve.NewIndexMapping()
-	Index, err = bleve.New("Casts", mapping)
-	if err != nil {
-		Index, err = bleve.Open("Casts")
-		if err != nil {
-			log.Panic(err)
-		}
+	model := mongo.IndexModel{
+		Keys: bson.D{{"title", "text"}},
 	}
 
-	cursor, err := collection.Find(ctx, bson.M{})
+	_, err := collection.Indexes().CreateOne(ctx, model)
 	if err != nil {
+		log.Println("Casts")
 		log.Panic(err)
 	}
-	err = cursor.All(ctx, &Casts)
-	if err != nil {
-		log.Panic(err)
-	}
-
-	for _, Cast := range Casts {
-		Index.Index(Cast.ID.Hex(), Cast)
-	}
-}
-
-
-func (Cast *Cast) AddIndex() {
-	Index.Index(Cast.ID.Hex(), Cast)
 }

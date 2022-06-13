@@ -15,7 +15,6 @@ func (movie *Movie) AddToDB() {
 
 	err := collection.FindOne(ctx, bson.M{"_id": movie.ID}).Decode(&dbmovie)
 	if err != nil {
-		movie.AddIndex()
 		collection.InsertOne(ctx, movie)
 		return
 	}
