@@ -5,13 +5,8 @@ import (
 	"interphlix/lib/variables"
 	"log"
 
-	"github.com/blevesearch/bleve/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-)
-
-var (
-	Index bleve.Index
 )
 
 func StartIndex() {
