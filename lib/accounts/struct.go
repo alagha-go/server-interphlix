@@ -1,6 +1,8 @@
 package accounts
 
 import (
+	"time"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/oauth2"
 )
@@ -9,6 +11,8 @@ import (
 type Account struct {
 	ID									primitive.ObjectID							`json:"_id,omitempty" bson:"_id,omitempty"`
 	GoogleID							string										`json:"id,omitempty" bson:"id,omitempty"`
+	Paid								bool										`json:"paid,omitempty" bson:"paid,omitempty"`
+	PaymentDue							time.Time									`json:"payment_due,omitempty" bson:"payment_due,omitempty"`
 	Type								string										`json:"type,omitempty" bson:"type,omitempty"`
 	Email								string										`json:"email,omitempty" bson:"email,omitempty"`
 	EmailVerified						bool										`json:"verified_email,omitempty" bson:"verified_email,omitempty"`
