@@ -5,9 +5,7 @@ import (
 	"interphlix/lib/variables"
 	"net/http"
 
-	"github.com/blevesearch/bleve/v2"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
