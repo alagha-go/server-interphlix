@@ -45,9 +45,9 @@ func GetLatestHistory(AccountID primitive.ObjectID, Continue bool, start, end in
 		cursor.All(ctx, &Histories)
 	}
 
-	if len(Histories) < start {
+	if len(Histories) <= start {
 		return []History{}, nil
-	}else if len(Histories) < end {
+	}else if len(Histories) <= end {
 		return Histories[start:], nil
 	}
 
