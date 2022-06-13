@@ -93,6 +93,10 @@ func GetHome() ([]byte, int) {
 		if len(recommendation.Categories[index].Movies) > 20 {
 			recommendation.Categories[index].Movies = recommendation.Categories[index].Movies[:20]
 		}
+		for index := range recommendation.Categories[index].Movies {
+			movie := recommendation.Categories[index].Movies[index]
+			recommendation.Categories[index].Movies[index] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
+		}
 	}
 
 	return variables.JsonMarshal(recommendation), http.StatusOK
