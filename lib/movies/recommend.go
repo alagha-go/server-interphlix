@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 
@@ -37,7 +38,7 @@ func GetMovies(round int) ([]byte, int) {
 }
 
 
-func GetHome() ([]byte, int) {
+func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 	var Movies []Movie
 	var Genres []genres.Genre
 	var recommendation Recommendation
@@ -48,7 +49,13 @@ func GetHome() ([]byte, int) {
 	FeaturedMovies, _ := GetFeaturedMovies(recommendation.Seed)
 	PopularMovies, _ := GetPopularMovies()
 	PopularTvShows, _ := GetPopularTvShows()
-	Categories := []Category{{Title: "Featured", Movies: RandomMovies(recommendation.Seed, FeaturedMovies)}, {Title: "Popular Movies", Movies: RandomMovies(recommendation.Seed, PopularMovies)}, {Title: "Popular Tvs", Movies: RandomMovies(recommendation.Seed, PopularTvShows)}}
+	Categories := []Category{
+		{Title: "Trending", Movies: GetTrendingMovies()},
+		{Title: "Featured", Movies: RandomMovies(recommendation.Seed, FeaturedMovies)},
+		{Title: "Continue Watching", Movies: GetContinue(AccountID, 0, 20)},
+		{Title: "Popular Movies", Movies: RandomMovies(recommendation.Seed, PopularMovies)},
+		{Title: "Popular Tvs", Movies: RandomMovies(recommendation.Seed, PopularTvShows)},
+	}
 	recommendation.Categories = append(recommendation.Categories, Categories...)
 
 	cursor, err := collection1.Find(ctx, bson.M{})

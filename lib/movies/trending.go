@@ -8,7 +8,7 @@ import (
 )
 
 
-func GetTrendingMovie() []Movie {
+func GetTrendingMovies() []Movie {
 	var Movies []Movie
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
