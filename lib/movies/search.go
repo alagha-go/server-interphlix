@@ -11,11 +11,18 @@ import (
 
 
 func SearchMovies(querry, Type, genre string, round int) ([]byte, int) {
+	start := 0
 	var length int = 50
 	if round != 0 {
+		if round == 1{
+			start = 50
+		}else {
+			start = ((round-1)*20) + 50
+		}
 		length = (round*20) + 50
 	}
 	var Movies []Movie
+	var NewMovies []Movie
 	ctx := context.Background()
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 
@@ -37,9 +44,14 @@ func SearchMovies(querry, Type, genre string, round int) ([]byte, int) {
 		cursor.All(ctx, &Movies)
 	}
 
-	if len(Movies) < length {
-		return variables.JsonMarshal(Movies), http.StatusOK
+	for index, movie := range Movies {
+		if index >= length {
+			return variables.JsonMarshal(NewMovies), http.StatusOK
+		}else if index >= start && index < length{
+			NewMovie := Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
+			NewMovies = append(NewMovies, NewMovie)
+		}
 	}
 
-	return variables.JsonMarshal(Movies[:length]), http.StatusOK
+	return variables.JsonMarshal(NewMovies), http.StatusOK
 }
