@@ -15,9 +15,6 @@ func GetTrendingMovie() []Movie {
 
 	cursor, _ := collection.Find(ctx, bson.M{"trending": true})
 	cursor.All(ctx, &Movies)
-	for index := range Movies {
-		Movies[index] = Movie{ID: Movies[index].ID, Code: Movies[index].Code, Title: Movies[index].Title, Type: Movies[index].Type, ImageUrl: Movies[index].ImageUrl}
-	}
 
 	return Movies
 }
