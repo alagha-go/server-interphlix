@@ -14,7 +14,7 @@ func StartIndex() {
 	collection := variables.Client1.Database("Interphlix").Collection("Movies")
 
 	model := mongo.IndexModel{
-		Keys: bson.D{{"title", "text"}, {"casts", "text"}},
+		Keys: bson.D{{"title", "text"}, {"casts", "text"}, {"genre", "text"}},
 	}
 
 	_, err := collection.Indexes().CreateOne(ctx, model)
