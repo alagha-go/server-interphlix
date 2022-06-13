@@ -23,7 +23,9 @@ func GetHomeMovies(res http.ResponseWriter, req *http.Request) {
 		res.WriteHeader(http.StatusNotFound)
 		return
 	}
-	data, status := movies.GetHome()
+	cookie, _ := req.Cookie("token")
+	account, err := accounts.GetAccount(cookie.Value)
+	data, status := movies.GetHome(account.ID)
 	res.WriteHeader(status)
 	res.Write(data)
 }
