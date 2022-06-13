@@ -23,9 +23,13 @@ func SetPopularMovies() {
 	collector.Visit("https://imdb-api.com/most-popular-movies")
 
 	for index := range Titles {
-		filter := bson.M{"title": bson.M{"$eq": Titles[index]}}
-		update := bson.M{"$set": bson.M{"popular": true}}
-		collection.UpdateOne(ctx, filter, update)
+		movie := Movie{Title: Titles[index]}
+		exists, Movie := movie.ExistByTitle()
+		if exists && !Movie.Popular {
+			filter := bson.M{"_id": bson.M{"$eq": Movie.ID}}
+			update := bson.M{"$set": bson.M{"popular": true}}
+			collection.UpdateOne(ctx, filter, update)
+		}
 	}
 }
 
@@ -45,9 +49,13 @@ func SetPopularTvShows() {
 	collector.Visit("https://imdb-api.com/most-popular-tvs")
 
 	for index := range Titles {
-		filter := bson.M{"title": bson.M{"$eq": Titles[index]}}
-		update := bson.M{"$set": bson.M{"popular": true}}
-		collection.UpdateOne(ctx, filter, update)
+		movie := Movie{Title: Titles[index]}
+		exists, Movie := movie.ExistByTitle()
+		if exists && !Movie.Popular {
+			filter := bson.M{"_id": bson.M{"$eq": Movie.ID}}
+			update := bson.M{"$set": bson.M{"popular": true}}
+			collection.UpdateOne(ctx, filter, update)
+		}
 	}
 }
 
