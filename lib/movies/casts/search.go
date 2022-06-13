@@ -36,7 +36,7 @@ func SearchCasts(querry string, round int) ([]byte, int) {
 	cursor.All(ctx, &Casts)
 
 	if start > len(Casts) {
-		return variables.JsonMarshal(Casts[0:0]), http.StatusOK
+		return variables.JsonMarshal([]Cast{}), http.StatusOK
 	}else if length > len(Casts) {
 		return variables.JsonMarshal(Casts[start:]), http.StatusOK
 	}
