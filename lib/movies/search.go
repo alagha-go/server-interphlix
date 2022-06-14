@@ -31,11 +31,21 @@ func SearchMovies(querry, Type, genre string, round int) ([]byte, int) {
 	opts := options.Find().SetSort(sort).SetProjection(projection)
 
 	if Type != "" {
+		var innerMovies []Movie
 		cursor, err := collection.Find(ctx, bson.M{"type": Type, "$text": bson.M{"$search": querry}}, opts)
 		if err != nil {
 			return variables.JsonMarshal(variables.Error{Error: "could not search data"}), http.StatusInternalServerError
 		}
-		cursor.All(ctx, &Movies)
+		cursor.All(ctx, &innerMovies)
+		if genre != "" {
+			for _, Movie := range innerMovies {
+				for _, Genre := range Movie.Genres {
+					if Genre == genre {
+						Movies = append(Movies, Movie)
+					}
+				}
+			}
+		}
 	}else {
 		cursor, err := collection.Find(ctx, bson.M{"$text": bson.M{"$search": querry}}, opts)
 		if err != nil {
