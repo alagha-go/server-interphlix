@@ -50,7 +50,7 @@ func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 	PopularMovies, _ := GetPopularMovies()
 	PopularTvShows, _ := GetPopularTvShows()
 	Categories := []Category{
-		{Title: "Trending", Movies: GetTrendingMovies()},
+		{Title: "Trending", Movies: GetTrendingMovies(recommendation.Seed)},
 		{Title: "Featured", Movies: RandomMovies(recommendation.Seed, FeaturedMovies)},
 		{Title: "Continue Watching", Movies: GetContinue(AccountID, 0, 20)},
 		{Title: "Popular Movies", Movies: RandomMovies(recommendation.Seed, PopularMovies)},
