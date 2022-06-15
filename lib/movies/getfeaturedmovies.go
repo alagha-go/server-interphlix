@@ -32,8 +32,5 @@ func GetFeaturedMovies(seed int64) ([]Movie, error) {
 	}
 	cursor.All(ctx, &Movies)
 	Movies = RandomMovies(seed, Movies)
-	if len(Movies) > 5 {
-		return Movies[:5], nil
-	}
 	return Movies, nil
 }

@@ -45,6 +45,8 @@ func SearchMovies(querry, Type, genre string, round int) ([]byte, int) {
 					}
 				}
 			}
+		}else {
+			Movies = innerMovies
 		}
 	}else {
 		cursor, err := collection.Find(ctx, bson.M{"$text": bson.M{"$search": querry}}, opts)
