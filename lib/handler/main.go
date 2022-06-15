@@ -35,7 +35,7 @@ func Main() {
 	Router.HandleFunc("/", movies.GetHomeMovies).Methods("GET")
 	Router.HandleFunc("/movies/{type}/{genre}", movies.GetMoviesByTypeAndGenre).Methods("GET")
 	Router.HandleFunc("/casts", movies.GetAllCasts).Methods("GET")
-	Router.HandleFunc("/movies/casts/{cast}", movies.GetMoviesByCast).Methods("GET")
+	Router.HandleFunc("/movies/casts", movies.GetMoviesByCast).Methods("GET")
 	Router.HandleFunc("/all/{genre}", movies.GetMoviesByGenre).Methods("GET")
 	Router.HandleFunc("/rated-movies", movies.GetRatedMovies).Methods("GET")
 	Router.HandleFunc("/watchlist", movies.GetMyWatchlist).Methods("GET")

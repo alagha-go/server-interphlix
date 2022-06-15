@@ -32,10 +32,10 @@ func GetMyWatchlist(AccountID primitive.ObjectID, round int) ([]byte, int) {
 	}
 
 	for _, watchlist := range WatchLists {
-		var Movie Movie
-		err := collection.FindOne(ctx, bson.M{"_id": watchlist.MovieID}).Decode(&Movie)
+		var movie Movie
+		err := collection.FindOne(ctx, bson.M{"_id": watchlist.MovieID}).Decode(&movie)
 		if err == nil {
-			Movies = append(Movies, Movie)
+			Movies = append(Movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
 		}
 	}
 

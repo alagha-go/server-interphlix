@@ -57,9 +57,9 @@ func GetMoviesByGenreAndType(Type, genre string, round int) ([]byte, int) {
 	err = cursor.All(ctx, &Movies)
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
 
-	for _, Movie := range Movies {
-		if Movie.ContainsGenre(genre) {
-			movies = append(movies, Movie)
+	for _, movie := range Movies {
+		if movie.ContainsGenre(genre) {
+			movies = append(movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
 		}
 	}
 

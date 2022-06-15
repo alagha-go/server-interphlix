@@ -24,9 +24,9 @@ func GetMoviesByCast(cast string, round int) ([]byte, int) {
 	}
 	cursor.All(ctx, &Movies)
 
-	for _, Movie := range Movies {
-		if Movie.ContainsCast(cast) {
-			movies = append(movies, Movie)
+	for _, movie := range Movies {
+		if movie.ContainsCast(cast) {
+			movies = append(movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
 		}
 	}
 

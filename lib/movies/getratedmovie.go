@@ -36,6 +36,7 @@ func GetRatedMovies(AccountID primitive.ObjectID, round int) ([]byte, int) {
 		var RatedMovie RatedMovie
 		RatedMovie.Rate = Ratings[index]
 		collection.FindOne(ctx, bson.M{"_id": Ratings[index].MovieID}).Decode(&RatedMovie.Movie)
+		RatedMovie.Movie = Movie{ID: RatedMovie.Movie.ID, Code: RatedMovie.Movie.Code, Title: RatedMovie.Movie.Title, Type: RatedMovie.Movie.Type, ImageUrl: RatedMovie.Movie.ImageUrl}
 		RatedMovies = append(RatedMovies, RatedMovie)
 	}
 
