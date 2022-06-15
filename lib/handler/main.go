@@ -29,7 +29,6 @@ func Main() {
 		/// get routes
 	Router.HandleFunc("/types", movies.GetTypes).Methods("GET")
 	Router.HandleFunc("/movies/search", movies.SearchMovies).Methods("GET")
-	Router.HandleFunc("/movie/{id}", movies.GetMovieByID).Methods("GET")
 	Router.HandleFunc("/cast/search", movies.SearchCast).Methods("GET")
 	Router.HandleFunc("/genres", movies.GetAllGenres).Methods("GET")
 	Router.HandleFunc("/", movies.GetHomeMovies).Methods("GET")
@@ -41,6 +40,7 @@ func Main() {
 	Router.HandleFunc("/watchlist", movies.GetMyWatchlist).Methods("GET")
 	Router.HandleFunc("/history", movies.GetMyHistory).Methods("GET")
 	Router.HandleFunc("/movie/ratings", movies.GetMovieRatings).Methods("GET")
+	Router.HandleFunc("/movie/{id}", movies.GetMovieByID).Methods("GET")
 		/// update routes
 	Router.HandleFunc("/movies/setserver/{id}/{servername}", movies.SetServer).Methods("PUT", "UPDATE", "PATCH")
 	Router.HandleFunc("/tv-show/setserver/{id}/{seasoncode}/{episodecode}/{servername}", movies.SetEpisodeServer).Methods("PUT", "UPDATE", "PATCH")
