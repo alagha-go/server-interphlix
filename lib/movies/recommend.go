@@ -104,8 +104,8 @@ func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 		if index > 4 {
 			Movies = RandomMovies(recommendation.Seed, recommendation.Categories[index].Movies)
 		}else {
-			for index, movie := range recommendation.Categories[index].Movies {
-				recommendation.Categories[index].Movies[index] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
+			for mindex, movie := range recommendation.Categories[index].Movies {
+				recommendation.Categories[index].Movies[mindex] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
 			}
 		}
 		if len(Movies) > 20 {
