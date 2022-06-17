@@ -5,6 +5,7 @@ import (
 	"interphlix/lib/movies/casts"
 	"interphlix/lib/variables"
 	"net/http"
+	"strconv"
 )
 
 
@@ -16,7 +17,11 @@ func GetAllCasts(res http.ResponseWriter, req *http.Request) {
 		res.Write(variables.JsonMarshal(variables.Error{Error: err.Error()}))
 		return
 	}
-	data, status := casts.GetAllCasts()
+	round, err := strconv.Atoi(req.URL.Query().Get("round"))
+	if err != nil {
+		round = 0
+	}
+	data, status := casts.GetAllCasts(round)
 	res.WriteHeader(status)
 	res.Write(data)
 }
