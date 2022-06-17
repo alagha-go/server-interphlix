@@ -108,8 +108,8 @@ func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 				recommendation.Categories[index].Movies[mindex] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
 			}
 		}
-		if len(Movies) > 20 {
-			recommendation.Categories[index].Movies = Movies[:20]
+		if len(recommendation.Categories[index].Movies) > 20 {
+			recommendation.Categories[index].Movies = recommendation.Categories[index].Movies[:20]
 		}
 	}
 
