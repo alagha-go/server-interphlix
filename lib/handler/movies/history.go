@@ -1,6 +1,7 @@
 package movies
 
 import (
+	"encoding/json"
 	"interphlix/lib/handler/accounts"
 	"interphlix/lib/movies"
 	"interphlix/lib/variables"
@@ -8,7 +9,7 @@ import (
 	"strconv"
 )
 
-func GetRatedMovies(res http.ResponseWriter, req *http.Request) {
+func GetMyHistory(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	err, status := accounts.ValidateRequest(req, "user")
 	if err != nil {
@@ -32,13 +33,13 @@ func GetRatedMovies(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		round = 0
 	}
-	data, status := movies.GetRatedMovies(account.ID, round)
+	data, status := movies.GetMyHistory(account.ID, round)
 	res.WriteHeader(status)
 	res.Write(data)
 }
 
 
-func GetMyWatchlist(res http.ResponseWriter, req *http.Request) {
+func GetContinue(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("content-type", "application/json")
 	err, status := accounts.ValidateRequest(req, "user")
 	if err != nil {
@@ -60,9 +61,10 @@ func GetMyWatchlist(res http.ResponseWriter, req *http.Request) {
 	}
 	round, err := strconv.Atoi(req.URL.Query().Get("round"))
 	if err != nil {
-		round = 0
+		round = 1
 	}
-	data, status := movies.GetMyWatchlist(account.ID, round)
-	res.WriteHeader(status)
-	res.Write(data)
+	start := round*20
+	end := start+20
+	Movies := movies.GetContinue(account.ID, start, end)
+	json.NewEncoder(res).Encode(Movies)
 }

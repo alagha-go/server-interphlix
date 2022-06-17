@@ -43,6 +43,7 @@ func Main() {
 	Router.HandleFunc("/tv-shows/popular", movies.GetPopularTvShows).Methods("GET")
 	Router.HandleFunc("/movies/featured", movies.GetFeatured).Methods("GET")
 	Router.HandleFunc("/movie/ratings", movies.GetMovieRatings).Methods("GET")
+	Router.HandleFunc("/history/continue", movies.GetContinue).Methods("GET")
 	Router.HandleFunc("/movie/{id}", movies.GetMovieByID).Methods("GET")
 		/// update routes
 	Router.HandleFunc("/movies/setserver/{id}/{servername}", movies.SetServer).Methods("PUT", "UPDATE", "PATCH")

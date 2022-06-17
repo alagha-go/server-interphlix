@@ -44,7 +44,11 @@ func GetMoviesByGenre(res http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		round = 0
 	}
-	data, status := movies.GetMoviesByGenre(genre, round)
+	seed, err := strconv.ParseInt(req.URL.Query().Get("seed"), 10, 64)
+	if err != nil {
+		seed = 0
+	}
+	data, status := movies.GetMoviesByGenre(genre, round, seed)
 	res.WriteHeader(status)
 	res.Write(data)
 }

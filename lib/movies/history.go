@@ -30,10 +30,10 @@ func GetMyHistory(AccountID primitive.ObjectID, round int) ([]byte, int) {
 	}
 
 	for _, History := range Histories {
-		var Movie Movie
-		err := collection.FindOne(ctx, bson.M{"_id": History.MovieID}).Decode(&Movie)
+		var movie Movie
+		err := collection.FindOne(ctx, bson.M{"_id": History.MovieID}).Decode(&movie)
 		if err == nil {
-			Movies = append(Movies, Movie)
+			Movies = append(Movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
 		}
 	}
 
@@ -59,15 +59,15 @@ func GetContinue(AccountID primitive.ObjectID, start int, end int) []Movie {
 	Histories, _ = history.GetLatestHistory(AccountID, true, start, end)
 
 	for index, History := range Histories {
-		var Movie Movie
+		var movie Movie
 		if index < start {
 			continue
 		}else if index > end {
 			return Movies
 		}
-		err := collection.FindOne(ctx, bson.M{"_id": History.MovieID}).Decode(&Movie)
+		err := collection.FindOne(ctx, bson.M{"_id": History.MovieID}).Decode(&movie)
 		if err == nil {
-			Movies = append(Movies, Movie)
+			Movies = append(Movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
 		}
 	}
 

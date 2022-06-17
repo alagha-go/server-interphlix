@@ -82,5 +82,6 @@ type Recommendation struct {
 
 type Category struct {
     Title                                       string                                  `json:"title,omitempty" bson:"title,omitempty"`
+    Path                                        string                                  `json:"path,omitempty" bson:"path,omitempty"`
     Movies                                      []Movie                                 `json:"movies,omitempty" bson:"movies,omitempty"`
 }

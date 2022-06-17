@@ -7,6 +7,7 @@ import (
 
 
 func GetPoPularMovies(seed int64, round int) ([]byte, int) {
+	var movies []Movie
 	start := 0
 	end := 20;
 	if round != 0 {
@@ -22,14 +23,21 @@ func GetPoPularMovies(seed int64, round int) ([]byte, int) {
 	if start > len(Movies) {
 		return variables.JsonMarshal([]Movie{}), http.StatusOK
 	}else if end > len(Movies) {
-		return variables.JsonMarshal(Movies[start:]), http.StatusOK
+		Movies = Movies[start:]
+	}else {
+		Movies = Movies[start:end]
 	}
 
-	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
+	for _, movie := range Movies {
+		movies = append(movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
+	}
+
+	return variables.JsonMarshal(movies), http.StatusOK
 }
 
 
 func GetPoPularTvShows(seed int64, round int) ([]byte, int) {
+	var movies []Movie
 	start := 0
 	end := 20;
 	if round != 0 {
@@ -45,14 +53,21 @@ func GetPoPularTvShows(seed int64, round int) ([]byte, int) {
 	if start > len(Movies) {
 		return variables.JsonMarshal([]Movie{}), http.StatusOK
 	}else if end > len(Movies) {
-		return variables.JsonMarshal(Movies[start:]), http.StatusOK
+		Movies = Movies[start:]
+	}else {
+		Movies = Movies[start:end]
 	}
 
-	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
+	for _, movie := range Movies {
+		movies = append(movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
+	}
+
+	return variables.JsonMarshal(movies), http.StatusOK
 }
 
 
 func GetFeatured(seed int64, round int) ([]byte, int) {
+	var movies []Movie
 	start := 0
 	end := 20;
 	if round != 0 {
@@ -64,11 +79,19 @@ func GetFeatured(seed int64, round int) ([]byte, int) {
 		return variables.JsonMarshal(variables.Error{Error: err.Error()}), http.StatusInternalServerError
 	}
 
+	Movies = RandomMovies(seed, Movies)
+
 	if start > len(Movies) {
 		return variables.JsonMarshal([]Movie{}), http.StatusOK
 	}else if end > len(Movies) {
-		return variables.JsonMarshal(Movies[start:]), http.StatusOK
+		Movies = Movies[start:]
+	}else {
+		Movies = Movies[start:end]
 	}
 
-	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
+	for _, movie := range Movies {
+		movies = append(movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
+	}
+
+	return variables.JsonMarshal(movies), http.StatusOK
 }

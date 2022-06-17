@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func GetMoviesByGenre(genre string, round int) ([]byte, int) {
+func GetMoviesByGenre(genre string, round int, seed int64) ([]byte, int) {
 	var Movies []Movie
 	var movies []Movie
 	start := 0
@@ -21,26 +21,30 @@ func GetMoviesByGenre(genre string, round int) ([]byte, int) {
 	err = cursor.All(ctx, &Movies)
 	variables.HandleError(err, "movies", "GetMovieByGenre", "error while decoding cursor")
 
-	for _, Movie := range Movies {
-		if Movie.ContainsGenre(genre) {
-			movies = append(movies, Movie)
+	for _, movie := range Movies {
+		if movie.ContainsGenre(genre) {
+			movies = append(movies, Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl})
 		}
 	}
 
-	if round != 0 {
-		start = round * 30
-		end = round * 30 + 30
+	if seed > 0 {
+		movies = RandomMovies(seed, movies)
 	}
 
-	if start >= len(Movies) {
+	if round != 0 {
+		start = round * 20
+		end = round * 20 + 20
+	}
+
+	if start >= len(movies) {
 		return []byte(`{"error": "end"}`), http.StatusOK
 	}
 
-	if end >= len(Movies) {
-		return variables.JsonMarshal(Movies[start:]), http.StatusOK
+	if end >= len(movies) {
+		return variables.JsonMarshal(movies[start:]), http.StatusOK
 	}
 
-	return variables.JsonMarshal(Movies[start:end]), http.StatusOK
+	return variables.JsonMarshal(movies[start:end]), http.StatusOK
 }
 
 

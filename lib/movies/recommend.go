@@ -2,6 +2,7 @@ package movies
 
 import (
 	"context"
+	"fmt"
 	"interphlix/lib/movies/genres"
 	"interphlix/lib/variables"
 	"math/rand"
@@ -50,11 +51,11 @@ func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 	PopularMovies, _ := GetPopularMovies()
 	PopularTvShows, _ := GetPopularTvShows()
 	Categories := []Category{
-		{Title: "Trending", Movies: GetTrendingMovies(recommendation.Seed)},
-		{Title: "Featured", Movies: RandomMovies(recommendation.Seed, FeaturedMovies)},
-		{Title: "Continue Watching", Movies: GetContinue(AccountID, 0, 20)},
-		{Title: "Popular Movies", Movies: RandomMovies(recommendation.Seed, PopularMovies)},
-		{Title: "Popular Tvs", Movies: RandomMovies(recommendation.Seed, PopularTvShows)},
+		{Title: "Trending", Path: "/movies/trending", Movies: GetTrendingMovies(recommendation.Seed)},
+		{Title: "Featured", Path: "/movies/featured", Movies: RandomMovies(recommendation.Seed, FeaturedMovies)},
+		{Title: "Continue Watching", Path: "/history/continue", Movies: GetContinue(AccountID, 0, 20)},
+		{Title: "Popular Movies", Path: "/movies/popular", Movies: RandomMovies(recommendation.Seed, PopularMovies)},
+		{Title: "Popular Tvs", Path: "/tv-shows/popular", Movies: RandomMovies(recommendation.Seed, PopularTvShows)},
 	}
 	recommendation.Categories = append(recommendation.Categories, Categories...)
 
@@ -72,6 +73,7 @@ func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 	for index := range Genres {
 		var Category Category
 		Category.Title = Genres[index].Title
+		Category.Path = fmt.Sprintf("/all/%s", Genres[index].Title)
 		recommendation.Categories = append(recommendation.Categories, Category)
 	}
 
@@ -86,22 +88,28 @@ func GetHome(AccountID primitive.ObjectID) ([]byte, int) {
 		return variables.JsonMarshal(variables.Error{Error: "could not get movies"}), http.StatusInternalServerError
 	}
 
-	for _, Movie := range Movies {
-		for _, genre := range Movie.Genres {
-			for index, category := range recommendation.Categories {
-				if genre == category.Title {
-					recommendation.Categories[index].Movies = append(recommendation.Categories[index].Movies, Movie)
-				}
+	for _, movie := range Movies {
+		for index, category := range recommendation.Categories {
+			if index <= 4 {
+				continue
+			}
+			if movie.ContainsGenre(category.Title) {
+				Movie := Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
+				recommendation.Categories[index].Movies = append(recommendation.Categories[index].Movies, Movie)
 			}
 		}
 	}
 
-	for Index := range recommendation.Categories {
-		if len(recommendation.Categories[Index].Movies) > 20 {
-			recommendation.Categories[Index].Movies = recommendation.Categories[Index].Movies[:20]
+	for index := range recommendation.Categories {
+		if index > 4 {
+			Movies = RandomMovies(recommendation.Seed, recommendation.Categories[index].Movies)
+		}else {
+			for index, movie := range recommendation.Categories[index].Movies {
+				recommendation.Categories[index].Movies[index] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
+			}
 		}
-		for index, movie := range recommendation.Categories[Index].Movies {
-			recommendation.Categories[Index].Movies[index] = Movie{ID: movie.ID, Code: movie.Code, Title: movie.Title, Type: movie.Type, ImageUrl: movie.ImageUrl}
+		if len(Movies) > 20 {
+			recommendation.Categories[index].Movies = Movies[:20]
 		}
 	}
 
